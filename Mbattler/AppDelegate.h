@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Meishi.h"
+#import "Player.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>{
+}
+//@property (nonatomic, retain) NSMutableArray *meishis;
+@property (nonatomic, retain) NSMutableArray *player;
 
 @property (strong, nonatomic) UIWindow *window;
 
 @end
+

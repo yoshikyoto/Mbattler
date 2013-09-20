@@ -1,0 +1,32 @@
+//
+//  MBViewController.h
+//  Mbattler
+//
+//  Created by Yoshiyuki Sakamoto on 2013/06/02.
+//  Copyright (c) 2013年 Mbattler. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "AppDelegate.h"
+#import "Player.h"
+#import "MBScrollView.h"
+
+@interface MBViewController : UIViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate>{
+    UILabel *title;
+    AppDelegate *ad;
+    Player *player;
+    UIColor *bgcolor;   // 背景
+    UIColor *menucolor; // メニューとかタイトルとかの背景色
+    UIColor *menutextcolor; // メニューとかのテキストの色
+    UIColor *subbgcolor;
+    
+    int w;
+    int h;
+    int inside_h;
+    
+    MBScrollView *nowScrollView;
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info;
+
+@end
