@@ -36,7 +36,6 @@
     self = [super init];
     if(self){
         player = p;
-        item_flag = 0;
     }
     return self;
 }
@@ -91,21 +90,30 @@
     // 味方を描写
     [self drawParty];
     
+    // アイテムフラグの初期化
+    item_flag = -1;
+    
+    // アイテム説明ラベルの初期化
+    item_desc = [[UILabel alloc] init];
+    item_desc.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.6];
+    item_desc.frame = CGRectMake(80, 259, 240, 20);
     
     // アイテム　薬草
-    UIButton *item1_button = [UIButton buttonWithType:UIButtonTypeCustom];
+    item1_button = [UIButton buttonWithType:UIButtonTypeCustom];
     [item1_button setImage:[UIImage imageNamed:@"yakusou.png"] forState:UIControlStateNormal];
     item1_button.frame = CGRectMake(240, 279, 40, 40);
     item1_button.backgroundColor = [UIColor lightGrayColor];
     item1_button.tag = 1;
+    [item1_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
     [[self view] addSubview:item1_button];
     
     // アイテム　果実
-    UIButton *item2_button = [UIButton buttonWithType:UIButtonTypeCustom];
+    item2_button = [UIButton buttonWithType:UIButtonTypeCustom];
     [item2_button setImage:[UIImage imageNamed:@"ringo.png"] forState:UIControlStateNormal];
     item2_button.frame = CGRectMake(280, 279, 40, 40);
     item2_button.backgroundColor = [UIColor lightGrayColor];
     item2_button.tag = 2;
+    [item2_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
     [[self view] addSubview:item2_button];
     
     // ポーズボタン
@@ -139,6 +147,8 @@
     NSLog(@"戦闘開始");
     // スクリーンタップイベンターを除去
     [[self view] removeGestureRecognizer:tgr];
+    // アイテム使えるようにフラグたてる
+    item_flag = 0;
     
     ptarget = 0; //攻撃対象となる敵ポインタ
     etarget = 0; // 相手の攻撃対象となる敵ポインタ
@@ -293,6 +303,12 @@
     for(int i = 0; i < [player getPartynum]; i++){
         Meishi *m = [player getMeishi:i];
         UIImageView *view = [m getBattleImage];
+        view.tag = i;
+        // タップイベントを取得
+        view.userInteractionEnabled = true;
+        UITapGestureRecognizer *etgr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(partyTapped:)];
+        [view addGestureRecognizer:etgr]; // 狙い変更のための
+
         UIImageView *hp0view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp0.png"]];
         UIImageView *hp1view;
         int x = 0;
@@ -327,6 +343,10 @@
         [[self view] addSubview:hp0view];
         [[self view] addSubview:hp1view];
     }
+}
+
+- (void)partyTapped:(UIImageView *)view{
+    NSLog(@"%s", __func__);
 }
 
 // 敵画像描写
@@ -395,6 +415,41 @@
 - (void)close:(id)sender{
     NSLog(@"ダンジョン");
     [self dismissViewControllerAnimated:NO completion:nil];
+}
+
+// アイテムがタップされたとき--------------------------------------------------------------
+- (void)itemTapped:(UIButton *)button{
+    // まだ戦闘が始まっていない場合は何もしない
+    if(item_flag == -1) return;
+    
+    if(button.tag == item_flag){
+        // 選択を解除
+        item_flag = 0;
+    }else{
+        // 選択
+        item_flag = button.tag;
+    }
+    
+    // 説明をまず除去
+    [item_desc removeFromSuperview];
+    
+    // 選択によってボタンの色を変更
+    if(item_flag == 1){
+        item1_button.backgroundColor = [UIColor whiteColor];
+        item_desc.text = @"薬草：味方一人を全快します";
+        [[self view] addSubview:item_desc];
+    }else{
+        item1_button.backgroundColor = [UIColor lightGrayColor];
+    }
+    
+    if(item_flag == 2){
+        item2_button.backgroundColor = [UIColor whiteColor];
+        item_desc.text = @"果実：味方一人を復活させます";
+        [[self view] addSubview:item_desc];
+    }else{
+        item2_button.backgroundColor = [UIColor lightGrayColor];
+    }
+    
 }
 
 

@@ -20,7 +20,11 @@
     int enemypositions[5][3];
     int meishipositions[5][3];
     
+    // アイテム関係
+    UIButton *item1_button;
+    UIButton *item2_button;
     int item_flag;
+    UILabel *item_desc;
     
     NSMutableArray *eimgs;
     Dungeon *dungeon;
