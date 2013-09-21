@@ -36,7 +36,6 @@
     UILabel *title;
     
     int ptarget;
-    int etarget;
     
     int turn;
     

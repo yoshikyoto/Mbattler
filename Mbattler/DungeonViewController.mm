@@ -151,8 +151,6 @@
     item_flag = 0;
     
     ptarget = 0; //攻撃対象となる敵ポインタ
-    etarget = 0; // 相手の攻撃対象となる敵ポインタ
-    
     // 敵の長さだけループ（ここで敵の死亡判定するようにしたい）
     eimgs = [[NSMutableArray alloc] init];
     for(int i = 0; i < [dungeon getLength]; i++) {
@@ -209,19 +207,18 @@
                     NSLog(@"敵除去");
                 }
             }else{
-                // 敵の攻撃対象
-                defender = [party objectAtIndex:etarget];
+                // 敵の攻撃対象 とりあえずランダム
+                defender = [party objectAtIndex:arc4random()%[party count]];
                 // とりあえず物理に攻撃
                 int damage = [defender damagedA:attacker];
                 [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
                 // デバッグ用
-                NSLog(@"防御キャラ: %@", [defender getName]);
-                NSLog(@"ダメージ: %d", damage);
+                NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
                 if([defender isDead]){  // 倒した場合
                     [self addMessege:[NSString stringWithFormat:@"%@ は倒れた！", [defender getName]]];
                     // conbatantから除去
                     [self removeCombatant:defender];
-                    etarget++;
+                    [party removeObject:defender];
                 }
             }
             turn++;
@@ -353,14 +350,23 @@
     switch (item_flag) {
         // 薬草のとき
         case 1:
-            // 回復
-            if([meishi recover:0] == 0){
-                item_desc.text = @"既に体力が満タンです";
-            }else{
-                // 回復できた場合選択を解除
-                item_flag = 0;
-                item1_button.backgroundColor = [UIColor lightGrayColor];
-                [item_desc removeFromSuperview];
+            // 薬草を使うかどうかの判断
+            switch ([meishi recover:0]) {
+                // 対象キャラが死んでいるとき
+                case -1:
+                    item_desc.text = @"死んでいます";
+                    break;
+                // 対象キャラのHPが全快のとき
+                case 0:
+                    item_desc.text = @"HPが満タンです";
+                    break;
+                // 使用できるとき
+                default:
+                    // 回復できた場合選択を解除
+                    item_flag = 0;
+                    item1_button.backgroundColor = [UIColor lightGrayColor];
+                    [item_desc removeFromSuperview];
+                    break;
             }
             break;
             
@@ -374,6 +380,7 @@
                 [item_desc removeFromSuperview];
                 // 戦闘復帰
                 [self addCombatant:meishi];
+                [party addObject:meishi];
             }else{
                 // 死んでなかった場合
                 item_desc.text = @"死んでいません";
@@ -438,12 +445,11 @@
 
 // 敵の狙い変更
 - (void)eTarget:(id)sender{
-    NSLog(@"敵タップ");
     UITapGestureRecognizer *etgr = (UITapGestureRecognizer *)sender;
     UIImageView *view = (UIImageView *)etgr.view;
-    NSLog(@"%d", etarget);
-    NSLog(@"%d", (int)view.tag);
     ptarget = view.tag;
+
+    NSLog(@"%s 敵タップ target %d", __func__, ptarget);
 }
 - (void)close{
     NSLog(@"ダンジョン");

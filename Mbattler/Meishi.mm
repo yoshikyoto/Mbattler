@@ -755,7 +755,9 @@
 // 体力回復
 - (int)recover:(int)r{
     // 体力が0だったら回復しない
-    if(nowh == 0) return 0;
+    if(nowh == 0) return -1;
+    // 体力マックスでも回復しない
+    if(nowh == p[0]) return 0;
 
     if(r == 0){
         r = p[0] - nowh;
@@ -777,11 +779,11 @@
     if(nowh <= 0){
         // 半分回復
         nowh = p[0] / 2.0;
+        [self drawHpBar];
         return true;
     }else{
         return false;
     }
-    [self drawHpBar];
 }
 // その他外部メソッド
 // HPとか、ダンジョンでのダメージとかリセット
