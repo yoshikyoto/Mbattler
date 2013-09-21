@@ -244,6 +244,8 @@
         exp = 0;
     }
     
+    // アイテム使用不可に
+    item_flag = 0;
     // タッチイベントリスナー
     tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewResult:)];
     [[self view] addGestureRecognizer:tgr];
@@ -367,7 +369,21 @@
                     break;
                 // 使用できるとき
                 default:
-                    // 回復できた場合選択を解除
+                    // 回復できた場合
+                    // エフェクト描写
+                    MBAnimationView *effect = [[MBAnimationView alloc] init];
+                    [effect setAnimationImage:@"recover.png" :120 :120 :8];
+                    CGRect rect = t.view.frame;
+                    // 位置調整
+                    rect.origin.x = rect.origin.x + rect.size.width / 2.0 - 30;
+                    rect.origin.y = rect.origin.y - 15;
+                    rect.size.width = 60;
+                    rect.size.height = 60;
+                    effect.frame = rect;
+                    effect.animationDuration = 0.8;
+                    [[self view] addSubview:effect];
+                    [effect startAnimating];
+                    // 選択を解除
                     item_flag = 0;
                     item1_button.backgroundColor = [UIColor lightGrayColor];
                     [item_desc removeFromSuperview];
@@ -383,6 +399,20 @@
                 item_flag = 0;
                 item2_button.backgroundColor = [UIColor lightGrayColor];
                 [item_desc removeFromSuperview];
+                // エフェクト
+                // エフェクト描写
+                MBAnimationView *effect = [[MBAnimationView alloc] init];
+                [effect setAnimationImage:@"revive.png" :120 :120 :8];
+                CGRect rect = t.view.frame;
+                // 位置調整
+                rect.origin.x = rect.origin.x + rect.size.width / 2.0 - 40;
+                rect.origin.y = rect.origin.y - 25;
+                rect.size.width = 80;
+                rect.size.height = 80;
+                effect.frame = rect;
+                effect.animationDuration = 0.8;
+                [[self view] addSubview:effect];
+                [effect startAnimating];
                 // 戦闘復帰
                 [self addCombatant:meishi];
                 [party addObject:meishi];
