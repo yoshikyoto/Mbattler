@@ -104,6 +104,11 @@
 // 戦闘関係
 // target を攻撃して、ダメージを返す関数
 - (int)attack:(Enemy *)target;
+
+// HPを回復する関数
+- (int)recover:(int)r;
+// 復活する関数 死んでないならfalseを返す
+- (BOOL)revive;
 // 内部メソッド(パラメータを計算してくれる関数)
 - (void) calcParameter;
 - (int) calcParameter:(int)k;

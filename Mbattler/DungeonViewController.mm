@@ -345,8 +345,46 @@
     }
 }
 
-- (void)partyTapped:(UIImageView *)view{
+// 味方がタップされた時
+- (void)partyTapped:(UITapGestureRecognizer *)t{
     NSLog(@"%s", __func__);
+    // 対象の名刺を取得
+    Meishi *meishi = [player getMeishi:t.view.tag];
+    switch (item_flag) {
+        // 薬草のとき
+        case 1:
+            // 回復
+            if([meishi recover:0] == 0){
+                item_desc.text = @"既に体力が満タンです";
+            }else{
+                // 回復できた場合選択を解除
+                item_flag = 0;
+                item1_button.backgroundColor = [UIColor lightGrayColor];
+                [item_desc removeFromSuperview];
+            }
+            break;
+            
+        // 復活の果実の時
+        case 2:
+            // 回復
+            if([meishi revive]){
+                // 回復できた場合選択を解除
+                item_flag = 0;
+                item2_button.backgroundColor = [UIColor lightGrayColor];
+                [item_desc removeFromSuperview];
+                // 戦闘復帰
+                [self addCombatant:meishi];
+            }else{
+                // 死んでなかった場合
+                item_desc.text = @"死んでいません";
+            }
+            break;
+            
+        // アイテムボタンがタップされてないとき
+        default:
+            // ここで特殊能力を使うことになる
+            break;
+    }
 }
 
 // 敵画像描写

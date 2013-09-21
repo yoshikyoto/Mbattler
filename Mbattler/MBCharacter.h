@@ -43,6 +43,6 @@
 - (Boolean)isDead;
 - (Boolean)isPlayer;
 - (UIImageView *)getHpBar:(int)x :(int)y;
-
+- (void)drawHpBar;
 - (void)removeLeftImage;
 @end

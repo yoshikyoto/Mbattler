@@ -751,6 +751,38 @@
     // 対象のHPをマイナスする
     return [target damage:damage];
 }
+
+// 体力回復
+- (int)recover:(int)r{
+    // 体力が0だったら回復しない
+    if(nowh == 0) return 0;
+
+    if(r == 0){
+        r = p[0] - nowh;
+        nowh = p[0];
+    }else{
+        if(r <= p[0] - nowh){
+            nowh += r;
+        }else{
+            r = p[0] - nowh;
+            p[0] = nowh;
+        }
+    }
+    [self drawHpBar];
+    return r;
+}
+
+// 戦闘復帰
+- (BOOL)revive{
+    if(nowh <= 0){
+        // 半分回復
+        nowh = p[0] / 2.0;
+        return true;
+    }else{
+        return false;
+    }
+    [self drawHpBar];
+}
 // その他外部メソッド
 // HPとか、ダンジョンでのダメージとかリセット
 - (void) reflesh{
