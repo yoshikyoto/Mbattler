@@ -16,6 +16,8 @@
     UITapGestureRecognizer *tgr;    // タップレコグナイザー
     NSMutableArray *party;  // 味方
     NSMutableArray *enemy;  // 敵
+    NSArray *enemy_const;
+    Enemy *target;
     NSMutableArray *combatant; // 戦闘参加者を素早さ順に並び替えた配列
     int enemypositions[5][3];
     int meishipositions[5][3];

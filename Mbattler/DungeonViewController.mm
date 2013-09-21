@@ -157,6 +157,7 @@
         NSLog(@"敵の長さ %d", [dungeon getLength]);
         // enemy に次の敵を取得 -> combatant にぶちこむ
         enemy = [[dungeon next] mutableCopy];
+        enemy_const = [enemy copy];
         [self addCombatants:enemy];
         // 敵を描写
         [self appear];
@@ -178,10 +179,14 @@
 
             if([attacker isPlayer]){
                 // プレイヤーの攻撃→ターゲットは敵
-                // ターゲットを固定してから
-                int ptarget_const = ptarget;
                 // 攻撃対象を決定
-                defender = [enemy objectAtIndex:ptarget_const%[enemy count]]; // こうすることでバグ回避
+                if(target){
+                     // もしtargetが決まっているなら そいつに攻撃
+                    defender = target;
+                }else{
+                    // 決まってなかったら0の奴に攻撃
+                    defender = [enemy objectAtIndex:0];
+                }
                 // defender に攻撃
                 int damage = [(Meishi *)attacker attack:(Enemy *)defender];
                 // エフェクトのための間をおく
@@ -198,13 +203,13 @@
                     // combatantから除去
                     [self removeCombatant:defender];
                     // リストからも除去してしまおう
-                    //[enemy removeObject:defender];
+                    [enemy removeObject:defender];
+                    // 画像を除去
                     [[defender getBattleImage] removeFromSuperview];
-                    if(ptarget == ptarget_const){
-                        NSLog(@"ptarget 戻す %d %d", ptarget, ptarget_const);
-                        ptarget = 0;
+                    // 必要ならポインタの差し替え
+                    if(target == defender){
+                        target = nil;
                     }
-                    NSLog(@"敵除去");
                 }
             }else{
                 // 敵の攻撃対象 とりあえずランダム
@@ -448,6 +453,8 @@
     UITapGestureRecognizer *etgr = (UITapGestureRecognizer *)sender;
     UIImageView *view = (UIImageView *)etgr.view;
     ptarget = view.tag;
+    
+    target = [enemy_const objectAtIndex:view.tag];
 
     NSLog(@"%s 敵タップ target %d", __func__, ptarget);
 }
