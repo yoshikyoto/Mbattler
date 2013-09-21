@@ -23,6 +23,9 @@
     NSMutableArray *party; // パーティそれ自身
     int item[3]; // 各種アイテムの所持数
     //スタミナ回復　HP回復　復活
+    
+    // 名刺の所持数を表示するラベル
+    UILabel *meishi_label;
 }
 
 - (id)init;     // initialization
@@ -86,12 +89,12 @@
  */
 
 // アイテム関係
-// アイテム n を持ってるかどうか確認する関数
-- (BOOL)haveItem:(int)n;
-// アイテム n を使う関数
-- (void)useItem:(int)n;
-// アイテムnをm個買う関数
-- (void)buyItem:(int)n :(int)m;
+// アイテム n を何個持ってるか確認する関数
+- (int)getNumOfItem:(int)n;
+// アイテム n を使う関数 残り個数を返す
+- (int)useItem:(int)n;
+// アイテムnをm個買う関数 アイテムの残数を返す
+- (int)buyItem:(int)n :(int)m;
 
 
 @end

@@ -213,20 +213,18 @@
     return true;
 }
 
-- (BOOL)haveItem:(int)n{
-    if(item[n] == 0){
-        return false;
-    }else{
-        return true;
-    }
+- (int)getNumOfItem:(int)n{
+    return item[n];
 }
 
-- (void)useItem:(int)n{
+- (int)useItem:(int)n{
     item[n]--;
+    return item[n];
 }
 
-- (void)buyItem:(int)n :(int)m{
+- (int)buyItem:(int)n :(int)m{
     item[n] += m;
+    return item[n];
 }
 
 @end

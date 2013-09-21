@@ -100,20 +100,26 @@
     
     // アイテム　薬草
     item1_button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [item1_button setImage:[UIImage imageNamed:@"yakusou.png"] forState:UIControlStateNormal];
+    [item1_button setBackgroundImage:[UIImage imageNamed:@"yakusou.png"] forState:UIControlStateNormal];
     item1_button.frame = CGRectMake(240, 279, 40, 40);
     item1_button.backgroundColor = [UIColor lightGrayColor];
     item1_button.tag = 1;
     [item1_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [item1_button setTitle:[NSString stringWithFormat:@"x%d",[player getNumOfItem:1]] forState:UIControlStateNormal];
+    [item1_button setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
+    [item1_button setTitleEdgeInsets:UIEdgeInsetsMake(20, 0, 0, 0)];
     [[self view] addSubview:item1_button];
     
     // アイテム　果実
     item2_button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [item2_button setImage:[UIImage imageNamed:@"ringo.png"] forState:UIControlStateNormal];
+    [item2_button setBackgroundImage:[UIImage imageNamed:@"ringo.png"] forState:UIControlStateNormal];
     item2_button.frame = CGRectMake(280, 279, 40, 40);
     item2_button.backgroundColor = [UIColor lightGrayColor];
     item2_button.tag = 2;
     [item2_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [item2_button setTitle:[NSString stringWithFormat:@"x%d",[player getNumOfItem:2]] forState:UIControlStateNormal];
+    [item2_button setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
+    [item2_button setTitleEdgeInsets:UIEdgeInsetsMake(20, 0, 0, 0)];
     [[self view] addSubview:item2_button];
     
     // ポーズボタン
@@ -374,7 +380,7 @@
                     MBAnimationView *effect = [[MBAnimationView alloc] init];
                     [effect setAnimationImage:@"recover.png" :120 :120 :8];
                     CGRect rect = t.view.frame;
-                    // 位置調整
+                    // エフェクトの位置調整
                     rect.origin.x = rect.origin.x + rect.size.width / 2.0 - 30;
                     rect.origin.y = rect.origin.y - 15;
                     rect.size.width = 60;
@@ -383,6 +389,10 @@
                     effect.animationDuration = 0.8;
                     [[self view] addSubview:effect];
                     [effect startAnimating];
+                    // アイテムを消費
+                    [player useItem:1];
+                    // 個数を再描写
+                    [item1_button setTitle:[NSString stringWithFormat:@"x%d",[player getNumOfItem:1]] forState:UIControlStateNormal];
                     // 選択を解除
                     item_flag = 0;
                     item1_button.backgroundColor = [UIColor lightGrayColor];
@@ -413,6 +423,10 @@
                 effect.animationDuration = 0.8;
                 [[self view] addSubview:effect];
                 [effect startAnimating];
+                // アイテムを消費
+                [player useItem:2];
+                // 個数を再描写
+                [item2_button setTitle:[NSString stringWithFormat:@"x%d",[player getNumOfItem:2]] forState:UIControlStateNormal];
                 // 戦闘復帰
                 [self addCombatant:meishi];
                 [party addObject:meishi];
@@ -502,6 +516,12 @@
 - (void)itemTapped:(UIButton *)button{
     // まだ戦闘が始まっていない場合は何もしない
     if(item_flag == -1) return;
+    // アイテムが無いとき
+    if([player getNumOfItem:button.tag] == 0){
+        item_desc.text = @"アイテムがありません";
+        [[self view] addSubview:item_desc];
+        return;
+    }
     
     if(button.tag == item_flag){
         // 選択を解除

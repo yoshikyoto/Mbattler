@@ -771,10 +771,10 @@
 		92D6F0B317E48BA300D187E2 /* Character */ = {
 			isa = PBXGroup;
 			children = (
-				92049A81175B459400558171 /* MBCharacter.h */,
-				92049A82175B459400558171 /* MBCharacter.mm */,
 				92E73D5617181BC8002C2C92 /* Player.h */,
 				92E73D5717181BC8002C2C92 /* Player.mm */,
+				92049A81175B459400558171 /* MBCharacter.h */,
+				92049A82175B459400558171 /* MBCharacter.mm */,
 				92F6FD9B16EE2CA2008A55F9 /* Meishi.h */,
 				92F6FD9C16EE2CA2008A55F9 /* Meishi.mm */,
 				92F14BA417481FCA00EB31E9 /* Enemy.h */,
