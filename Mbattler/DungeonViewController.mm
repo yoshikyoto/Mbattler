@@ -520,6 +520,13 @@
     if([player getNumOfItem:button.tag] == 0){
         item_desc.text = @"アイテムがありません";
         [[self view] addSubview:item_desc];
+        // 表示したら数秒で消す
+        [NSTimer scheduledTimerWithTimeInterval:2.0
+                                         target:self
+                                       selector:@selector(removeItemDesc)
+                                       userInfo:nil
+                                        repeats:false];
+
         return;
     }
     
@@ -553,6 +560,9 @@
     
 }
 
+- (void)removeItemDesc{
+    [item_desc removeFromSuperview];
+}
 
 /***********************************************************************************
  * 結果画面関係
