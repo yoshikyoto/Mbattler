@@ -275,15 +275,15 @@
     switch (abilityID){
         case 0:
             ability = @"ギガインパクト";
-            ability_desc = @"強い物理攻撃を行う。";
+            ability_desc = @"キャラが光った時にタップして発動。強い物理攻撃を行う。";
             break;
         case 1:
             ability = @"破壊光線";
-            ability_desc = @"強い魔法攻撃を行う。";
+            ability_desc = @"キャラが光った時にタップして発動。強い魔法攻撃を行う。";
             break;
         case 2:
             ability = @"自己再生";
-            ability_desc = @"発動すると自分のHPを半分回復させる。";
+            ability_desc = @"キャラが光った時にタップして発動。自分のHPを半分回復する。";
             break;
         case 3:
             ability = @"威嚇";
@@ -291,7 +291,7 @@
             break;
         case 4:
             ability = @"加速";
-            ability_desc = @"発動したターンに2回攻撃を行う。";
+            ability_desc = @"キャラが光った時にタップして発動。2回攻撃を行う。";
             break;
         case 5:
             ability = @"アナライズ";
@@ -307,7 +307,7 @@
             break;
         case 8:
             ability = @"ソニックブーム";
-            ability_desc = @"防御を無視した魔法攻撃を行う。";
+            ability_desc = @"キャラが光った時にタップして発動。防御や魔法防御を無視した攻撃を行う。";
             break;
         case 9:
             ability = @"鮫肌";
@@ -315,51 +315,51 @@
             break;
         case 10:
             ability = @"鳴き声";
-            ability_desc = @"使うと、相手の攻撃力を下げる。";
+            ability_desc = @"キャラが光った時にタップして発動。相手の攻撃力を下げる。";
             break;
         case 11:
-            ability = @"";
-            ability_desc = @"";
+            ability = @"尻尾を降る";
+            ability_desc = @"キャラが光った時にタップして発動。相手の防御力を下げる。";
             break;
         case 12:
-            ability = @"";
-            ability_desc = @"";
+            ability = @"バークアウト";
+            ability_desc = @"キャラが光った時にタップして発動。相手の魔法攻撃力を下げる。";
             break;
         case 13:
-            ability = @"";
-            ability_desc = @"";
+            ability = @"嘘泣き";
+            ability_desc = @"キャラが光った時にタップして発動。相手の魔法防御を下げる。";
             break;
         case 14:
-            ability = @"";
-            ability_desc = @"";
+            ability = @"糸を吐く";
+            ability_desc = @"パーティに居るだけで相手の素早さを下げる。";
             break;
         case 15:
-            ability = @"";
-            ability_desc = @"";
+            ability = @"剣の舞";
+            ability_desc = @"パーティに居るだけで、味方全員の攻撃力が上がる。";
             break;
         case 16:
-            ability = @"";
-            ability_desc = @"";
+            ability = @"鉄壁";
+            ability_desc = @"パーティに居るだけで、味方全員の防御力が上がる。";
             break;
         case 17:
-            ability = @"";
-            ability_desc = @"";
+            ability = @"悪巧み";
+            ability_desc = @"パーティに居るだけで、味方全員の魔法攻撃力が上がる。";
             break;
         case 18:
-            ability = @"";
-            ability_desc = @"";
+            ability = @"ど忘れ";
+            ability_desc = @"パーティに居るだけで、味方全員の魔法防御力が上がる。";
             break;
         case 19:
-            ability = @"";
-            ability_desc = @"";
+            ability = @"高速移動";
+            ability_desc = @"パーティに居るだけで、味方全員の素早さが上がる。";
             break;
         case 20:
-            ability = @"";
-            ability_desc = @"";
+            ability = @"岩雪崩";
+            ability_desc = @"敵全体に物理攻撃を行う";
             break;
         case 21:
-            ability = @"";
-            ability_desc = @"";
+            ability = @"波乗り";
+            ability_desc = @"敵全体に魔法攻撃を行う";
             break;
     }
 }
@@ -749,6 +749,12 @@
     // ダメージは0にはならない
     if(damage <= 0) damage = 1;
     
+    // ダメージに応じてゲージが溜まる
+    if(damage >= 5){
+        [self gainAbilityPow:20];
+    }else{
+        [self gainAbilityPow:4*damage];
+    }
     // 対象のHPをマイナスする
     return [target damage:damage];
 }
@@ -756,12 +762,10 @@
 // ダメージを受ける乱数
 - (int)damage:(int)damage{
     // HPが0にならないようにマイナス
-    if(nowh <= damage){
-        damage = nowh;
-        nowh = 0;
-    }else{
-        nowh = nowh - damage;
-    }
+    damage = [super damage:damage];
+    
+    // アビリティゲージ少し溜まる
+    [self gainAbilityPow:4];
     // 体力ゲージ描写
     [self drawHpBar];
     return damage;
@@ -800,10 +804,26 @@
         return false;
     }
 }
+
+// アビリティゲージをためる
+- (int)gainAbilityPow:(int)g{
+    // 既に溜まってるときはなにもしない
+    if(ability_pow >= 100) return ability_pow;
+    
+    ability_pow += g;
+    // マックスになった場合は
+    if(ability_pow >= 100){
+        ability_pow = 100;
+        NSLog(@"%s %@: 特殊能力ゲージマックス", __func__, name);
+    }
+    return ability_pow;
+}
 // その他外部メソッド
-// HPとか、ダンジョンでのダメージとかリセット
+// HPとか、ダンジョン入る前にリセットしておきたいこと
 - (void) reflesh{
     nowh = p[0];
+    ability_pow = 0;
+    ability_flag = false;
 }
 
 - (int)exp:(int)e{

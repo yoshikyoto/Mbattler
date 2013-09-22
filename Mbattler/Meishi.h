@@ -25,6 +25,8 @@
     int abilityID;    // 特殊能力値
     NSString *ability;
     NSString *ability_desc;
+    int ability_pow;
+    BOOL ability_flag;
     
     int sex;        // 性別
     NSString *history; // 経歴

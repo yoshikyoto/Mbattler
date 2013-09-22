@@ -15,6 +15,7 @@
 #import "MBCharacter.h"
 #import "MBAnimationView.h"
 #import "MBScrollView.h"
+#import "DamageValueLabel.h"
 
 @interface DungeonViewController ()
 
@@ -101,7 +102,7 @@
     // アイテム　薬草
     item1_button = [UIButton buttonWithType:UIButtonTypeCustom];
     [item1_button setBackgroundImage:[UIImage imageNamed:@"yakusou.png"] forState:UIControlStateNormal];
-    item1_button.frame = CGRectMake(240, 279, 40, 40);
+    item1_button.frame = CGRectMake(232, 279, 44, 44);
     item1_button.backgroundColor = [UIColor lightGrayColor];
     item1_button.tag = 1;
     [item1_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -113,7 +114,7 @@
     // アイテム　果実
     item2_button = [UIButton buttonWithType:UIButtonTypeCustom];
     [item2_button setBackgroundImage:[UIImage imageNamed:@"ringo.png"] forState:UIControlStateNormal];
-    item2_button.frame = CGRectMake(280, 279, 40, 40);
+    item2_button.frame = CGRectMake(276, 279, 44, 44);
     item2_button.backgroundColor = [UIColor lightGrayColor];
     item2_button.tag = 2;
     [item2_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -136,7 +137,7 @@
      */
 
     // メッセージウィンドウ
-    messege_window = [[UITextView alloc] initWithFrame:CGRectMake(0, 319, 320, h-319)];
+    messege_window = [[UITextView alloc] initWithFrame:CGRectMake(0, 323, 320, h-323)];
     messege_window.editable = NO;
     messege_window.font = [UIFont systemFontOfSize:16];
     messege_window.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
@@ -150,19 +151,20 @@
 
 
 - (void)battle:(UITapGestureRecognizer *)sender{
-    NSLog(@"戦闘開始");
+    // NSLog(@"戦闘開始");
     // スクリーンタップイベンターを除去
     [[self view] removeGestureRecognizer:tgr];
     // アイテム使えるようにフラグたてる
     item_flag = 0;
     
-    ptarget = 0; //攻撃対象となる敵ポインタ
-    // 敵の長さだけループ（ここで敵の死亡判定するようにしたい）
+    NSLog(@"%s 敵の長さ %d", __func__, [dungeon getLength]);
+    // 敵の長さだけループ
     eimgs = [[NSMutableArray alloc] init];
-    for(int i = 0; i < [dungeon getLength]; i++) {
-        NSLog(@"敵の長さ %d", [dungeon getLength]);
+    enemy = [[dungeon next] mutableCopy];
+    while(enemy) {
+        NSLog(@"%s 敵の長さ %d", __func__, [dungeon getLength]);
         // enemy に次の敵を取得 -> combatant にぶちこむ
-        enemy = [[dungeon next] mutableCopy];
+        
         enemy_const = [enemy copy];
         [self addCombatants:enemy];
         // 敵を描写
@@ -170,6 +172,7 @@
         [self addMessege:@"敵が出現!"];
         
         // ゲームループに入る
+        NSLog(@"%s gameLoop", __func__);
         turn = 0;
         while(!([player isDead] || [dungeon isDead])){ // どちらかが全滅するまで
             // NSLog(@"ゲームループ");
@@ -197,13 +200,15 @@
                 int damage = [(Meishi *)attacker attack:(Enemy *)defender];
                 // エフェクトのための間をおく
                 [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+                // ダメージ数値描写
+                [self viewDamage:[defender getBattleImage] :damage];
                 [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
                 // デバッグ用
                 NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
                 if([defender isDead]){
                     // 倒した場合
                     // ここで間を置く
-                    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
+                    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
                     // メッセージを表示
                     [self addMessege:[NSString stringWithFormat:@"%@ は倒れた！", [defender getName]]];
                     // combatantから除去
@@ -222,6 +227,11 @@
                 defender = [party objectAtIndex:arc4random()%[party count]];
                 // とりあえず物理に攻撃
                 int damage = [(Enemy *)attacker attack:(Meishi *)defender];
+                // エフェクトのために間を置く
+                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+                // ダメージ数値描写
+                [self viewDamage:[defender getBattleImage] :damage];
+                // メッセージを表示
                 [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
                 // デバッグ用
                 NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
@@ -235,9 +245,11 @@
             turn++;
             if(turn >= [combatant count]) turn = 0;
         }// ゲームループの終わり
+        
+        NSLog(@"%s end of gameLoop", __func__);
         // ウェイト
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-        ptarget = 0;
+        enemy = [[dungeon next] mutableCopy];
     }
     
     // 結果画面のセット
@@ -255,6 +267,21 @@
     // タッチイベントリスナー
     tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewResult:)];
     [[self view] addGestureRecognizer:tgr];
+}
+
+// ダメージを表示させる関数
+- (void)viewDamage:(UIView *)view :(int)damage{
+    // ダメージ描写
+    CGRect rect = view.frame;
+    int x = rect.origin.x; // + rect.size.width // 2.0;
+    int y = rect.origin.y + rect.size.height / 2.0;
+    DamageValueLabel *dl = [[DamageValueLabel alloc] init];
+    dl.text = [NSString stringWithFormat:@"%3.0d", damage];
+    dl.center = CGPointMake(x, y);
+    //dl.textAlignment = NSTextAlignmentCenter;
+    dl.textColor = [UIColor whiteColor];
+    [[self view] addSubview:dl];
+    [dl startAnimation];
 }
 
 // メッセージボックスにstrを表示させる関数
@@ -500,11 +527,7 @@
 - (void)eTarget:(id)sender{
     UITapGestureRecognizer *etgr = (UITapGestureRecognizer *)sender;
     UIImageView *view = (UIImageView *)etgr.view;
-    ptarget = view.tag;
-    
     target = [enemy_const objectAtIndex:view.tag];
-
-    NSLog(@"%s 敵タップ target %d", __func__, ptarget);
 }
 - (void)close{
     NSLog(@"ダンジョン");

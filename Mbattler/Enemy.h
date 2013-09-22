@@ -27,8 +27,6 @@
 - (id)initWithName:(NSString *)n H:(int)h A:(int)a B:(int)b C:(int)c D:(int)d S:(int)s ImageString:(NSString *)imageString;
 
 // 戦闘関係
-// ダメージを受ける関数
-- (int)damage:(int)damage;
 // 攻撃する関数
 - (int)attack:(Meishi *)target;
 @end

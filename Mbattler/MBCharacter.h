@@ -36,10 +36,9 @@
 - (void)setName:(NSString *)n;
 
 // 戦闘関係のメソッド
-- (Boolean)attackA:(MBCharacter *)subject :(MBCharacter *)object; //使ってない
+// ダメージを受ける関数
+- (int)damage:(int)damage;
 
-- (int)damagedA:(MBCharacter *)subject;
-- (int)damaged;
 - (Boolean)isDead;
 - (Boolean)isPlayer;
 - (UIImageView *)getHpBar:(int)x :(int)y;

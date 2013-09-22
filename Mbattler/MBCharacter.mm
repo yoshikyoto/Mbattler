@@ -16,8 +16,8 @@
         // 初期化処理
         // デフォのエフェクト
         effect = [[MBAnimationView alloc] init];
-        [effect setAnimationImage:@"sl.png" :120 :120 :9];
-        effect.animationDuration = 0.2;
+        [effect setAnimationImage:@"pu.png" :120 :120 :9];
+        effect.animationDuration = 0.5;
         effect.animationRepeatCount = 1;
     }
     return self;
@@ -45,43 +45,6 @@
 }
 
 
-// 戦闘関係の
-- (int)damagedA:(MBCharacter *)subject{
-    int damage = [subject getA] - [self getB];
-    if(damage <= 0) damage = 1;
-    
-    //エフェクト描写
-    int x = [self getBattleImage].frame.origin.x;
-    int y = [self getBattleImage].frame.origin.y;
-    effect.frame = CGRectMake(x, y, 40, 40);
-    [[[self getBattleImage] superview] addSubview:effect];
-    [effect startAnimating];
-    
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-    
-    return [self damaged:damage];
-}
-
--(int) damaged:(int)d{
-    // 乱数を生成。 0〜9の整数
-    int r = rand()%10;
-    r = 100 - r;
-    // NSLog(@"%d", r);
-    // NSLog(@"%d", r/100.0);
-    d = d * (r/100.0);
-    // NSLog(@"%d", d);
-    if(d <= 0) d = 1; // 少なくとも1はくらう
-    nowh = nowh - d;
-    
-    // HPが負にはならないように
-    if(nowh < 0){
-        nowh = 0;
-    }
-    // HPバー描写
-    [self drawHpBar];
-    return d;
-}
-
 - (Boolean)isDead{
     if(nowh == 0)
         return true;
@@ -94,6 +57,18 @@
     hpbar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp1.png"]];
     hpbar.frame = CGRectMake(x, y, 32, 5);
     return hpbar;
+}
+
+// ダメージ受ける関数
+- (int)damage:(int)damage{
+    // HPが0にならないようにマイナス
+    if(nowh <= damage){
+        damage = nowh;
+        nowh = 0;
+    }else{
+        nowh = nowh - damage;
+    }
+    return damage;
 }
 
 - (void)drawHpBar{

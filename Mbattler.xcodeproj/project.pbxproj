@@ -160,6 +160,7 @@
 		92EBAA6617E83F7600C31B0B /* pu.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EBAA6517E83F7600C31B0B /* pu.png */; };
 		92EBAA6817E840DC00C31B0B /* mag.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EBAA6717E840DC00C31B0B /* mag.png */; };
 		92F14BA617481FCA00EB31E9 /* Enemy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92F14BA517481FCA00EB31E9 /* Enemy.mm */; };
+		92F2816917EED7D700B84693 /* DamageValueLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F2816817EED7D700B84693 /* DamageValueLabel.m */; };
 		92F6FD9D16EE2CA2008A55F9 /* Meishi.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92F6FD9C16EE2CA2008A55F9 /* Meishi.mm */; };
 /* End PBXBuildFile section */
 
@@ -396,6 +397,8 @@
 		92EBAA6717E840DC00C31B0B /* mag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mag.png; sourceTree = "<group>"; };
 		92F14BA417481FCA00EB31E9 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
 		92F14BA517481FCA00EB31E9 /* Enemy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Enemy.mm; sourceTree = "<group>"; };
+		92F2816717EED7D700B84693 /* DamageValueLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DamageValueLabel.h; sourceTree = "<group>"; };
+		92F2816817EED7D700B84693 /* DamageValueLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DamageValueLabel.m; sourceTree = "<group>"; };
 		92F6FD9B16EE2CA2008A55F9 /* Meishi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meishi.h; sourceTree = "<group>"; };
 		92F6FD9C16EE2CA2008A55F9 /* Meishi.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Meishi.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -826,6 +829,8 @@
 				92641B9917BA5E3E001AC271 /* FilterBase.mm */,
 				92641B9B17BA7043001AC271 /* MonochromeFilter.h */,
 				92641B9C17BA7044001AC271 /* MonochromeFilter.mm */,
+				92F2816717EED7D700B84693 /* DamageValueLabel.h */,
+				92F2816817EED7D700B84693 /* DamageValueLabel.m */,
 			);
 			name = lib;
 			sourceTree = "<group>";
@@ -1040,6 +1045,7 @@
 				92F14BA617481FCA00EB31E9 /* Enemy.mm in Sources */,
 				922450691751DB5D0042CC5D /* Dungeon.mm in Sources */,
 				92049A83175B459400558171 /* MBCharacter.mm in Sources */,
+				92F2816917EED7D700B84693 /* DamageValueLabel.m in Sources */,
 				92049A86175B7AB000558171 /* MBViewController.mm in Sources */,
 				92D7A3041769E0E8006E4A90 /* MiniStatusView.mm in Sources */,
 				929A00A01792C83400E8CDFC /* PartyChangeView.mm in Sources */,

@@ -37,8 +37,6 @@
     UIImageView *navImage;
     UILabel *title;
     
-    int ptarget;
-    
     int turn;
     
 }

@@ -41,18 +41,6 @@
     return false;
 }
 
-// ダメージを受ける関数
-- (int)damage:(int)damage{
-    // HPが0にならないようにマイナス
-    if(nowh <= damage){
-        damage = nowh;
-        nowh = 0;
-    }else{
-        nowh = nowh - damage;
-    }
-    return damage;
-}
-
 // 攻撃する関数
 - (int)attack:(Meishi *)target{
     int damage = 0;
@@ -64,8 +52,10 @@
     
     // エフェクト描写
     CGRect rect = [target getBattleImage].frame;
-    rect.origin.x += (rect.size.width/2.0 - 30);
-    rect.origin.y += (rect.size.height/2.0 - 30);
+    rect.origin.x += (rect.size.width/2.0 - 40);
+    rect.origin.y += (rect.size.height/2.0 - 40);
+    rect.size.width = 80;
+    rect.size.height = 80;
     effect.frame = rect;
     [[[target getBattleImage] superview] addSubview:effect];
     [effect startAnimating];
