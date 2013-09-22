@@ -7,6 +7,7 @@
 //
 
 #import "Meishi.h"
+#import "Enemy.h"
 
 // 名刺から生成されたキャラクター
 @implementation Meishi
@@ -750,6 +751,20 @@
     
     // 対象のHPをマイナスする
     return [target damage:damage];
+}
+
+// ダメージを受ける乱数
+- (int)damage:(int)damage{
+    // HPが0にならないようにマイナス
+    if(nowh <= damage){
+        damage = nowh;
+        nowh = 0;
+    }else{
+        nowh = nowh - damage;
+    }
+    // 体力ゲージ描写
+    [self drawHpBar];
+    return damage;
 }
 
 // 体力回復

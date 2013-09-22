@@ -7,6 +7,7 @@
 //
 
 #import "Enemy.h"
+#import "Meishi.h"
 
 @implementation Enemy
 
@@ -51,4 +52,35 @@
     }
     return damage;
 }
+
+// 攻撃する関数
+- (int)attack:(Meishi *)target{
+    int damage = 0;
+    // とりあえずAで攻撃するようにしよう
+    damage = p[1] - [target getB];
+    
+    // 最低でも1ダメージは与えることができる
+    if(damage <= 0) damage = 0;
+    
+    // エフェクト描写
+    CGRect rect = [target getBattleImage].frame;
+    rect.origin.x += (rect.size.width/2.0 - 30);
+    rect.origin.y += (rect.size.height/2.0 - 30);
+    effect.frame = rect;
+    [[[target getBattleImage] superview] addSubview:effect];
+    [effect startAnimating];
+    
+    // 乱数を生成してダメージ計算(100% - 90%)
+    int r = arc4random()%10;
+    r = 100 - r;
+    damage = damage * (r/100.0);
+    // ダメージは0にはならない
+    if(damage <= 0) damage = 1;
+    
+    // 対象のHPをマイナスする
+    return [target damage:damage];
+}
+
 @end
+
+

@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "MBCharacter.h"
 #import "MBAnimationView.h"
-#import "Enemy.h"
+
+@class Enemy;
 
 // 名刺から生成されたキャラクター
 @interface Meishi : MBCharacter{
@@ -32,7 +33,7 @@
     NSString *mail1;    // メールアドレス @より前
     NSString *mail2;    // メールアドレス @より後
     int zip1;     // 郵便番号ハイフンより前
-    int zip2;     // 後
+    int zip2;     // 後g
 
     UIImageView *centerimg; //正面向きのアイコン
     UIImageView *rightimg;  // 右向きのImage
@@ -54,7 +55,6 @@
 // ゲッター(ゲッターの意味が分からなかったらスルーでおk)
 - (int) getLv;
 - (NSString *) getLvString;
-- (void) getParameter:(int *)param;
 - (NSString *) getJobString;
 - (NSString *) getAbilityString;
 - (int)getExp;
@@ -91,7 +91,6 @@
 - (void) setNowH:(int)_h;
 - (void) setExp:(int)e;
 
-- (int) damage:(int)d;
 - (void)reflesh;
 // 経験値を与える関数
 - (int)exp:(int)e;
@@ -104,6 +103,7 @@
 // 戦闘関係
 // target を攻撃して、ダメージを返す関数
 - (int)attack:(Enemy *)target;
+- (int)damage:(int)damage;
 
 // HPを回復する関数
 - (int)recover:(int)r;

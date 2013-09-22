@@ -218,10 +218,10 @@
                     }
                 }
             }else{
-                // 敵の攻撃対象 とりあえずランダム
+                // 敵の攻撃対象 ランダム
                 defender = [party objectAtIndex:arc4random()%[party count]];
                 // とりあえず物理に攻撃
-                int damage = [defender damagedA:attacker];
+                int damage = [(Enemy *)attacker attack:(Meishi *)defender];
                 [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
                 // デバッグ用
                 NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
@@ -251,7 +251,7 @@
     }
     
     // アイテム使用不可に
-    item_flag = 0;
+    item_flag = -1;
     // タッチイベントリスナー
     tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewResult:)];
     [[self view] addGestureRecognizer:tgr];
@@ -358,6 +358,10 @@
 // 味方がタップされた時
 - (void)partyTapped:(UITapGestureRecognizer *)t{
     NSLog(@"%s", __func__);
+    
+    // 戦闘終了時はタップ無効
+    if(item_flag == -1) return;
+    
     // 対象の名刺を取得
     Meishi *meishi = [player getMeishi:t.view.tag];
     switch (item_flag) {
