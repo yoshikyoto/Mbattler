@@ -54,7 +54,7 @@
     menutextcolor = [UIColor blackColor];
     subbgcolor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
     
-    // 背景の設定 とりあえず白
+    // 背景の設定
     UIImage *backgroundImage = [UIImage imageNamed:@"bg.png"];
     [self view].backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
     // AppDelegate 初期化(グローバル変数的な使い方)
@@ -91,7 +91,7 @@
     [status addSubview:stamina_label];
     
     // スタミナバー
-    UIImageView *stamina_base = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp1.png"]];
+    UIImageView *stamina_base = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp0.png"]];
     stamina_base.frame = CGRectMake(55, 35, 250, 10);
     [status addSubview:stamina_base];
     [status addSubview:[player getStaminaBar:55 :35]];

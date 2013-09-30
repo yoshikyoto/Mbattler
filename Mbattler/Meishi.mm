@@ -805,6 +805,38 @@
     }
 }
 
+// タップされた時
+- (BOOL)tapped{
+    NSLog(@"%s", __func__);
+    // タップして発動のアビリティである
+    switch (abilityID) {
+        case 0:
+        case 1:
+        case 2:
+        case 4:
+        case 8:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 20:
+        case 21:
+            // アビリティゲージがたまっている
+            if(ability_pow >= 100){
+                NSLog(@"発動できる！");
+                return true;
+            }else{
+                return false;
+            }
+            break;
+            
+        default:
+            return false;
+            break;
+    }
+    return false;
+}
+
 // アビリティゲージをためる
 - (int)gainAbilityPow:(int)g{
     // 既に溜まってるときはなにもしない

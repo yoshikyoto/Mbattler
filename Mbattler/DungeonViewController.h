@@ -39,6 +39,9 @@
     
     int turn;
     
+    // アビリティキュー
+    NSMutableArray *ability_meishi_queue;
+    
 }
 
 - (id)initWithPlayer:(Player *)p;

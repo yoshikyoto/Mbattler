@@ -42,7 +42,10 @@
         [self addSubview:title];
         self.backgroundColor = [UIColor clearColor];
         
-        
+
+        // 背景の設定
+        UIImage *backgroundImage = [UIImage imageNamed:@"bg.png"];
+        self.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
         
         // 色の初期化
         sub_bg = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];

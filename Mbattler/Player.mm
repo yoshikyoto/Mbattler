@@ -60,9 +60,8 @@
 // デバッグ用のデータを作成
 - (void)makeTestdata{
     Meishi *m;
-    NSLog(@"makeTestdata");
     for(int i = 0; i < 15; i++){
-        NSLog(@"makeTestdata %d", i);
+        NSLog(@"%s %d", __func__, i);
         m = [[Meishi alloc] init];
         [m setName:[NSString stringWithFormat:@"坂本%d", i]];
         [m setLv:5];
@@ -73,6 +72,7 @@
         [m setIndividual:ind];
         [m calcParameter];
         [m setExp:0];
+        [m setAbility:rand()%22];
         [self addMeishi:m];
     }
     NSLog(@"num_of_meishi %d", num_of_meishi);

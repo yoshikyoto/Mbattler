@@ -111,6 +111,10 @@
 - (int)recover:(int)r;
 // 復活する関数 死んでないならfalseを返す
 - (BOOL)revive;
+// タップされた時の処理
+- (BOOL)tapped;
+/* タップ発動の時、かつパワーがたまっている時にtrueを返す*/
+
 // 内部メソッド(パラメータを計算してくれる関数)
 - (void) calcParameter;
 - (int) calcParameter:(int)k;
