@@ -124,24 +124,26 @@
         
         // 特殊能力
         UILabel *ablabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 180, 280, 20)];
-        ablabel.text = @"特殊能力　ほげほげ";
+        ablabel.text = [NSString stringWithFormat:@"特殊能力: %@", [meishi getAbilityString]];
         [self addSubview:ablabel];
         
-        
         UILabel *ablabel2 = [[UILabel alloc] initWithFrame:CGRectMake(20, 200, 280, 40)];
-        ablabel2.text = @"ここに特殊能力の説明が入ります";
+        ablabel2.text = [meishi getAbilityDescString];
+        ablabel2.font = [UIFont systemFontOfSize:14];
         ablabel2.numberOfLines = 2;
         [self addSubview:ablabel2];
         
         // 性格
+        /*
         UILabel *natlabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 245, 280, 20)];
         natlabel.text = @"ほげほげな性格";
         [self addSubview:natlabel];
+         */
         
         // 経歴
-        UILabel *hislabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 265, 280, 80)];
-        hislabel.numberOfLines = 5;
-        hislabel.font = [UIFont systemFontOfSize:12];
+        UILabel *hislabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 245, 280, 100)];
+        hislabel.numberOfLines = 6;
+        hislabel.font = [UIFont systemFontOfSize:14];
         hislabel.text = [meishi getHistory];
         [self addSubview:hislabel];
 

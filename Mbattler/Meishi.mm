@@ -103,6 +103,7 @@
     return self;
 }
 
+
 // ゲッター
 - (int) getLv{ return lv; }
 // ステータスゲッター(戻り値NSSTring)
@@ -140,6 +141,14 @@
     NSString *sstring = [NSString stringWithFormat:@"%d", p[5]];
     return sstring;
 }
+// アビリティ名取得
+- (NSString *)getAbilityString{
+    return ability;
+}
+- (NSString *)getAbilityDescString{
+    return ability_desc;
+}
+
 // 画像オブジェクト関係のゲッター
 - (UIImageView *)getBattleImage{ return rightimg; }
 - (UIImageView *)getCenterImage{ return centerimg; }

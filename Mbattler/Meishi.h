@@ -59,6 +59,7 @@
 - (NSString *) getLvString;
 - (NSString *) getJobString;
 - (NSString *) getAbilityString;
+- (NSString *) getAbilityDescString;
 - (int)getExp;
 - (int)getNextExp;
 - (NSString *)getHistory;
