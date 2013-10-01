@@ -10,6 +10,7 @@
 #import "Player.h"
 #import "Dungeon.h"
 
+
 @interface DungeonViewController : UIViewController{
     UILabel *messege;
     UITextView *messege_window;

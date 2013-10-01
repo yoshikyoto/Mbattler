@@ -144,6 +144,9 @@
     messege_window.text = @"タップで戦闘開始";
     [[self view] addSubview:messege_window];
     
+    // ability queue の初期化
+    ability_meishi_queue = [[NSMutableArray alloc] init];
+    
     // 画面をタップした時に戦闘が始まるようにする
     tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(battle:)];
     [[self view] addGestureRecognizer:tgr];
@@ -179,71 +182,92 @@
             // ウェイトを入れる
             [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
             
-
-            // 攻撃キャラを決める
-            MBCharacter *attacker = [combatant objectAtIndex:(turn % [combatant count])];
-            [self addMessege:[NSString stringWithFormat:@"%@ の攻撃！", [attacker getName]]];
-            MBCharacter *defender;
-            
-
-            if([attacker isPlayer]){
-                // プレイヤーの攻撃→ターゲットは敵
-                // 攻撃対象を決定
-                if(target){
-                     // もしtargetが決まっているなら そいつに攻撃
-                    defender = target;
-                }else{
-                    // 決まってなかったら0の奴に攻撃
-                    defender = [enemy objectAtIndex:0];
-                }
-                // defender に攻撃
-                int damage = [(Meishi *)attacker attack:(Enemy *)defender];
-                // エフェクトのための間をおく
-                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-                // ダメージ数値描写
-                [self viewDamage:[defender getBattleImage] :damage];
-                [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
-                // デバッグ用
-                NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
-                if([defender isDead]){
-                    // 倒した場合
-                    // ここで間を置く
-                    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-                    // メッセージを表示
-                    [self addMessege:[NSString stringWithFormat:@"%@ は倒れた！", [defender getName]]];
-                    // combatantから除去
-                    [self removeCombatant:defender];
-                    // リストからも除去してしまおう
-                    [enemy removeObject:defender];
-                    // 画像を除去
-                    [[defender getBattleImage] removeFromSuperview];
-                    // 必要ならポインタの差し替え
-                    if(target == defender){
-                        target = nil;
-                    }
+            // 特殊能力
+            if([ability_meishi_queue count] >= 1){
+                
+                NSLog(@"%s 特殊能力発動", __func__);
+                Meishi *attacker = [ability_meishi_queue objectAtIndex:0];
+                [ability_meishi_queue removeObjectAtIndex:0];
+                // 単体攻撃か全体攻撃かで分類
+                switch([attacker getAbilityID]){
+                    // 単体攻撃の場合
+                        case 0: // ギガインパクト
+                        Enemy *defender;
+                        if(target){
+                            // もしtargetが決まっているなら そいつに攻撃
+                            defender = target;
+                        }else{
+                            // 決まってなかったら0の奴に攻撃
+                            defender = [enemy objectAtIndex:0];
+                        }
+                            [self addMessege:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
+                        int damage = [attacker abilityAttack:defender];
+                        // エフェクトのための待ち時間
+                        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+                        // ダメージ数値描写
+                        [self viewDamage:[defender getBattleImage] :damage];
+                        [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
+                        // デバッグ用
+                        NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
+                        if([defender isDead]){
+                            // 倒した場合
+                            [self beatEnemy:defender];
+                        }
+                        break;
                 }
             }else{
-                // 敵の攻撃対象 ランダム
-                defender = [party objectAtIndex:arc4random()%[party count]];
-                // とりあえず物理に攻撃
-                int damage = [(Enemy *)attacker attack:(Meishi *)defender];
-                // エフェクトのために間を置く
-                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-                // ダメージ数値描写
-                [self viewDamage:[defender getBattleImage] :damage];
-                // メッセージを表示
-                [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
-                // デバッグ用
-                NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
-                if([defender isDead]){  // 倒した場合
-                    [self addMessege:[NSString stringWithFormat:@"%@ は倒れた！", [defender getName]]];
-                    // conbatantから除去
-                    [self removeCombatant:defender];
-                    [party removeObject:defender];
+                // 通常攻撃の場合
+                // 攻撃キャラを決める
+                MBCharacter *attacker = [combatant objectAtIndex:(turn % [combatant count])];
+                [self addMessege:[NSString stringWithFormat:@"%@ の攻撃！", [attacker getName]]];
+
+                if([attacker isPlayer]){
+                    // プレイヤーの攻撃→ターゲットは敵
+                    // 攻撃対象を決定
+                    Enemy *defender;
+                    if(target){
+                         // もしtargetが決まっているなら そいつに攻撃
+                        defender = target;
+                    }else{
+                        // 決まってなかったら0の奴に攻撃
+                        defender = [enemy objectAtIndex:0];
+                    }
+                    // defender に攻撃
+                    int damage = [(Meishi *)attacker attack:defender];
+                    // エフェクトのための間をおく
+                    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+                    // ダメージ数値描写
+                    [self viewDamage:[defender getBattleImage] :damage];
+                    [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
+                    // デバッグ用
+                    NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
+                    if([defender isDead]){
+                        // 倒した場合
+                        [self beatEnemy:defender];
+                    }
+                }else{
+                    // 敵の攻撃対象 ランダム
+                    Meishi *defender = [party objectAtIndex:arc4random()%[party count]];
+                    // とりあえず物理に攻撃
+                    int damage = [(Enemy *)attacker attack:defender];
+                    // エフェクトのために間を置く
+                    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+                    // ダメージ数値描写
+                    [self viewDamage:[defender getBattleImage] :damage];
+                    // メッセージを表示
+                    [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
+                    // デバッグ用
+                    NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
+                    if([defender isDead]){  // 倒した場合
+                        [self addMessege:[NSString stringWithFormat:@"%@ は倒れた！", [defender getName]]];
+                        // conbatantから除去
+                        [self removeCombatant:defender];
+                        [party removeObject:defender];
+                    }
                 }
+                turn++;
+                if(turn >= [combatant count]) turn = 0;
             }
-            turn++;
-            if(turn >= [combatant count]) turn = 0;
         }// ゲームループの終わり
         
         NSLog(@"%s end of gameLoop", __func__);
@@ -267,6 +291,25 @@
     // タッチイベントリスナー
     tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewResult:)];
     [[self view] addGestureRecognizer:tgr];
+}
+
+// 敵を倒した時に呼ぶ関数
+- (void)beatEnemy:(Enemy *)e{
+    // 倒した場合
+    // ここで間を置く
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+    // メッセージを表示
+    [self addMessege:[NSString stringWithFormat:@"%@ は倒れた！", [e getName]]];
+    // combatantから除去
+    [self removeCombatant:e];
+    // リストからも除去してしまおう
+    [enemy removeObject:e];
+    // 画像を除去
+    [[e getBattleImage] removeFromSuperview];
+    // 必要ならポインタの差し替え
+    if(target == e){
+        target = nil;
+    }
 }
 
 // ダメージを表示させる関数
@@ -469,7 +512,11 @@
             
         // アイテムボタンがタップされてないとき
         default:
-            [meishi tapped];
+            if([meishi tapped]){
+                // 発動条件が満たされていた時は
+                // キューにキャラを突っ込む
+                [ability_meishi_queue addObject:meishi];
+            }
             break;
     }
 }

@@ -148,6 +148,9 @@
 - (NSString *)getAbilityDescString{
     return ability_desc;
 }
+- (int)getAbilityID{
+    return abilityID;
+}
 
 // 画像オブジェクト関係のゲッター
 - (UIImageView *)getBattleImage{ return rightimg; }
@@ -833,6 +836,8 @@
             // アビリティゲージがたまっている
             if(ability_pow >= 100){
                 NSLog(@"発動できる！");
+                // ゲージを0に
+                ability_pow = 0;
                 return true;
             }else{
                 return false;
@@ -844,6 +849,71 @@
             break;
     }
     return false;
+}
+
+// 特殊能力攻撃
+- (float)abilityAttack:(Enemy *)target{
+    switch (abilityID) {
+        case 0:{
+            // ギガインパクト
+            NSLog(@"%s ギガインパクト", __func__);
+            // エフェクト
+            MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
+            [abl_effect setAnimationImage:@"impact_240.png" :240 :240 :5];
+            abl_effect.animationDuration = 0.5;
+            abl_effect.animationRepeatCount = 1;
+            
+            // エフェクト描写
+            // ターゲットの画像の座標を取得、幅も取得して中心を求める
+            CGRect rect = [target getBattleImage].frame;
+            rect.origin.x += rect.size.width/2.0 - 30;
+            rect.origin.y += rect.size.height/2.0 - 30;
+            rect.size.width = 60;
+            rect.size.height = 60;
+            /*
+            int x = [target getBattleImage].frame.origin.x;
+            int y = [target getBattleImage].frame.origin.y;
+            int w = [target getBattleImage].frame.size.width;
+            int h = [target getBattleImage].frame.size.height;
+            x = x + (w/2.0);
+            y = y + (h/2.0);
+             */
+            // 座標に対してエフェクト描写
+            abl_effect.frame = rect;
+            [[[target getBattleImage] superview] addSubview:abl_effect];
+            [abl_effect startAnimating];
+            
+            int damage = [self getA] - [target getB];
+            if(damage <= 0) damage = 1;
+            damage = [target damage:(damage*5)];
+            return damage;
+        }
+        case 1:{
+            //破壊光線
+            // ギガインパクト
+            NSLog(@"%s ギガインパクト", __func__);
+            // エフェクト
+            MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
+            [abl_effect setAnimationImage:@"impact_240.png" :240 :240 :5];
+            abl_effect.animationDuration = 0.5;
+            abl_effect.animationRepeatCount = 1;
+            
+            // エフェクト描写
+            // ターゲットの画像の座標を取得、幅も取得して中心を求める
+            int x = [target getBattleImage].frame.origin.x;
+            int y = [target getBattleImage].frame.origin.y;
+            int w = [target getBattleImage].frame.size.width;
+            int h = [target getBattleImage].frame.size.height;
+            x = x + (w/2.0);
+            y = y + (h/2.0);
+            // 座標に対してエフェクト描写
+            abl_effect.frame = CGRectMake(x-30, y-30, 60, 60);
+            [[[target getBattleImage] superview] addSubview:abl_effect];
+            [abl_effect startAnimating];
+            return 0;
+        }
+    }
+    return 0;
 }
 
 // アビリティゲージをためる

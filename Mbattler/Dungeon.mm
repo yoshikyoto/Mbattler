@@ -64,7 +64,7 @@
     
     // 敵襲団2
     subarr = [NSArray arrayWithObjects:
-              [[Enemy alloc] initWithName:@"淫夢くん" H:400 A:70 B:0 C:0 D:0 S:50 ImageString:@"c3c.PNG"],
+              [[Enemy alloc] initWithName:@"淫夢くん" H:1000 A:70 B:0 C:0 D:0 S:50 ImageString:@"c3c.PNG"],
               nil];
     [arr addObject:subarr];
     exp = 124;

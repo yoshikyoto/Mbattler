@@ -60,6 +60,7 @@
 - (NSString *) getJobString;
 - (NSString *) getAbilityString;
 - (NSString *) getAbilityDescString;
+- (int) getAbilityID;
 - (int)getExp;
 - (int)getNextExp;
 - (NSString *)getHistory;
@@ -115,6 +116,8 @@
 // タップされた時の処理
 - (BOOL)tapped;
 /* タップ発動の時、かつパワーがたまっている時にtrueを返す*/
+// アビリティで攻撃するときの関数
+- (float)abilityAttack:(Enemy *)target;
 
 // 内部メソッド(パラメータを計算してくれる関数)
 - (void) calcParameter;

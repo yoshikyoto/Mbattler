@@ -26,7 +26,7 @@
 		920360E217B6799200EDB590 /* MBItemView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 920360E117B6799100EDB590 /* MBItemView.mm */; };
 		92049A83175B459400558171 /* MBCharacter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92049A82175B459400558171 /* MBCharacter.mm */; };
 		92049A86175B7AB000558171 /* MBViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92049A85175B7AB000558171 /* MBViewController.mm */; };
-		9210A46317CE7C9300BD2FB3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9210A46217CE7C9300BD2FB3 /* StoreKit.framework */; };
+		9210A46317CE7C9300BD2FB3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9210A46217CE7C9300BD2FB3 /* StoreKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		922450691751DB5D0042CC5D /* Dungeon.mm in Sources */ = {isa = PBXBuildFile; fileRef = 922450681751DB5D0042CC5D /* Dungeon.mm */; };
 		9225338216EAF73800495F98 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338116EAF73800495F98 /* UIKit.framework */; };
 		9225338416EAF73800495F98 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338316EAF73800495F98 /* Foundation.framework */; };
@@ -126,6 +126,7 @@
 		92BE6492175B83A900D0C4B3 /* c5icon.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 92BE648A175B83A900D0C4B3 /* c5icon.PNG */; };
 		92BE6493175B83A900D0C4B3 /* c6icon.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 92BE648B175B83A900D0C4B3 /* c6icon.PNG */; };
 		92BE6494175B83A900D0C4B3 /* c7icon.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 92BE648C175B83A900D0C4B3 /* c7icon.PNG */; };
+		92C68EED17FA79D100113B7F /* impact_240.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EEC17FA79D100113B7F /* impact_240.png */; };
 		92D4405617B7911A00FEB2A5 /* DungeonViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92D4405517B7911A00FEB2A5 /* DungeonViewController.mm */; };
 		92D6F0B217E48AEA00D187E2 /* nav.png in Resources */ = {isa = PBXBuildFile; fileRef = 92D6F0B117E48AEA00D187E2 /* nav.png */; };
 		92D6F0B817E48EF800D187E2 /* dungeonNav.png in Resources */ = {isa = PBXBuildFile; fileRef = 92D6F0B717E48EF800D187E2 /* dungeonNav.png */; };
@@ -353,6 +354,7 @@
 		92BE648A175B83A900D0C4B3 /* c5icon.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c5icon.PNG; sourceTree = "<group>"; };
 		92BE648B175B83A900D0C4B3 /* c6icon.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c6icon.PNG; sourceTree = "<group>"; };
 		92BE648C175B83A900D0C4B3 /* c7icon.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c7icon.PNG; sourceTree = "<group>"; };
+		92C68EEC17FA79D100113B7F /* impact_240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = impact_240.png; sourceTree = "<group>"; };
 		92D4405517B7911A00FEB2A5 /* DungeonViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DungeonViewController.mm; sourceTree = "<group>"; };
 		92D6F0B117E48AEA00D187E2 /* nav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav.png; sourceTree = "<group>"; };
 		92D6F0B717E48EF800D187E2 /* dungeonNav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dungeonNav.png; sourceTree = "<group>"; };
@@ -462,6 +464,7 @@
 				92EBAA6517E83F7600C31B0B /* pu.png */,
 				92EBAA6717E840DC00C31B0B /* mag.png */,
 				926CFD6217ED6A3B00655779 /* phoe.png */,
+				92C68EEC17FA79D100113B7F /* impact_240.png */,
 			);
 			name = effect;
 			sourceTree = "<group>";
@@ -970,6 +973,7 @@
 				920360D217B631F100EDB590 /* option.png in Resources */,
 				920360D317B631F100EDB590 /* summon.png in Resources */,
 				92E1A40717B812D800290216 /* e_circle.png in Resources */,
+				92C68EED17FA79D100113B7F /* impact_240.png in Resources */,
 				92E1A40B17B8162700290216 /* e_thunder_240.png in Resources */,
 				92641AD717B821C2001AC271 /* e_circle_240.png in Resources */,
 				92641AD917B822CF001AC271 /* e_appear_240.png in Resources */,
@@ -1161,11 +1165,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Mbattler/Mbattler-Prefix.pch";
 				INFOPLIST_FILE = "Mbattler/Mbattler-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Mbattler/Classes/dependencies/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1185,11 +1191,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Mbattler/Mbattler-Prefix.pch";
 				INFOPLIST_FILE = "Mbattler/Mbattler-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Mbattler/Classes/dependencies/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
