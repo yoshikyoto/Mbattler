@@ -191,7 +191,8 @@
                 // 単体攻撃か全体攻撃かで分類
                 switch([attacker getAbilityID]){
                     // 単体攻撃の場合
-                        case 0: // ギガインパクト
+                    case 0: // ギガインパクト
+                    case 1: // 破壊光線
                         Enemy *defender;
                         if(target){
                             // もしtargetが決まっているなら そいつに攻撃

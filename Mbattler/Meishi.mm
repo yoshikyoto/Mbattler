@@ -853,6 +853,7 @@
 
 // 特殊能力攻撃
 - (float)abilityAttack:(Enemy *)target{
+    NSLog(@"%s", __func__);
     switch (abilityID) {
         case 0:{
             // ギガインパクト
@@ -890,27 +891,34 @@
         }
         case 1:{
             //破壊光線
-            // ギガインパクト
-            NSLog(@"%s ギガインパクト", __func__);
+            NSLog(@"%s 破壊光線", __func__);
             // エフェクト
             MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
-            [abl_effect setAnimationImage:@"impact_240.png" :240 :240 :5];
+            [abl_effect setAnimationImage:@"fire2.png" :120 :120 :8];
             abl_effect.animationDuration = 0.5;
             abl_effect.animationRepeatCount = 1;
             
             // エフェクト描写
             // ターゲットの画像の座標を取得、幅も取得して中心を求める
-            int x = [target getBattleImage].frame.origin.x;
-            int y = [target getBattleImage].frame.origin.y;
-            int w = [target getBattleImage].frame.size.width;
-            int h = [target getBattleImage].frame.size.height;
-            x = x + (w/2.0);
-            y = y + (h/2.0);
+            CGRect rect = [target getBattleImage].frame;
+            rect.origin.x += rect.size.width/2.0 - 30;
+            rect.origin.y += rect.size.height/2.0 - 30;
+            rect.size.width = 60;
+            rect.size.height = 60;
             // 座標に対してエフェクト描写
-            abl_effect.frame = CGRectMake(x-30, y-30, 60, 60);
+            abl_effect.frame = rect;
             [[[target getBattleImage] superview] addSubview:abl_effect];
             [abl_effect startAnimating];
-            return 0;
+            
+            int damage = [self getC] - [target getD];
+            if(damage <= 0) damage = 1;
+            damage = [target damage:(damage*5)];
+            return damage;
+        }
+        case 2:{
+            // 自己再生
+            NSLog(@"%s 自己再生", __func__);
+            
         }
     }
     return 0;

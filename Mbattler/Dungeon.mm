@@ -19,6 +19,7 @@
                  @"ふつうのダンジョン",
                  @"つよそう",
                  @"よわそう",
+                 @"アビリティデバッガー",
                  nil];
         
     }
@@ -46,6 +47,9 @@
             break;
         case 2:
             [self dungeon2];
+            break;
+        case 3:
+            [self dungeon3];
             break;
     }
 }
@@ -94,11 +98,26 @@
                        [[Enemy alloc] initWithName:@"KBTIT" H:100 A:70 B:0 C:0 D:0 S:0 ImageString:@"c0c.PNG"],
                        [[Enemy alloc] initWithName:@"Akino" H:100 A:70 B:0 C:0 D:0 S:0 ImageString:@"c1c.PNG"],
                        nil];
-
+    
     [arr addObject:subarr];
     exp = 1000;
     stamina = 20;
     [self setBackgroundInt:2];
+}
+
+- (void)dungeon3{
+    [self reset];
+    NSLog(@"%s", __func__);
+    
+    // 敵集団1
+    NSArray *subarr = [NSArray arrayWithObjects:
+                       [[Enemy alloc] initWithName:@"サンドバッグくん" H:2000 A:0 B:0 C:0 D:0 S:0 ImageString:@"c0c.PNG"],
+                       nil];
+    
+    [arr addObject:subarr];
+    exp = 1000;
+    stamina = 5;
+    [self setBackgroundInt:3];
 }
 
 - (void)setBackgroundInt:(int)image_num{
