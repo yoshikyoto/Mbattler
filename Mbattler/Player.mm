@@ -60,7 +60,7 @@
 // デバッグ用のデータを作成
 - (void)makeTestdata{
     Meishi *m;
-    for(int i = 0; i < 15; i++){
+    for(int i = 0; i < 30; i++){
         NSLog(@"%s %d", __func__, i);
         m = [[Meishi alloc] init];
         [m setName:[NSString stringWithFormat:@"坂本%d", i]];

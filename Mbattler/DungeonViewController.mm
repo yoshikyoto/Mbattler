@@ -182,7 +182,7 @@
             // ウェイトを入れる
             [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
             
-            // 特殊能力
+            // 特殊能力--------------------------------------------------------------------------
             if([ability_meishi_queue count] >= 1){
                 
                 NSLog(@"%s 特殊能力発動", __func__);
@@ -190,9 +190,10 @@
                 [ability_meishi_queue removeObjectAtIndex:0];
                 // 単体攻撃か全体攻撃かで分類
                 switch([attacker getAbilityID]){
-                    // 単体攻撃の場合
+                    // 単体攻撃の場合-----------------------------------------
                     case 0: // ギガインパクト
                     case 1: // 破壊光線
+                    {
                         Enemy *defender;
                         if(target){
                             // もしtargetが決まっているなら そいつに攻撃
@@ -201,13 +202,14 @@
                             // 決まってなかったら0の奴に攻撃
                             defender = [enemy objectAtIndex:0];
                         }
-                            [self addMessege:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
+                        [self addMessege:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
                         int damage = [attacker abilityAttack:defender];
                         // エフェクトのための待ち時間
                         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
                         // ダメージ数値描写
                         [self viewDamage:[defender getBattleImage] :damage];
                         [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
+
                         // デバッグ用
                         NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
                         if([defender isDead]){
@@ -215,9 +217,31 @@
                             [self beatEnemy:defender];
                         }
                         break;
+                    }
+                    case 2:
+                    {   // 自己再生---------------------------------------------
+                        // 攻撃対象の情報は必要ない
+                        [self addMessege:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
+                        int recover = [attacker abilityAttack:nil];
+                        CGRect rect = [attacker getBattleImage].frame;
+                        int x = rect.origin.x; // + rect.size.width // 2.0;
+                        int y = rect.origin.y + rect.size.height / 2.0;
+                        DamageValueLabel *dl = [[DamageValueLabel alloc] init];
+                        dl.text = [NSString stringWithFormat:@"%3.0d", recover];
+                        dl.center = CGPointMake(x, y);
+                        //dl.textAlignment = NSTextAlignmentCenter;
+                        dl.textColor = [UIColor yellowColor];
+                        [[self view] addSubview:dl];
+                        [dl startAnimation];
+                        [self addMessege:[NSString stringWithFormat:@"HPを%d回復した！", recover]];
+                    }
+                    case 10: // 鳴き声
+                    {   // 全体攻撃の場合----------------------------------------
+                        [attacker abilityAttackWhole:enemy];
+                    }
                 }
             }else{
-                // 通常攻撃の場合
+                // 通常攻撃の場合---------------------------------------------------------------------------------------
                 // 攻撃キャラを決める
                 MBCharacter *attacker = [combatant objectAtIndex:(turn % [combatant count])];
                 [self addMessege:[NSString stringWithFormat:@"%@ の攻撃！", [attacker getName]]];

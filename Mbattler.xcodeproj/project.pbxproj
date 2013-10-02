@@ -128,6 +128,8 @@
 		92BE6494175B83A900D0C4B3 /* c7icon.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 92BE648C175B83A900D0C4B3 /* c7icon.PNG */; };
 		92C68EED17FA79D100113B7F /* impact_240.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EEC17FA79D100113B7F /* impact_240.png */; };
 		92C68EEF17FAD43300113B7F /* fire2.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EEE17FAD43300113B7F /* fire2.png */; };
+		92C68EF117FBB43E00113B7F /* exprode2.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EF017FBB43E00113B7F /* exprode2.png */; };
+		92C68EF317FBB4A400113B7F /* charge.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EF217FBB4A400113B7F /* charge.png */; };
 		92D4405617B7911A00FEB2A5 /* DungeonViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92D4405517B7911A00FEB2A5 /* DungeonViewController.mm */; };
 		92D6F0B217E48AEA00D187E2 /* nav.png in Resources */ = {isa = PBXBuildFile; fileRef = 92D6F0B117E48AEA00D187E2 /* nav.png */; };
 		92D6F0B817E48EF800D187E2 /* dungeonNav.png in Resources */ = {isa = PBXBuildFile; fileRef = 92D6F0B717E48EF800D187E2 /* dungeonNav.png */; };
@@ -357,6 +359,8 @@
 		92BE648C175B83A900D0C4B3 /* c7icon.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c7icon.PNG; sourceTree = "<group>"; };
 		92C68EEC17FA79D100113B7F /* impact_240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = impact_240.png; sourceTree = "<group>"; };
 		92C68EEE17FAD43300113B7F /* fire2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fire2.png; sourceTree = "<group>"; };
+		92C68EF017FBB43E00113B7F /* exprode2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exprode2.png; sourceTree = "<group>"; };
+		92C68EF217FBB4A400113B7F /* charge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = charge.png; sourceTree = "<group>"; };
 		92D4405517B7911A00FEB2A5 /* DungeonViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DungeonViewController.mm; sourceTree = "<group>"; };
 		92D6F0B117E48AEA00D187E2 /* nav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav.png; sourceTree = "<group>"; };
 		92D6F0B717E48EF800D187E2 /* dungeonNav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dungeonNav.png; sourceTree = "<group>"; };
@@ -467,7 +471,9 @@
 				92EBAA6717E840DC00C31B0B /* mag.png */,
 				926CFD6217ED6A3B00655779 /* phoe.png */,
 				92C68EEC17FA79D100113B7F /* impact_240.png */,
+				92C68EF017FBB43E00113B7F /* exprode2.png */,
 				92C68EEE17FAD43300113B7F /* fire2.png */,
+				92C68EF217FBB4A400113B7F /* charge.png */,
 			);
 			name = effect;
 			sourceTree = "<group>";
@@ -970,6 +976,7 @@
 				920360AC17B5BECB00EDB590 /* sl.png in Resources */,
 				920360CD17B631F100EDB590 /* character.png in Resources */,
 				920360CE17B631F100EDB590 /* dungeon.png in Resources */,
+				92C68EF317FBB4A400113B7F /* charge.png in Resources */,
 				920360CF17B631F100EDB590 /* item.png in Resources */,
 				920360D017B631F100EDB590 /* party.png in Resources */,
 				920360D117B631F100EDB590 /* party2.png in Resources */,
@@ -979,6 +986,7 @@
 				92C68EED17FA79D100113B7F /* impact_240.png in Resources */,
 				92E1A40B17B8162700290216 /* e_thunder_240.png in Resources */,
 				92641AD717B821C2001AC271 /* e_circle_240.png in Resources */,
+				92C68EF117FBB43E00113B7F /* exprode2.png in Resources */,
 				92641AD917B822CF001AC271 /* e_appear_240.png in Resources */,
 				92641AEF17B87530001AC271 /* battlebg0.jpg in Resources */,
 				92641AF017B87530001AC271 /* battlebg1.jpg in Resources */,

@@ -871,14 +871,6 @@
             rect.origin.y += rect.size.height/2.0 - 30;
             rect.size.width = 60;
             rect.size.height = 60;
-            /*
-            int x = [target getBattleImage].frame.origin.x;
-            int y = [target getBattleImage].frame.origin.y;
-            int w = [target getBattleImage].frame.size.width;
-            int h = [target getBattleImage].frame.size.height;
-            x = x + (w/2.0);
-            y = y + (h/2.0);
-             */
             // 座標に対してエフェクト描写
             abl_effect.frame = rect;
             [[[target getBattleImage] superview] addSubview:abl_effect];
@@ -894,8 +886,8 @@
             NSLog(@"%s 破壊光線", __func__);
             // エフェクト
             MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
-            [abl_effect setAnimationImage:@"fire2.png" :120 :120 :8];
-            abl_effect.animationDuration = 0.5;
+            [abl_effect setAnimationImage:@"exprode2.png" :120 :120 :7];
+            abl_effect.animationDuration = 0.7;
             abl_effect.animationRepeatCount = 1;
             
             // エフェクト描写
@@ -918,10 +910,37 @@
         case 2:{
             // 自己再生
             NSLog(@"%s 自己再生", __func__);
+            // エフェクト
+            MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
+            [abl_effect setAnimationImage:@"charge.png" :120 :120 :10];
+            abl_effect.animationDuration = 0.5;
+            abl_effect.animationRepeatCount = 1;
             
+            // これについては自分の画像の座標を取得、幅も取得して中心を求める
+            CGRect rect = [self getBattleImage].frame;
+            rect.origin.x += rect.size.width/2.0 - 30;
+            rect.origin.y += rect.size.height/2.0 - 30;
+            rect.size.width = 60;
+            rect.size.height = 60;
+            // 座標に対してエフェクト描写
+            abl_effect.frame = rect;
+            [[[self getBattleImage] superview] addSubview:abl_effect];
+            [abl_effect startAnimating];
+            
+            // これだけは回復なので、
+            int recover = [self getH] / 2.0;
+            [self recover:recover];
+            return recover;
+        }
+        case 10:{
+            // 鳴き声
         }
     }
     return 0;
+}
+
+- (void)abilityAttackWhole:(NSMutableArray *)enemys{
+    NSLog(@"");
 }
 
 // アビリティゲージをためる

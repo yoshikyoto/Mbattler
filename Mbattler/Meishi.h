@@ -117,7 +117,8 @@
 - (BOOL)tapped;
 /* タップ発動の時、かつパワーがたまっている時にtrueを返す*/
 // アビリティで攻撃するときの関数
-- (float)abilityAttack:(Enemy *)target;
+- (float)abilityAttack:(Enemy *)target; // 単体攻撃
+- (void)abilityAttackWhole:(NSMutableArray *)enemys; // 全体攻撃
 
 // 内部メソッド(パラメータを計算してくれる関数)
 - (void) calcParameter;
