@@ -130,6 +130,17 @@
 		92C68EEF17FAD43300113B7F /* fire2.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EEE17FAD43300113B7F /* fire2.png */; };
 		92C68EF117FBB43E00113B7F /* exprode2.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EF017FBB43E00113B7F /* exprode2.png */; };
 		92C68EF317FBB4A400113B7F /* charge.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EF217FBB4A400113B7F /* charge.png */; };
+		92C68EF517FBC05E00113B7F /* sing.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EF417FBC05E00113B7F /* sing.png */; };
+		92C68EF717FD234E00113B7F /* rock3.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EF617FD234E00113B7F /* rock3.png */; };
+		92C68EF917FD520B00113B7F /* water3.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EF817FD520B00113B7F /* water3.png */; };
+		92C68EFC17FD57D800113B7F /* MBAbilityCutin.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C68EFB17FD57D800113B7F /* MBAbilityCutin.m */; };
+		92C68EFF17FDB4D500113B7F /* down.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EFD17FDB4D500113B7F /* down.png */; };
+		92C68F0017FDB4D500113B7F /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68EFE17FDB4D500113B7F /* up.png */; };
+		92C68F0217FDCD3500113B7F /* break.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68F0117FDCD3500113B7F /* break.png */; };
+		92C68F0617FDD61A00113B7F /* sl_gb.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68F0517FDD61A00113B7F /* sl_gb.png */; };
+		92C68F0817FDD69F00113B7F /* mag_gb.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68F0717FDD69F00113B7F /* mag_gb.png */; };
+		92C68F0A17FDE9FE00113B7F /* samehada.png in Resources */ = {isa = PBXBuildFile; fileRef = 92C68F0917FDE9FE00113B7F /* samehada.png */; };
+		92C68F0D1800067000113B7F /* MBConbatantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C68F0C1800067000113B7F /* MBConbatantView.m */; };
 		92D4405617B7911A00FEB2A5 /* DungeonViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92D4405517B7911A00FEB2A5 /* DungeonViewController.mm */; };
 		92D6F0B217E48AEA00D187E2 /* nav.png in Resources */ = {isa = PBXBuildFile; fileRef = 92D6F0B117E48AEA00D187E2 /* nav.png */; };
 		92D6F0B817E48EF800D187E2 /* dungeonNav.png in Resources */ = {isa = PBXBuildFile; fileRef = 92D6F0B717E48EF800D187E2 /* dungeonNav.png */; };
@@ -361,6 +372,19 @@
 		92C68EEE17FAD43300113B7F /* fire2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fire2.png; sourceTree = "<group>"; };
 		92C68EF017FBB43E00113B7F /* exprode2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exprode2.png; sourceTree = "<group>"; };
 		92C68EF217FBB4A400113B7F /* charge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = charge.png; sourceTree = "<group>"; };
+		92C68EF417FBC05E00113B7F /* sing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sing.png; sourceTree = "<group>"; };
+		92C68EF617FD234E00113B7F /* rock3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rock3.png; sourceTree = "<group>"; };
+		92C68EF817FD520B00113B7F /* water3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = water3.png; sourceTree = "<group>"; };
+		92C68EFA17FD57D800113B7F /* MBAbilityCutin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBAbilityCutin.h; sourceTree = "<group>"; };
+		92C68EFB17FD57D800113B7F /* MBAbilityCutin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAbilityCutin.m; sourceTree = "<group>"; };
+		92C68EFD17FDB4D500113B7F /* down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = down.png; sourceTree = "<group>"; };
+		92C68EFE17FDB4D500113B7F /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
+		92C68F0117FDCD3500113B7F /* break.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = break.png; sourceTree = "<group>"; };
+		92C68F0517FDD61A00113B7F /* sl_gb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sl_gb.png; sourceTree = "<group>"; };
+		92C68F0717FDD69F00113B7F /* mag_gb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mag_gb.png; sourceTree = "<group>"; };
+		92C68F0917FDE9FE00113B7F /* samehada.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = samehada.png; sourceTree = "<group>"; };
+		92C68F0B1800067000113B7F /* MBConbatantView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBConbatantView.h; sourceTree = "<group>"; };
+		92C68F0C1800067000113B7F /* MBConbatantView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBConbatantView.m; sourceTree = "<group>"; };
 		92D4405517B7911A00FEB2A5 /* DungeonViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DungeonViewController.mm; sourceTree = "<group>"; };
 		92D6F0B117E48AEA00D187E2 /* nav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav.png; sourceTree = "<group>"; };
 		92D6F0B717E48EF800D187E2 /* dungeonNav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dungeonNav.png; sourceTree = "<group>"; };
@@ -474,6 +498,15 @@
 				92C68EF017FBB43E00113B7F /* exprode2.png */,
 				92C68EEE17FAD43300113B7F /* fire2.png */,
 				92C68EF217FBB4A400113B7F /* charge.png */,
+				92C68EF417FBC05E00113B7F /* sing.png */,
+				92C68EF617FD234E00113B7F /* rock3.png */,
+				92C68EF817FD520B00113B7F /* water3.png */,
+				92C68EFD17FDB4D500113B7F /* down.png */,
+				92C68EFE17FDB4D500113B7F /* up.png */,
+				92C68F0117FDCD3500113B7F /* break.png */,
+				92C68F0517FDD61A00113B7F /* sl_gb.png */,
+				92C68F0717FDD69F00113B7F /* mag_gb.png */,
+				92C68F0917FDE9FE00113B7F /* samehada.png */,
 			);
 			name = effect;
 			sourceTree = "<group>";
@@ -535,6 +568,8 @@
 				92D6F0B517E48BC600D187E2 /* ScrollView */,
 				92D7A3021769E0E7006E4A90 /* MiniStatusView.h */,
 				92D7A3031769E0E8006E4A90 /* MiniStatusView.mm */,
+				92C68F0B1800067000113B7F /* MBConbatantView.h */,
+				92C68F0C1800067000113B7F /* MBConbatantView.m */,
 				92D6F0B317E48BA300D187E2 /* Character */,
 				92D6F0B617E48C0D00D187E2 /* lib */,
 				9298595D17C25CD600DD9942 /* SVProgressHUD */,
@@ -822,6 +857,8 @@
 				92E1A3FF17B804F100290216 /* MBOptionView.mm */,
 				929A009E1792C83400E8CDFC /* PartyChangeView.h */,
 				929A009F1792C83400E8CDFC /* PartyChangeView.mm */,
+				92C68EFA17FD57D800113B7F /* MBAbilityCutin.h */,
+				92C68EFB17FD57D800113B7F /* MBAbilityCutin.m */,
 			);
 			name = ScrollView;
 			sourceTree = "<group>";
@@ -941,15 +978,19 @@
 				9225338C16EAF73800495F98 /* InfoPlist.strings in Resources */,
 				9225339416EAF73800495F98 /* Default.png in Resources */,
 				9225339616EAF73800495F98 /* Default@2x.png in Resources */,
+				92C68EF717FD234E00113B7F /* rock3.png in Resources */,
 				9225339816EAF73800495F98 /* Default-568h@2x.png in Resources */,
+				92C68F0217FDCD3500113B7F /* break.png in Resources */,
 				9225339B16EAF73800495F98 /* MainStoryboard.storyboard in Resources */,
 				927DCBE7173C2956002F5AA0 /* c1.png in Resources */,
+				92C68EF917FD520B00113B7F /* water3.png in Resources */,
 				927DCBE8173C2956002F5AA0 /* c2.png in Resources */,
 				927DCBE9173C2956002F5AA0 /* c0c.PNG in Resources */,
 				927DCBEA173C2956002F5AA0 /* c0r.PNG in Resources */,
 				927DCBEB173C2956002F5AA0 /* c1c.PNG in Resources */,
 				927DCBEC173C2956002F5AA0 /* c1r.PNG in Resources */,
 				927DCBEE173C2956002F5AA0 /* c2c.PNG in Resources */,
+				92C68EF517FBC05E00113B7F /* sing.png in Resources */,
 				927DCBEF173C2956002F5AA0 /* c2r.PNG in Resources */,
 				927DCBF0173C2956002F5AA0 /* c3c.PNG in Resources */,
 				927DCBF1173C2956002F5AA0 /* c3r.PNG in Resources */,
@@ -958,10 +999,12 @@
 				927DCBF4173C2956002F5AA0 /* c5c.PNG in Resources */,
 				927DCBF5173C2956002F5AA0 /* c5r.PNG in Resources */,
 				927DCBF6173C2956002F5AA0 /* c6c.PNG in Resources */,
+				92C68F0A17FDE9FE00113B7F /* samehada.png in Resources */,
 				927DCBF7173C2956002F5AA0 /* c6r.PNG in Resources */,
 				927DCBF8173C2956002F5AA0 /* c7c.PNG in Resources */,
 				927DCBF9173C2956002F5AA0 /* c7r.PNG in Resources */,
 				927DCBFA173C2956002F5AA0 /* Thumbs.db in Resources */,
+				92C68F0017FDB4D500113B7F /* up.png in Resources */,
 				92BE648D175B83A900D0C4B3 /* c0icon.PNG in Resources */,
 				92BE648E175B83A900D0C4B3 /* c1icon.PNG in Resources */,
 				92BE648F175B83A900D0C4B3 /* c2icon.PNG in Resources */,
@@ -999,6 +1042,7 @@
 				92641AF717B87530001AC271 /* battlebg16.jpg in Resources */,
 				92641AF817B87530001AC271 /* battlebg17.jpg in Resources */,
 				92641AF917B87530001AC271 /* battlebg18.jpg in Resources */,
+				92C68F0617FDD61A00113B7F /* sl_gb.png in Resources */,
 				92641AFA17B87530001AC271 /* battlebg2.jpg in Resources */,
 				92641AFB17B87530001AC271 /* battlebg19.jpg in Resources */,
 				92641AFC17B87530001AC271 /* battlebg3.jpg in Resources */,
@@ -1017,7 +1061,9 @@
 				92D6F0B817E48EF800D187E2 /* dungeonNav.png in Resources */,
 				92D6F0BA17E4910400D187E2 /* textBox.png in Resources */,
 				92D6F0BC17E4937D00D187E2 /* bg.png in Resources */,
+				92C68F0817FDD69F00113B7F /* mag_gb.png in Resources */,
 				92D6F0BF17E4958200D187E2 /* titleImage.png in Resources */,
+				92C68EFF17FDB4D500113B7F /* down.png in Resources */,
 				92D6F0C117E4984D00D187E2 /* tape.png in Resources */,
 				92D6F0C317E49B3C00D187E2 /* blueTape.png in Resources */,
 				92D6F0C517E49C7800D187E2 /* partyImage.png in Resources */,
@@ -1054,6 +1100,7 @@
 			files = (
 				9225338E16EAF73800495F98 /* main.mm in Sources */,
 				9225339216EAF73800495F98 /* AppDelegate.mm in Sources */,
+				92C68EFC17FD57D800113B7F /* MBAbilityCutin.m in Sources */,
 				9225339E16EAF73800495F98 /* ViewController.mm in Sources */,
 				92F6FD9D16EE2CA2008A55F9 /* Meishi.mm in Sources */,
 				92E73D5817181BC8002C2C92 /* Player.mm in Sources */,
@@ -1067,6 +1114,7 @@
 				929A00A01792C83400E8CDFC /* PartyChangeView.mm in Sources */,
 				920360AF17B5C9C400EDB590 /* MBAnimationView.m in Sources */,
 				920360D617B635C800EDB590 /* MBScrollView.mm in Sources */,
+				92C68F0D1800067000113B7F /* MBConbatantView.m in Sources */,
 				920360D917B636F000EDB590 /* MBPartyView.mm in Sources */,
 				920360DC17B63AAC00EDB590 /* MBCharacterView.mm in Sources */,
 				920360DF17B66C3200EDB590 /* MBStatusView.mm in Sources */,

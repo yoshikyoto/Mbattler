@@ -13,4 +13,7 @@
 }
 
 - (void)setAnimationImage:(NSString *)imageName :(int)w :(int)h :(int)fnum;
+- (void)setAnimationImageVertical:(NSString *)imageName :(int)w :(int)h :(int)fnum;
+
+- (void)setAnimationImageDividedVertical:(NSString *)imageName :(int)x :(int)w :(int)h :(int)fnum;
 @end

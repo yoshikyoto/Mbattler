@@ -59,16 +59,37 @@
     effect.frame = rect;
     [[[target getBattleImage] superview] addSubview:effect];
     [effect startAnimating];
+    // エフェクト描写待ち
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
     
     // 乱数を生成してダメージ計算(100% - 90%)
-    int r = arc4random()%10;
-    r = 100 - r;
-    damage = damage * (r/100.0);
-    // ダメージは0にはならない
-    if(damage <= 0) damage = 1;
+    damage = [self damageRand:damage];
+    // 対象のHPをマイナス
+    damage = [target damage:damage];
+    
+    // 鮫肌判定
+    if([target getAbilityID] == 9){
+        MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
+        [abl_effect setAnimationImage:@"samehada.png" :120 :120 :5];
+        abl_effect.animationDuration = 0.2;
+        CGRect rect = [self getBattleImage].frame;
+        rect.origin.x += (rect.size.width/2.0 - 15);
+        rect.origin.y += (rect.size.height/2.0 - 15);
+        rect.size.width = 30;
+        rect.size.height = 30;
+        abl_effect.frame = rect;
+        [[[self getBattleImage] superview] addSubview:abl_effect];
+        [abl_effect startAnimating];
+        // ダメージはとりあえず最大HPの1/16
+        int samehada_damage = [self getH] / 16.0;
+        // 最大ダメージは20としておく
+        if(samehada_damage <= 0) samehada_damage = 1;
+        if(samehada_damage > 20) samehada_damage = 20;
+        [self damage:samehada_damage];
+    }
     
     // 対象のHPをマイナスする
-    return [target damage:damage];
+    return damage;
 }
 
 @end

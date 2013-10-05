@@ -20,6 +20,7 @@
                  @"つよそう",
                  @"よわそう",
                  @"アビリティデバッガー",
+                 @"全体攻撃デバッガー2",
                  nil];
         
     }
@@ -50,6 +51,9 @@
             break;
         case 3:
             [self dungeon3];
+            break;
+        case 4:
+            [self dungeon4];
             break;
     }
 }
@@ -112,6 +116,24 @@
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
                        [[Enemy alloc] initWithName:@"サンドバッグくん" H:2000 A:0 B:0 C:0 D:0 S:0 ImageString:@"c0c.PNG"],
+                       nil];
+    
+    [arr addObject:subarr];
+    exp = 1000;
+    stamina = 5;
+    [self setBackgroundInt:3];
+}
+
+- (void)dungeon4{
+    [self reset];
+    NSLog(@"%s", __func__);
+    
+    // 敵集団1
+    NSArray *subarr = [NSArray arrayWithObjects:
+                       [[Enemy alloc] initWithName:@"サンドバッグくんA" H:2000 A:0 B:40 C:0 D:40 S:0 ImageString:@"c0c.PNG"],
+                       [[Enemy alloc] initWithName:@"サンドバッグくんB" H:2000 A:0 B:0 C:0 D:0 S:200 ImageString:@"c0c.PNG"],
+                       [[Enemy alloc] initWithName:@"サンドバッグくんD" H:2000 A:0 B:0 C:0 D:0 S:0 ImageString:@"c0c.PNG"],
+                       [[Enemy alloc] initWithName:@"サンドバッグくんE" H:20 A:0 B:4 C:0 D:4 S:0 ImageString:@"c0c.PNG"],
                        nil];
     
     [arr addObject:subarr];

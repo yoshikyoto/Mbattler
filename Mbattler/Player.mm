@@ -60,7 +60,7 @@
 // デバッグ用のデータを作成
 - (void)makeTestdata{
     Meishi *m;
-    for(int i = 0; i < 30; i++){
+    for(int i = 0; i < 22; i++){
         NSLog(@"%s %d", __func__, i);
         m = [[Meishi alloc] init];
         [m setName:[NSString stringWithFormat:@"坂本%d", i]];
@@ -72,12 +72,12 @@
         [m setIndividual:ind];
         [m calcParameter];
         [m setExp:0];
-        [m setAbility:rand()%22];
+        [m setAbility:i%22]; //[m setAbility:rand()%22];
         [self addMeishi:m];
     }
     NSLog(@"num_of_meishi %d", num_of_meishi);
     // パーティの数は5としておく
-    partynum = 5;
+    partynum = 1;
     // プレイヤーネームヨシキ
     name = @"ヨシキ";
 }

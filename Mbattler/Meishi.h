@@ -119,6 +119,8 @@
 // アビリティで攻撃するときの関数
 - (float)abilityAttack:(Enemy *)target; // 単体攻撃
 - (void)abilityAttackWhole:(NSMutableArray *)enemys; // 全体攻撃
+- (void)startupAbilityForParty:(NSMutableArray *)party; // 戦闘開始時のアビリティ for 味方
+- (void)startupAbilityToEnemy:(NSMutableArray *)enemys; // 戦闘開始時にアビリティ to 敵
 
 // 内部メソッド(パラメータを計算してくれる関数)
 - (void) calcParameter;

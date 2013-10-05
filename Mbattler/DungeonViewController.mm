@@ -16,6 +16,7 @@
 #import "MBAnimationView.h"
 #import "MBScrollView.h"
 #import "DamageValueLabel.h"
+#import "MBAbilityCutin.h"
 
 @interface DungeonViewController ()
 
@@ -123,6 +124,10 @@
     [item2_button setTitleEdgeInsets:UIEdgeInsetsMake(20, 0, 0, 0)];
     [[self view] addSubview:item2_button];
     
+    // conbatant表示部分
+    combatant_view = [[MBConbatantView alloc] initWithFrame:CGRectMake(0, 279, 232, 44)];
+    [[self view] addSubview:combatant_view];
+    
     // ポーズボタン
     UIButton *pause_button = [UIButton buttonWithType:UIButtonTypeCustom];
     [pause_button setTitle:@"停" forState:UIControlStateNormal];
@@ -160,6 +165,9 @@
     // アイテム使えるようにフラグたてる
     item_flag = 0;
     
+    // 戦闘開始前のアビリティ for 味方
+    [self startupAblityForParty];
+    
     NSLog(@"%s 敵の長さ %d", __func__, [dungeon getLength]);
     // 敵の長さだけループ
     eimgs = [[NSMutableArray alloc] init];
@@ -173,6 +181,8 @@
         // 敵を描写
         [self appear];
         [self addMessege:@"敵が出現!"];
+        // 敵が出現した時に発動するスタートアップアビリティ
+        [self startupAbilityToEnemy];
         
         // ゲームループに入る
         NSLog(@"%s gameLoop", __func__);
@@ -193,6 +203,7 @@
                     // 単体攻撃の場合-----------------------------------------
                     case 0: // ギガインパクト
                     case 1: // 破壊光線
+                    case 8: // ソニックブーム
                     {
                         Enemy *defender;
                         if(target){
@@ -203,25 +214,34 @@
                             defender = [enemy objectAtIndex:0];
                         }
                         [self addMessege:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
+                        // カットイン
+                        MBAbilityCutin *cutin = [[MBAbilityCutin alloc] initWithMeishi:attacker];
+                        [[self view] addSubview:cutin];
+                        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+                        [cutin removeFromSuperview];
+                        
                         int damage = [attacker abilityAttack:defender];
-                        // エフェクトのための待ち時間
-                        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
                         // ダメージ数値描写
-                        [self viewDamage:[defender getBattleImage] :damage];
+                        // [self viewDamage:[defender getBattleImage] :damage];
                         [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
 
                         // デバッグ用
                         NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
-                        if([defender isDead]){
-                            // 倒した場合
-                            [self beatEnemy:defender];
-                        }
+                        // 倒した場合
+                        if([defender isDead]) [self beatEnemy:defender];
+     
                         break;
                     }
                     case 2:
                     {   // 自己再生---------------------------------------------
                         // 攻撃対象の情報は必要ない
                         [self addMessege:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
+                        // カットイン
+                        MBAbilityCutin *cutin = [[MBAbilityCutin alloc] initWithMeishi:attacker];
+                        [[self view] addSubview:cutin];
+                        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+                        [cutin removeFromSuperview];
+                        
                         int recover = [attacker abilityAttack:nil];
                         CGRect rect = [attacker getBattleImage].frame;
                         int x = rect.origin.x; // + rect.size.width // 2.0;
@@ -236,8 +256,26 @@
                         [self addMessege:[NSString stringWithFormat:@"HPを%d回復した！", recover]];
                     }
                     case 10: // 鳴き声
+                    case 11: // しっぽをふる
+                    case 12: // バークアウト
+                    case 13: // うそなき
+                    case 20: // 岩雪崩
+                    case 21: // 波乗り
                     {   // 全体攻撃の場合----------------------------------------
+                        // 必殺技名表示
+                        [self addMessege:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
+                        // カットイン
+                        MBAbilityCutin *cutin = [[MBAbilityCutin alloc] initWithMeishi:attacker];
+                        [[self view] addSubview:cutin];
+                        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+                        [cutin removeFromSuperview];
+                        
                         [attacker abilityAttackWhole:enemy];
+                        // 敵全体に対して、倒したかどうか判定が必要
+                        for(int i = 0; i < [enemy count]; i++){
+                            Enemy *e = [enemy objectAtIndex:i];
+                            if([e isDead]) [self beatEnemy:e];
+                        }
                     }
                 }
             }else{
@@ -259,36 +297,39 @@
                     }
                     // defender に攻撃
                     int damage = [(Meishi *)attacker attack:defender];
-                    // エフェクトのための間をおく
-                    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-                    // ダメージ数値描写
-                    [self viewDamage:[defender getBattleImage] :damage];
+                    // メッセージ表示
                     [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
                     // デバッグ用
-                    NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
+                    NSLog(@"%s %@(%d) -> %@(%d) %d",__func__ , [attacker getName], [attacker getA], [defender getName], [defender getB], damage);
+                    // 倒した
                     if([defender isDead]){
-                        // 倒した場合
-                        [self beatEnemy:defender];
+                    NSLog(@"%s 敵を倒した", __func__);
+                    [self beatEnemy:defender];
+                    // 自信過剰はここで処理
+                    if([(Meishi *)attacker getAbilityID] == 7){
+                        NSLog(@"%s 自信過剰が発動", __func__);
+                        [self viewCutin:(Meishi *)attacker];
+                        [attacker multParameter:1 :0.1];
+                        [attacker multParameter:3 :0.1];
                     }
+                }
                 }else{
                     // 敵の攻撃対象 ランダム
                     Meishi *defender = [party objectAtIndex:arc4random()%[party count]];
                     // とりあえず物理に攻撃
                     int damage = [(Enemy *)attacker attack:defender];
-                    // エフェクトのために間を置く
-                    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-                    // ダメージ数値描写
-                    [self viewDamage:[defender getBattleImage] :damage];
                     // メッセージを表示
                     [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
                     // デバッグ用
-                    NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
+                    NSLog(@"%s %@(%d) -> %@(%d) %d",__func__ , [attacker getName], [attacker getA], [defender getName], [defender getB], damage);
                     if([defender isDead]){  // 倒した場合
                         [self addMessege:[NSString stringWithFormat:@"%@ は倒れた！", [defender getName]]];
                         // conbatantから除去
                         [self removeCombatant:defender];
                         [party removeObject:defender];
                     }
+                    // 鮫肌の可能性もあるので
+                    if([attacker isDead]) [self beatEnemy:(Enemy *)attacker];
                 }
                 turn++;
                 if(turn >= [combatant count]) turn = 0;
@@ -318,6 +359,48 @@
     [[self view] addGestureRecognizer:tgr];
 }
 
+// 戦闘開始時に味方全体に効果のあるアビリティ
+- (void)startupAblityForParty{
+    NSLog(@"%s", __func__);
+    for(int i = 0; i < [party count]; i++){
+        Meishi *meishi = [party objectAtIndex:i];
+        switch ([meishi getAbilityID]) {
+            case 15: // 剣の舞
+            case 16: // 鉄壁
+            case 17: // 悪巧み
+            case 18: // ど忘れ
+            case 19: // 高速移動
+                [self addMessege:[NSString stringWithFormat:@"%@ の %@！", [meishi getName], [meishi getAbilityString]]];
+                [self viewCutin:meishi];
+                [meishi startupAbilityForParty:party];
+                break;
+        }
+    }
+}
+
+// 敵出現時に敵に効果を及ぼすスタートアップアビリティ
+- (void)startupAbilityToEnemy{
+    NSLog(@"%s", __func__);
+    
+    for(int i = 0; i < [party count]; i++){
+        Meishi *meishi = [party objectAtIndex:i];
+        switch ([meishi getAbilityID]) {
+            case 3: // 威嚇
+                [self addMessege:[NSString stringWithFormat:@"%@ の %@！", [meishi getName], [meishi getAbilityString]]];
+                [self viewCutin:meishi];
+                [meishi startupAbilityToEnemy:enemy];
+                break;
+        }
+    }
+}
+
+- (void)viewCutin:(Meishi *)meishi{
+    MBAbilityCutin *cutin = [[MBAbilityCutin alloc] initWithMeishi:meishi];
+    [[self view] addSubview:cutin];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+    [cutin removeFromSuperview];
+}
+
 // 敵を倒した時に呼ぶ関数
 - (void)beatEnemy:(Enemy *)e{
     // 倒した場合
@@ -330,7 +413,7 @@
     // リストからも除去してしまおう
     [enemy removeObject:e];
     // 画像を除去
-    [[e getBattleImage] removeFromSuperview];
+    [e removeBattleImage];
     // 必要ならポインタの差し替え
     if(target == e){
         target = nil;

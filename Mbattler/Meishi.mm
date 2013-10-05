@@ -8,6 +8,7 @@
 
 #import "Meishi.h"
 #import "Enemy.h"
+#import "DamageValueLabel.h"
 
 // 名刺から生成されたキャラクター
 @implementation Meishi
@@ -724,6 +725,12 @@
 
 // 攻撃する関数
 - (int)attack:(Enemy *)target{
+    // 前に一歩出る
+    // [UIView beginAnimations:nil context:nil];
+    // [UIView setAnimationDuration: 0.5];
+    UIImageView *view = [self getBattleImage];
+    view.transform = CGAffineTransformMakeTranslation(20, 0);
+    
     // 種族によって、Aで攻撃するかCで攻撃するか分岐
     int damage = 0;
     switch (job) {
@@ -741,6 +748,20 @@
     // 最低でも1ダメージは与えることができる
     if(damage <= 0) damage = 1;
     
+    // アビリティ補正補正
+    switch (abilityID) {
+        case 5:
+            // アナライズ補正
+            NSLog(@"アナライズ判定");
+            if([self getS] < [target getS]) damage = damage * 1.2;
+            break;
+        case 6:
+            // 激流補正
+            NSLog(@"激流補正判定");
+            if([self getNowH] < ([self getH] / 3.0)) damage = damage * 1.5;
+            break;
+    }
+    
     // エフェクト描写
     // ターゲットの画像の座標を取得、幅も取得して中心を求める
     int x = [target getBattleImage].frame.origin.x;
@@ -754,13 +775,11 @@
     [[[target getBattleImage] superview] addSubview:effect];
     [effect startAnimating];
     
-    // 乱数を生成してダメージ計算(100% - 90%)
-    int r = arc4random()%10;
-    r = 100 - r;
-    damage = damage * (r/100.0);
-    // ダメージは0にはならない
-    if(damage <= 0) damage = 1;
+    // エフェクト描写待ち
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
     
+    // 乱数を生成してダメージ計算(100% - 90%)
+    damage = [self damageRand:damage];
     // ダメージに応じてゲージが溜まる
     if(damage >= 5){
         [self gainAbilityPow:20];
@@ -768,7 +787,12 @@
         [self gainAbilityPow:4*damage];
     }
     // 対象のHPをマイナスする
-    return [target damage:damage];
+    [target damage:damage];
+    
+    // 元の位置に戻る
+    view.transform = CGAffineTransformMakeTranslation(0, 0);
+    
+    return damage;
 }
 
 // ダメージを受ける乱数
@@ -875,6 +899,8 @@
             abl_effect.frame = rect;
             [[[target getBattleImage] superview] addSubview:abl_effect];
             [abl_effect startAnimating];
+            // エフェクト待ち
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
             
             int damage = [self getA] - [target getB];
             if(damage <= 0) damage = 1;
@@ -901,6 +927,8 @@
             abl_effect.frame = rect;
             [[[target getBattleImage] superview] addSubview:abl_effect];
             [abl_effect startAnimating];
+            // エフェクト待ち
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.7]];
             
             int damage = [self getC] - [target getD];
             if(damage <= 0) damage = 1;
@@ -926,21 +954,282 @@
             abl_effect.frame = rect;
             [[[self getBattleImage] superview] addSubview:abl_effect];
             [abl_effect startAnimating];
+            // エフェクト待ち
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
             
             // これだけは回復なので、
             int recover = [self getH] / 2.0;
             [self recover:recover];
             return recover;
         }
-        case 10:{
-            // 鳴き声
+        case 8:{
+            // ソニックブーム　防御無視の攻撃。
+            NSLog(@"%s ソニックブーム", __func__);
+            // エフェクト初期化
+            MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
+            int damage = 0;
+            switch (job) {
+                    // 戦士 or 格闘家
+                case 0:
+                case 1:
+                    damage = [self getA];
+                    // エフェクトセット
+                    [abl_effect setAnimationImage:@"sl_gb.png" :120 :120 :7];
+                    break;
+                    // それ以外
+                default:
+                    damage = [self getC];
+                    // エフェクトセット
+                    [abl_effect setAnimationImage:@"mag_gb.png" :120 :120 :8];
+                    break;
+            }
+            // エフェクト
+            abl_effect.animationDuration = 0.6;
+            abl_effect.animationRepeatCount = 1;
+            
+            // エフェクト描写
+            // ターゲットの画像の座標を取得、幅も取得して中心を求める
+            CGRect rect = [target getBattleImage].frame;
+            rect.origin.x += rect.size.width/2.0 - 30;
+            rect.origin.y += rect.size.height/2.0 - 30;
+            rect.size.width = 60;
+            rect.size.height = 60;
+            // 座標に対してエフェクト描写
+            abl_effect.frame = rect;
+            [[[target getBattleImage] superview] addSubview:abl_effect];
+            [abl_effect startAnimating];
+            // エフェクト待ち
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.7]];
+            if(damage <= 0) damage = 1;
+            damage = [target damage:damage];
+            return damage;
         }
     }
     return 0;
 }
 
 - (void)abilityAttackWhole:(NSMutableArray *)enemys{
-    NSLog(@"");
+    NSLog(@"%s", __func__);
+    switch (abilityID) {
+        case 10: // 鳴き声
+        {
+            NSLog(@"鳴き声");
+            // エフェクト
+            MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
+            [abl_effect setAnimationImageVertical:@"sing.png" :320 :120 :15];
+            abl_effect.animationDuration = 1.5;
+            abl_effect.animationRepeatCount = 1;
+            
+            // エフェクト描写
+            abl_effect.frame = CGRectMake(0, 120, 320, 120);
+            [[[self getBattleImage] superview] addSubview:abl_effect];
+            [abl_effect startAnimating];
+            // エフェクト終了待ち
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.5]];
+            
+            // 敵全体の能力ダウン
+            for(int k = 0; k < [enemys count]; k++){
+                Enemy *enemy = [enemys objectAtIndex:k];
+                [enemy multParameter:1 :-0.2];
+            }
+            return;
+        }
+        case 11: // しっぽをふる
+        {
+            NSLog(@"しっぽをふる");
+            // エフェクト
+            MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
+            [abl_effect setAnimationImageVertical:@"break.png" :320 :120 :9];
+            abl_effect.animationDuration = 0.8;
+            abl_effect.animationRepeatCount = 1;
+            
+            // エフェクト描写
+            abl_effect.frame = CGRectMake(80, 120, 320, 120);
+            [[[self getBattleImage] superview] addSubview:abl_effect];
+            [abl_effect startAnimating];
+            // エフェクト終了待ち
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.8]];
+            
+            // 敵全体の能力ダウン
+            for(int k = 0; k < [enemys count]; k++){
+                Enemy *enemy = [enemys objectAtIndex:k];
+                [enemy multParameter:2 :-0.2];
+            }
+            return;
+        }
+        case 12: // バークアウト
+        {
+            NSLog(@"鳴き声");
+            // エフェクト
+            MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
+            [abl_effect setAnimationImageVertical:@"sing.png" :320 :120 :15];
+            abl_effect.animationDuration = 1.5;
+            abl_effect.animationRepeatCount = 1;
+            
+            // エフェクト描写
+            abl_effect.frame = CGRectMake(0, 120, 320, 120);
+            [[[self getBattleImage] superview] addSubview:abl_effect];
+            [abl_effect startAnimating];
+            // エフェクト終了待ち
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.5]];
+            
+            // 敵全体の能力ダウン
+            for(int k = 0; k < [enemys count]; k++){
+                Enemy *enemy = [enemys objectAtIndex:k];
+                [enemy multParameter:2 :-0.2];
+            }
+            return;
+        }
+        case 13: // うそなき
+        {
+            NSLog(@"しっぽをふる");
+            // エフェクト
+            MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
+            [abl_effect setAnimationImageVertical:@"break.png" :320 :120 :9];
+            abl_effect.animationDuration = 0.8;
+            abl_effect.animationRepeatCount = 1;
+            
+            // エフェクト描写
+            abl_effect.frame = CGRectMake(80, 120, 320, 120);
+            [[[self getBattleImage] superview] addSubview:abl_effect];
+            [abl_effect startAnimating];
+            // エフェクト終了待ち
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.8]];
+            
+            // 敵全体の能力ダウン
+            for(int k = 0; k < [enemys count]; k++){
+                Enemy *enemy = [enemys objectAtIndex:k];
+                [enemy multParameter:4 :-0.2];
+            }
+            return;
+        }
+        case 20: // 岩雪崩
+        {
+            NSLog(@"岩雪崩");
+            // エフェクト1
+            MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
+            [abl_effect setAnimationImageVertical:@"rock3.png" :160 :120 :8];
+            abl_effect.animationDuration = 1.0;
+            abl_effect.animationRepeatCount = 1;
+            abl_effect.frame = CGRectMake(160, 60, 160, 120);
+            [[[self getBattleImage] superview] addSubview:abl_effect];
+            // エフェクト2
+            MBAnimationView *abl_effect2 = [[MBAnimationView alloc] init];
+            [abl_effect2 setAnimationImageDividedVertical:@"rock3.png" :160 :160 :120 :8];
+            abl_effect2.animationDuration = 1.0;
+            abl_effect2.animationRepeatCount = 1;
+            abl_effect2.frame = CGRectMake(160, 150, 160, 120);
+            [[[self getBattleImage] superview] addSubview:abl_effect2];
+            
+            [abl_effect startAnimating];
+            [abl_effect2 startAnimating];
+            // エフェクト終了待ち
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+            
+            // 敵全体に物理ダメージ
+            for(int k = 0; k < [enemys count]; k++){
+                NSLog(@"%d", k);
+                Enemy *enemy = [enemys objectAtIndex:k];
+                int damage = [self getA] - [enemy getB];
+                damage = damage * 0.8;
+                damage = [self damageRand:damage];
+                [enemy damage:damage];
+            }
+            return;
+        }
+            
+        case 21: // 波乗り
+        {
+            NSLog(@"波乗り");
+            // エフェクト1
+            MBAnimationView *abl_effect = [[MBAnimationView alloc] init];
+            [abl_effect setAnimationImageVertical:@"water3.png" :320 :120 :9];
+            abl_effect.animationDuration = 1.0;
+            abl_effect.animationRepeatCount = 1;
+            abl_effect.frame = CGRectMake(120, 60, 200, 200);
+            [[[self getBattleImage] superview] addSubview:abl_effect];
+            
+            [abl_effect startAnimating];
+            // エフェクト終了待ち
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+            
+            // 敵全体に特殊ダメージ
+            for(int k = 0; k < [enemys count]; k++){
+                NSLog(@"%d", k);
+                Enemy *enemy = [enemys objectAtIndex:k];
+                int damage = [self getC] - [enemy getD];
+                damage = damage * 0.8;
+                damage = [self damageRand:damage];
+                [enemy damage:damage];
+            }
+            return;
+        }
+    }
+}
+
+// 味方に関係するスタートアップアビリティ
+- (void)startupAbilityForParty:(NSMutableArray *)party{
+    switch (abilityID) {
+        case 15:{
+            // 剣の舞
+            for(int k = 0; k < [party count]; k++){
+                Meishi *meishi = [party objectAtIndex:k];
+                [meishi multParameter:1 :0.2];
+            }
+            break;
+        }
+            
+        case 16:{
+            // 鉄壁
+            for(int k = 0; k < [party count]; k++){
+                Meishi *meishi = [party objectAtIndex:k];
+                [meishi multParameter:2 :0.2];
+            }
+            break;
+        }
+            
+        case 17:{
+            // 悪巧み
+            for(int k = 0; k < [party count]; k++){
+                Meishi *meishi = [party objectAtIndex:k];
+                [meishi multParameter:3 :0.2];
+            }
+            break;
+        }
+            
+        case 18:{
+            // ど忘れ
+            for(int k = 0; k < [party count]; k++){
+                Meishi *meishi = [party objectAtIndex:k];
+                [meishi multParameter:4 :0.2];
+            }
+            break;
+        }
+            
+        case 19:{
+            // 高速移動
+            for(int k = 0; k < [party count]; k++){
+                Meishi *meishi = [party objectAtIndex:k];
+                [meishi multParameter:5 :0.2];
+            }
+            break;
+        }
+    }
+}
+
+// 対象が敵となるスタートアップアビリティ
+- (void)startupAbilityToEnemy:(NSMutableArray *)enemys{
+    switch (abilityID) {
+        case 3:{
+            // 威嚇
+            for(int k = 0; k < [enemys count]; k++){
+                Meishi *meishi = [enemys objectAtIndex:k];
+                [meishi multParameter:1 :-0.2];
+                [meishi multParameter:3 :-0.2];
+            }
+            break;
+        }
+    }
 }
 
 // アビリティゲージをためる
@@ -962,6 +1251,12 @@
     nowh = p[0];
     ability_pow = 0;
     ability_flag = false;
+    p_mult[0] = 1.0;
+    p_mult[1] = 1.0;
+    p_mult[2] = 1.0;
+    p_mult[3] = 1.0;
+    p_mult[4] = 1.0;
+    p_mult[5] = 1.0;
 }
 
 - (int)exp:(int)e{

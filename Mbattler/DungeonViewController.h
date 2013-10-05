@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Player.h"
 #import "Dungeon.h"
+#import "MBConbatantView.h"
 
 
 @interface DungeonViewController : UIViewController{
@@ -37,6 +38,8 @@
     // タイトル関係
     UIImageView *navImage;
     UILabel *title;
+    MBConbatantView *combatant_view;
+    // ターン数もここで管理できる
     
     int turn;
     
