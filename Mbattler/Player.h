@@ -13,7 +13,6 @@
     NSString *name; // プレイヤーネーム
     NSMutableArray *meishis;
     int maxmeishi; // 名刺所持数の最大値(課金により増加)
-    int num_of_meishi; // 現在所持している名刺の数
     int partynum; // パーティに所属している名刺の数
     int stamina; // スタミナ
     UIImageView *stamina_bar;
@@ -26,9 +25,20 @@
     
     // 名刺の所持数を表示するラベル
     UILabel *meishi_label;
+    
+    // セーブ用のuser defaults
+    NSUserDefaults *ud;
 }
 
 - (id)init;     // initialization
+- (id)initWithTestdata;
+- (id)initWithName:(NSString *)n; // セーブデータ作成
+- (id)initWithLoad;
+
+// データセーブ用のメソッド
+- (void)save;
+- (void)saveItem;
+- (void)saveStamina;
 
 // ゲッター
 - (Meishi *)getMeishi:(int)i;   // i番目の名刺を返す

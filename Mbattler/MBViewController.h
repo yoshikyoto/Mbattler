@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "Player.h"
 #import "MBScrollView.h"
+#import "MBDatabase.h"
 
 @interface MBViewController : UIViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate>{
     UILabel *title;
@@ -19,6 +20,7 @@
     UIColor *menucolor; // メニューとかタイトルとかの背景色
     UIColor *menutextcolor; // メニューとかのテキストの色
     UIColor *subbgcolor;
+    MBDatabase *mbdb;
     
     int w;
     int h;

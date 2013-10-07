@@ -142,6 +142,14 @@
     NSString *sstring = [NSString stringWithFormat:@"%d", p[5]];
     return sstring;
 }
+- (int)getImageInt{ return imagenum; }
+- (int)getJobInt{ return job; }
+- (NSString *)getMail1{ return mail1; }
+- (NSString *)getMail2{ return mail2; }
+- (int)getZip1{ return zip1; }
+- (int)getZip2{ return zip2; }
+- (int)getSex{ return sex; }
+
 // アビリティ名取得
 - (NSString *)getAbilityString{
     return ability;

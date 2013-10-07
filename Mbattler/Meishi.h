@@ -71,6 +71,15 @@
 - (NSString *) getCString;
 - (NSString *) getDString;
 - (NSString *) getSString;
+// そのたゲッター
+- (int)getImageInt;
+- (int)getJobInt;
+- (NSString *)getCompany;
+- (NSString *)getMail1;
+- (NSString *)getMail2;
+- (int)getZip1;
+- (int)getZip2;
+- (int)getSex;
 
 // 画像オブジェクト関係のゲッターとか
 - (UIImageView *) getBattleImage;

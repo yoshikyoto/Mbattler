@@ -8,19 +8,18 @@
 
 #import "Player.h"
 #import "Meishi.h"
+#import "MBDatabase.h"
 
 @implementation Player
 
 - (id)init{
     self = [super init];
     if(self){
-        NSLog(@"Player init");
+        // 初期化
+        NSLog(@"%s Player init", __func__);
         meishis = [[NSMutableArray alloc] init];
         // 持てる名刺の最大数は、仮の初期値 20 にしておく。
         maxmeishi = 20;
-        num_of_meishi = 0;
-        [self makeTestdata];
-        [self reflesh];
         stamina = 50;
         // hpバー初期化だけしておく
         stamina_bar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp1.png"]];
@@ -36,9 +35,101 @@
         item[1] = 1;
         item[2] = 1;
         
+        // パーティの数は1としておく
+        partynum = 1;
+        
+        ud = [NSUserDefaults standardUserDefaults];
     }
     return self;
 }
+
+- (id)initWithTestdata{
+    self = [self init];
+    if(self){
+        NSLog(@"%s", __func__);
+        for(int i = 0; i < 22; i++){
+            NSLog(@"%s %d", __func__, i);
+            Meishi *m = [[Meishi alloc] init];
+            [m setName:[NSString stringWithFormat:@"坂本%d", i]];
+            [m setLv:5];
+            //[m setImageNum:i%8];
+            [m setSex:rand()%2];
+            [m setJob: i%4];
+            int ind[6] = {rand()%32, rand()%32, rand()%32, rand()%32, rand()%32, rand()%32};
+            [m setIndividual:ind];
+            [m calcParameter];
+            [m setExp:0];
+            [m setAbility:i%22];
+            [self addMeishi:m];
+        }
+        [self reflesh];
+        name = @"TestData";
+    }
+    return self;
+}
+
+- (id)initWithName:(NSString *)n{
+    self = [self init];
+    if(self){
+        // プレイヤーネームヨシキ
+        name = n;
+    }
+    return self;
+}
+
+// ゲームデーターロード用
+- (id)initWithLoad{
+    self = [self init];
+    if(self){
+        name = [ud stringForKey:@"PLAYER_NAME"];
+        maxmeishi = [ud integerForKey:@"MAX_MEISHI"];
+        partynum = [ud integerForKey:@"PARTY_NUM"];
+        stamina = [ud integerForKey:@"STAMINA"];
+        item[0] = [ud integerForKey:@"ITEM_0"];
+        item[1] = [ud integerForKey:@"ITEM_1"];
+        item[2] = [ud integerForKey:@"ITEM_2"];
+    }
+    return self;
+}
+
+// ゲームデータセーブ用----------------------------------------------------------------
+- (void)save{
+    // 全部の名刺をデータベースに保存
+    MBDatabase *mbdb = [[MBDatabase alloc] init];
+    for(int i = 0; i < [meishis count]; i++){
+        [mbdb saveMeishi:i :[meishis objectAtIndex:i]];
+    }
+    // そのほかの情報はNSUserDefaultsに保存
+    // 名刺の最大数
+    [ud setInteger:maxmeishi forKey:@"MAX_MEISHI"];
+    // パーティの所属数
+    [ud setInteger:partynum forKey:@"PARTY_NUM"];
+    
+    [self saveStamina]; // スタミナ
+    
+    // アイテムの所持数セーブ
+    [self saveItem];
+    
+    // 最後に自分の名前を保存
+    [ud setObject:name forKey:@"PLAYER_NAME"];
+    [ud synchronize];
+}
+
+- (void)saveItem{
+    // アイテムの所持数
+    [ud setInteger:item[0] forKey:@"ITEM_0"];
+    [ud setInteger:item[1] forKey:@"ITEM_1"];
+    [ud setInteger:item[2] forKey:@"ITEM_2"];
+    [ud synchronize];
+}
+
+// スタミナ
+- (void)saveStamina{
+    // スタミナ
+    [ud setInteger:stamina forKey:@"STAMINA"];
+}
+
+
 
 // i 番目の名刺を返す
 - (Meishi *)getMeishi:(int)i{ return [meishis objectAtIndex:i]; }
@@ -57,34 +148,8 @@
 // プレイヤーの名前取得
 - (NSString *)getName{ return name; }
 
-// デバッグ用のデータを作成
-- (void)makeTestdata{
-    Meishi *m;
-    for(int i = 0; i < 22; i++){
-        NSLog(@"%s %d", __func__, i);
-        m = [[Meishi alloc] init];
-        [m setName:[NSString stringWithFormat:@"坂本%d", i]];
-        [m setLv:5];
-        //[m setImageNum:i%8];
-        [m setSex:rand()%2];
-        [m setJob: i%4];
-        int ind[6] = {rand()%32, rand()%32, rand()%32, rand()%32, rand()%32, rand()%32};
-        [m setIndividual:ind];
-        [m calcParameter];
-        [m setExp:0];
-        [m setAbility:i%22]; //[m setAbility:rand()%22];
-        [self addMeishi:m];
-    }
-    NSLog(@"num_of_meishi %d", num_of_meishi);
-    // パーティの数は5としておく
-    partynum = 1;
-    // プレイヤーネームヨシキ
-    name = @"ヨシキ";
-}
-
 - (void)addMeishi:(Meishi *)m{
     [meishis addObject:m];
-    num_of_meishi++;
     // 名刺が一杯の場合を考慮しなければならない
 }
 
@@ -110,12 +175,12 @@
 }
 
 - (int)getNumOfMeishi{
-    return num_of_meishi;
+    return [meishis count];
 }
 
 // 個々の名刺のリフレッシュオブジェクトを呼ぶ
 - (void)reflesh{
-    for(int i = 0; i < num_of_meishi; i++){
+    for(int i = 0; i < [meishis count]; i++){
         [[meishis objectAtIndex:i] reflesh];
     }
 }
@@ -129,7 +194,7 @@
 
 // 名刺がいっぱいかどうか確認
 - (Boolean)isMeishiFull{
-    return num_of_meishi >= maxmeishi;
+    return [meishis count] >= maxmeishi;
 }
 
 // パーティの数変更

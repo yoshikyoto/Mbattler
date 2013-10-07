@@ -26,6 +26,14 @@
 		920360E217B6799200EDB590 /* MBItemView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 920360E117B6799100EDB590 /* MBItemView.mm */; };
 		92049A83175B459400558171 /* MBCharacter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92049A82175B459400558171 /* MBCharacter.mm */; };
 		92049A86175B7AB000558171 /* MBViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92049A85175B7AB000558171 /* MBViewController.mm */; };
+		9207017118024958000ACA58 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9207017018024958000ACA58 /* libsqlite3.0.dylib */; };
+		9207017F1802522F000ACA58 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 920701751802522F000ACA58 /* FMDatabase.m */; };
+		920701801802522F000ACA58 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 920701771802522F000ACA58 /* FMDatabaseAdditions.m */; };
+		920701811802522F000ACA58 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 920701791802522F000ACA58 /* FMDatabasePool.m */; };
+		920701821802522F000ACA58 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9207017B1802522F000ACA58 /* FMDatabaseQueue.m */; };
+		920701841802522F000ACA58 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 9207017E1802522F000ACA58 /* FMResultSet.m */; };
+		9207018718026C99000ACA58 /* MBDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9207018618026C99000ACA58 /* MBDatabase.m */; };
+		92070188180283AB000ACA58 /* MBDatabase.db in Resources */ = {isa = PBXBuildFile; fileRef = 9207017218024B93000ACA58 /* MBDatabase.db */; };
 		9210A46317CE7C9300BD2FB3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9210A46217CE7C9300BD2FB3 /* StoreKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		922450691751DB5D0042CC5D /* Dungeon.mm in Sources */ = {isa = PBXBuildFile; fileRef = 922450681751DB5D0042CC5D /* Dungeon.mm */; };
 		9225338216EAF73800495F98 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338116EAF73800495F98 /* UIKit.framework */; };
@@ -207,6 +215,20 @@
 		92049A82175B459400558171 /* MBCharacter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MBCharacter.mm; sourceTree = "<group>"; };
 		92049A84175B7AB000558171 /* MBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBViewController.h; sourceTree = "<group>"; };
 		92049A85175B7AB000558171 /* MBViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MBViewController.mm; sourceTree = "<group>"; };
+		9207017018024958000ACA58 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		9207017218024B93000ACA58 /* MBDatabase.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = MBDatabase.db; sourceTree = "<group>"; };
+		920701741802522F000ACA58 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		920701751802522F000ACA58 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		920701761802522F000ACA58 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		920701771802522F000ACA58 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		920701781802522F000ACA58 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		920701791802522F000ACA58 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		9207017A1802522F000ACA58 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		9207017B1802522F000ACA58 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		9207017D1802522F000ACA58 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		9207017E1802522F000ACA58 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		9207018518026C99000ACA58 /* MBDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBDatabase.h; path = database/MBDatabase.h; sourceTree = "<group>"; };
+		9207018618026C99000ACA58 /* MBDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBDatabase.m; path = database/MBDatabase.m; sourceTree = "<group>"; };
 		920C741A17102A94006E519B /* DungeonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DungeonViewController.h; sourceTree = "<group>"; };
 		9210A46217CE7C9300BD2FB3 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		922450671751DB5D0042CC5D /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
@@ -440,6 +462,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9207017118024958000ACA58 /* libsqlite3.0.dylib in Frameworks */,
 				9210A46317CE7C9300BD2FB3 /* StoreKit.framework in Frameworks */,
 				9298596417C25D7500DD9942 /* QuartzCore.framework in Frameworks */,
 				92641B9717BA5A91001AC271 /* libc++.dylib in Frameworks */,
@@ -525,10 +548,27 @@
 			path = icon;
 			sourceTree = "<group>";
 		};
+		920701731802522F000ACA58 /* FMDatabase */ = {
+			isa = PBXGroup;
+			children = (
+				920701741802522F000ACA58 /* FMDatabase.h */,
+				920701751802522F000ACA58 /* FMDatabase.m */,
+				920701761802522F000ACA58 /* FMDatabaseAdditions.h */,
+				920701771802522F000ACA58 /* FMDatabaseAdditions.m */,
+				920701781802522F000ACA58 /* FMDatabasePool.h */,
+				920701791802522F000ACA58 /* FMDatabasePool.m */,
+				9207017A1802522F000ACA58 /* FMDatabaseQueue.h */,
+				9207017B1802522F000ACA58 /* FMDatabaseQueue.m */,
+				9207017D1802522F000ACA58 /* FMResultSet.h */,
+				9207017E1802522F000ACA58 /* FMResultSet.m */,
+			);
+			name = FMDatabase;
+			path = database;
+			sourceTree = "<group>";
+		};
 		9225337516EAF73800495F98 = {
 			isa = PBXGroup;
 			children = (
-				92641B9617BA5A90001AC271 /* libc++.dylib */,
 				9225338716EAF73800495F98 /* Mbattler */,
 				9225338016EAF73800495F98 /* Frameworks */,
 				9225337F16EAF73800495F98 /* Products */,
@@ -546,6 +586,8 @@
 		9225338016EAF73800495F98 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9207017018024958000ACA58 /* libsqlite3.0.dylib */,
+				92641B9617BA5A90001AC271 /* libc++.dylib */,
 				9210A46217CE7C9300BD2FB3 /* StoreKit.framework */,
 				9298596317C25D7500DD9942 /* QuartzCore.framework */,
 				92641B9417B9EB21001AC271 /* opencv2.framework */,
@@ -585,6 +627,7 @@
 		9225338816EAF73800495F98 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9207017218024B93000ACA58 /* MBDatabase.db */,
 				927DCBD1173C2956002F5AA0 /* img */,
 				9225338916EAF73800495F98 /* Mbattler-Info.plist */,
 				9225338A16EAF73800495F98 /* InfoPlist.strings */,
@@ -866,6 +909,9 @@
 		92D6F0B617E48C0D00D187E2 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				9207018518026C99000ACA58 /* MBDatabase.h */,
+				9207018618026C99000ACA58 /* MBDatabase.m */,
+				920701731802522F000ACA58 /* FMDatabase */,
 				92D6F0F217E4C2C200D187E2 /* DMScrollingTicker.h */,
 				92D6F0F317E4C2C200D187E2 /* DMScrollingTicker.m */,
 				920360AD17B5C9C400EDB590 /* MBAnimationView.h */,
@@ -975,6 +1021,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92070188180283AB000ACA58 /* MBDatabase.db in Resources */,
 				9225338C16EAF73800495F98 /* InfoPlist.strings in Resources */,
 				9225339416EAF73800495F98 /* Default.png in Resources */,
 				9225339616EAF73800495F98 /* Default@2x.png in Resources */,
@@ -1107,6 +1154,7 @@
 				92EA2507173EBCA10012AE3A /* BackButton.mm in Sources */,
 				92F14BA617481FCA00EB31E9 /* Enemy.mm in Sources */,
 				922450691751DB5D0042CC5D /* Dungeon.mm in Sources */,
+				9207017F1802522F000ACA58 /* FMDatabase.m in Sources */,
 				92049A83175B459400558171 /* MBCharacter.mm in Sources */,
 				92F2816917EED7D700B84693 /* DamageValueLabel.m in Sources */,
 				92049A86175B7AB000558171 /* MBViewController.mm in Sources */,
@@ -1114,10 +1162,13 @@
 				929A00A01792C83400E8CDFC /* PartyChangeView.mm in Sources */,
 				920360AF17B5C9C400EDB590 /* MBAnimationView.m in Sources */,
 				920360D617B635C800EDB590 /* MBScrollView.mm in Sources */,
+				920701821802522F000ACA58 /* FMDatabaseQueue.m in Sources */,
 				92C68F0D1800067000113B7F /* MBConbatantView.m in Sources */,
 				920360D917B636F000EDB590 /* MBPartyView.mm in Sources */,
 				920360DC17B63AAC00EDB590 /* MBCharacterView.mm in Sources */,
 				920360DF17B66C3200EDB590 /* MBStatusView.mm in Sources */,
+				920701801802522F000ACA58 /* FMDatabaseAdditions.m in Sources */,
+				920701841802522F000ACA58 /* FMResultSet.m in Sources */,
 				920360E217B6799200EDB590 /* MBItemView.mm in Sources */,
 				92D4405617B7911A00FEB2A5 /* DungeonViewController.mm in Sources */,
 				92E1A3FD17B7FA1400290216 /* MBSummonView.mm in Sources */,
@@ -1127,7 +1178,9 @@
 				92641B9A17BA5E40001AC271 /* FilterBase.mm in Sources */,
 				92641B9D17BA7046001AC271 /* MonochromeFilter.mm in Sources */,
 				92641BA017BB24E9001AC271 /* MBTesseract.mm in Sources */,
+				9207018718026C99000ACA58 /* MBDatabase.m in Sources */,
 				9298595817C24E5000DD9942 /* OcrViewController.mm in Sources */,
+				920701811802522F000ACA58 /* FMDatabasePool.m in Sources */,
 				9298596217C25CD600DD9942 /* SVProgressHUD.m in Sources */,
 				92D6F0D917E4AF9000D187E2 /* MBStartView.m in Sources */,
 			);

@@ -22,7 +22,7 @@
 #import "MonochromeFilter.h"
 #import "OcrViewController.h"
 #import "SVProgressHUD.h"
-
+#import "FMDatabase.h"
 
 @interface MBViewController ()
 
@@ -59,8 +59,81 @@
     [self view].backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
     // AppDelegate 初期化(グローバル変数的な使い方)
     ad = [[UIApplication sharedApplication] delegate];
-    //player = ad.player;
-    player = [[Player alloc] init];
+    
+    // プレイヤーオブジェクトの初期化
+    // セーブデータがあるかどうかで分岐させる
+    /*
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    if([ud stringForKey:@"PLAYER_NAME"]){
+        NSLog(@"%s セーブデータをロードします", __func__);
+        player = [[Player alloc] initWithLoad];
+    }else{
+        NSLog(@"%s 初回起動", __func__);
+        player = [[Player alloc] init];
+    }
+     */
+    // これはデバッグ用
+    player = [[Player alloc] initWithTestdata];
+    // player = [[Player alloc] init];
+    // データベースアクセス用オブジェクトの初期化
+    mbdb = [[MBDatabase alloc] init];
+    [player save];
+    //[mbdb saveMeishi:0 :[player getMeishi:0]];
+    
+    /*
+    // ファイルマネージャー初期化
+    NSFileManager *file_manager = [NSFileManager defaultManager];
+    
+    // データベースファイルを格納する文書フォルダーのパスを取得
+    NSString *workDir_path = [NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    // その作業ディレクトリが存在しているかどうかの確認
+    if(![file_manager fileExistsAtPath:workDir_path]){
+        NSLog(@"作業ディレクトリが存在していません %@", workDir_path);
+        [file_manager createDirectoryAtPath:workDir_path withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    // データベースのファイル名
+    NSString *database_filename = @"MBDatabase.db";
+    NSLog(@"workDir_path %@", workDir_path);
+    // データベースファイルのパスを取得する
+    NSString *database_path = [NSString stringWithFormat:@"%@/%@", workDir_path, database_filename];
+    // パスにデータベースが存在しているかを確認
+    if(![file_manager fileExistsAtPath:database_path]){
+        // 存在していなければ新規作成
+        NSLog(@"データベースがありません");
+        FMDatabase *db = [FMDatabase databaseWithPath:database_path];
+        NSString *create_meishi = @"CREATE TABLE meishi (meishiId INTEGER NOT NULL PRIMARY KEY, name TEXT, lv INTEGER, imageNum INTEGER, job INTEGER, abilityId INTEGER, H INTEGER, A INTEGER, B INTEGER, C INTEGER, D INTEGER, S INTEGER, sex INTEGER, history TEXT, company TEXT, mail1 TEXT, mail2 TEXT, zip1 INTEGER, zip2 INTEGER, exp INTEGER);";
+        [db open];
+        [db executeQuery:create_meishi];
+        [db close];
+    }
+    // NSUserDefaults を見てみる
+    /*
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud objectForKey:@"PLAYER"];
+    if(player){
+        NSLog(@"%s load user default", __func__);
+    }else{
+        NSLog(@"%s nil user, default make default player", __func__);
+        player = [[Player alloc] init];
+        // データベースのファイル名
+        NSString *database_filename = @"MBDatabase.sqlite";
+        // データベースファイルを格納する文書フォルダーのパスを取得
+        NSString *workDir_path = [NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        // データベースファイルのパスを取得する
+        NSString *database_path = [NSString stringWithFormat:@"%@/%@", workDir_path, database_filename];
+        // パスにデータベースが存在しているかを確認
+        NSFileManager *file_manager = [NSFileManager defaultManager];
+        if(![file_manager fileExistsAtPath:database_path]){
+            NSLog(@"データベースファイルがまだありません");
+            // データベースファイルが無い場合、テンプレートからデータベースをコピーします。
+            NSString *template_database_path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:database_filename];
+            if(![file_manager copyItemAtPath:template_database_path toPath:database_path error:nil]){
+                NSLog(@"データベーステンプレートのコピーに失敗しました");
+            }
+        }
+    }
+     */
     
     // ステータス部分の背景
     UIImageView *navImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav.png"]];
