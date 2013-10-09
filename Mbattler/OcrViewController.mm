@@ -29,7 +29,7 @@
 }
 
 
-- (id)initWithPlayerAndImg:(Player *)p OCRImage:(UIImage *)_img{
+- (id)initWithPlayer:(Player *)p OCRImage:(UIImage *)_img{
     self = [super init];
     if(self){
         player = p;
@@ -126,21 +126,88 @@
 }
 
 - (void)ocr{
-    NSLog(@"OCR Language: eng, by monotone image");
+    // 英語OCR
+    NSLog(@"%s OCR Language: eng, by monotone image", __func__);
     Tesseract *tesseract_en = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"];
     [tesseract_en setImage:mono_img];
     //[tesseract_en setVariableValue:@"〒" forKey:@"user_words_suffix"];
     //[tesseract_en setVariableValue:@"0123456789〒-" forKey:@"tessedit_char_whitelist"]; // ホワイトリスト
     //[tesseract_en setVariableValue:@":(){},'+%?!~&<*|/\\$" forKey:@"tessedit_char_blacklist"]; //　ブラックリスト
-    // どうも o を 0 に誤認識してしまうので、小文字 a-z 以外の文字にはペナルティを課す
-    [tesseract_en setVariableValue:@"abcdefghijklmnopqrstuvwxyz0123456789-" forKey:@"freq_dawg"];
+    // 指定した文字以外にはペナルティを課す
+    [tesseract_en setVariableValue:@"abcdefghijklmnopqrstuvwxyz0123456789-:" forKey:@"freq_dawg"];
     [tesseract_en setVariableValue:@"0.8" forKey:@"language_model_penalty_non_freq_dict_word"];
     [tesseract_en recognize];
     // スペースを除去
     NSString *mono_eng = [[tesseract_en recognizedText] stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSLog(@"%@", mono_eng);
     
-    NSLog(@"OCR Language:jpn Color:monotone");
+    // 郵便番号抽出してみる
+    NSRange zip_range = [mono_eng rangeOfString:@"\\d\\d\\d-\\d\\d\\d\\d" options:NSRegularExpressionSearch];
+    if (zip_range.location != NSNotFound) {
+        // 見つかった場合
+        NSString *zip_string = [mono_eng substringWithRange:zip_range];
+        NSLog(@"%s, 見つかりました %@", __func__, zip_string);
+        
+        zipField.text = zip_string;
+    }
+    
+    // 電話番号抽出
+    NSRange tel_range = [mono_eng rangeOfString:@"\\d+-\\d+-\\d+" options:NSRegularExpressionSearch];
+    if (tel_range.location != NSNotFound) {
+        // 見つかった場合
+        NSString *tel_string = [mono_eng substringWithRange:tel_range];
+        NSLog(@"%s, 見つかりました %@", __func__, tel_string);
+        // API叩く
+        // URLからリクエストを生成
+        // http://104.com/knj_%F1%D1%F1%CC/svp_/nm_06-6202-3376
+        // http://www.jpnumber.com/searchnumber.do?number=
+        NSString *url_string = [NSString stringWithFormat:@"http://www.jpnumber.com/searchnumber.do?number=%@", tel_string];
+        NSLog(@"%s url %@", __func__, url_string);
+        //NSString *url_encoded = [url_string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        //NSLog(@"%s url %@", __func__, url_encoded);
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url_string]];
+        
+        //NSString *useragent = @"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:23.0) Gecko/20100101 Firefox/23.0";
+        //[request setValue:useragent forHTTPHeaderField:@"User-Agent"];
+        
+        //結果をNSDataで受け取る
+        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse: nil error: nil];
+        //NSStringに変換
+        NSString *http_result_string = [[NSString alloc] initWithBytes: [data bytes] length:[data length] encoding: NSUTF8StringEncoding];
+        NSLog(@"%@", http_result_string);
+        
+        // 会社名を抽出する<dt>事業者名:<strong><
+        // <dt>事業者名：<strong><a href="numberinfo_06_6202_3376.html" class="result">東邦金属株式会社</a></strong></dt>
+        NSString *com_regex_string = @"<dt>事業者名：<strong><a href=\"numberinfo.+?\" class=\"result\">(.+?)</a></strong></dt>";
+        NSLog(@"com_regex %@", com_regex_string);
+        NSRegularExpression *com_regex = [NSRegularExpression regularExpressionWithPattern:com_regex_string options:0 error:nil];
+        NSTextCheckingResult *com_match = [com_regex firstMatchInString:http_result_string options:0 range:NSMakeRange(0, http_result_string.length)];
+        
+        if(com_match.numberOfRanges) {
+            NSString *com_string = [http_result_string substringWithRange:[com_match rangeAtIndex:1]];
+            NSLog(@"マッチングしました %@", com_string);        // マッチ全体
+            companyField.text = com_string;
+        }
+        /*
+        NSRange com_range = [http_result_string rangeOfString:com_regex options:NSRegularExpressionSearch];
+        if (com_range.location != NSNotFound) {
+            NSString *com_string = [http_result_string substringWithRange:com_range];
+            NSLog(@"RegularExpression みつかりました %@", com_string);
+        }
+         */
+    }
+    
+    // メールアドレス /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+    NSRange mail_range = [mono_eng rangeOfString:@"[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*" options:NSRegularExpressionSearch];
+    if (mail_range.location != NSNotFound) {
+        // 見つかった場合
+        NSString *mail_string = [mono_eng substringWithRange:mail_range];
+        NSLog(@"%s, 見つかりました %@", __func__, mail_string);
+        mailField.text = mail_string;
+    }
+    
+    // 日本語OCR
+    NSLog(@"%s OCR Language:jpn Color:monotone", __func__);
     Tesseract *tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"jpn"];
     // 画像をセット
     [tesseract setImage:mono_img];
@@ -160,6 +227,10 @@
     mono_jpn = [mono_jpn stringByReplacingOccurrencesOfString:@"　" withString:@""];
     NSLog(@"%@", mono_jpn);
     //NSLog(@"%@", [tesseract recognizedText]);
+}
+
+- (void)getCompanyFromTel:(NSString *)tel_string{
+    
 }
 
 - (void)viewTextFields{

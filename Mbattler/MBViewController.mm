@@ -78,62 +78,6 @@
     // データベースアクセス用オブジェクトの初期化
     mbdb = [[MBDatabase alloc] init];
     [player save];
-    //[mbdb saveMeishi:0 :[player getMeishi:0]];
-    
-    /*
-    // ファイルマネージャー初期化
-    NSFileManager *file_manager = [NSFileManager defaultManager];
-    
-    // データベースファイルを格納する文書フォルダーのパスを取得
-    NSString *workDir_path = [NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    // その作業ディレクトリが存在しているかどうかの確認
-    if(![file_manager fileExistsAtPath:workDir_path]){
-        NSLog(@"作業ディレクトリが存在していません %@", workDir_path);
-        [file_manager createDirectoryAtPath:workDir_path withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    
-    // データベースのファイル名
-    NSString *database_filename = @"MBDatabase.db";
-    NSLog(@"workDir_path %@", workDir_path);
-    // データベースファイルのパスを取得する
-    NSString *database_path = [NSString stringWithFormat:@"%@/%@", workDir_path, database_filename];
-    // パスにデータベースが存在しているかを確認
-    if(![file_manager fileExistsAtPath:database_path]){
-        // 存在していなければ新規作成
-        NSLog(@"データベースがありません");
-        FMDatabase *db = [FMDatabase databaseWithPath:database_path];
-        NSString *create_meishi = @"CREATE TABLE meishi (meishiId INTEGER NOT NULL PRIMARY KEY, name TEXT, lv INTEGER, imageNum INTEGER, job INTEGER, abilityId INTEGER, H INTEGER, A INTEGER, B INTEGER, C INTEGER, D INTEGER, S INTEGER, sex INTEGER, history TEXT, company TEXT, mail1 TEXT, mail2 TEXT, zip1 INTEGER, zip2 INTEGER, exp INTEGER);";
-        [db open];
-        [db executeQuery:create_meishi];
-        [db close];
-    }
-    // NSUserDefaults を見てみる
-    /*
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    [ud objectForKey:@"PLAYER"];
-    if(player){
-        NSLog(@"%s load user default", __func__);
-    }else{
-        NSLog(@"%s nil user, default make default player", __func__);
-        player = [[Player alloc] init];
-        // データベースのファイル名
-        NSString *database_filename = @"MBDatabase.sqlite";
-        // データベースファイルを格納する文書フォルダーのパスを取得
-        NSString *workDir_path = [NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        // データベースファイルのパスを取得する
-        NSString *database_path = [NSString stringWithFormat:@"%@/%@", workDir_path, database_filename];
-        // パスにデータベースが存在しているかを確認
-        NSFileManager *file_manager = [NSFileManager defaultManager];
-        if(![file_manager fileExistsAtPath:database_path]){
-            NSLog(@"データベースファイルがまだありません");
-            // データベースファイルが無い場合、テンプレートからデータベースをコピーします。
-            NSString *template_database_path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:database_filename];
-            if(![file_manager copyItemAtPath:template_database_path toPath:database_path error:nil]){
-                NSLog(@"データベーステンプレートのコピーに失敗しました");
-            }
-        }
-    }
-     */
     
     // ステータス部分の背景
     UIImageView *navImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav.png"]];
@@ -369,14 +313,13 @@
     [summonView addSubview:camera_button];
     
     // デバッグ用
-    UIButton *rand_button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *rand_button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     rand_button.frame = CGRectMake(30, 140, 260, 40);
     [rand_button setTitle:@"ランダム名刺召喚" forState:UIControlStateNormal];
-    [rand_button setImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
     [rand_button addTarget:self action:@selector(randMeishi:)forControlEvents:UIControlEventTouchUpInside];
     [summonView addSubview:rand_button];
     
-    // OCRテスト（デバッグ用）
+    // OCRテスト（デバッグ用）ボタン
     UIButton *test_button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     test_button.frame = CGRectMake(30, 200, 260, 40);
     [test_button setTitle:@"OCRテスト" forState:UIControlStateNormal];
@@ -387,20 +330,19 @@
     test_label.numberOfLines = 2;
     test_label.text = @"少し処理に時間がかかります。連打しないでください。";
     [summonView addSubview:test_label];
-    
-    // 名刺作成テスト
-    //Meishi *test_meishi = [[Meishi alloc] initWithInformation:@"坂本祥之" CompanyName:@"秋乃株式会社" Mail1:@"sakamoto" Mail2:@"db.soc.i.kyoto-u.ac.jp" Zip1:606 Zip2:8267 Sex:rand()%2];
 }
 
 // OCRテスト（デバッグ用）
 - (void)ocrTest:(id)sender{
     UIImage *img = [UIImage imageNamed:@"IMG_2810.JPG"];
-    UIImageView *view = [[UIImageView alloc] initWithImage:img];
-    view.frame = CGRectMake(0, 0, 320, 240);
-    //[[self view] addSubview:view];    // イメージを表示する部分
     
-    NSLog(@"launch OCR");
-    OcrViewController *ocr_vc = [[OcrViewController alloc] initWithPlayerAndImg:player OCRImage:img];
+    // ぐるぐる表示
+    [SVProgressHUD show];
+    
+    OcrViewController *ocr_vc = [[OcrViewController alloc] initWithPlayer:player OCRImage:img];
+    
+    // ぐるぐる終わり
+    [SVProgressHUD dismiss];
     [self presentViewController:ocr_vc animated:NO completion:nil];
 }
 
@@ -436,145 +378,20 @@
     // picker から画像を取得する。
     UIImage *camera_img = [info objectForKey:UIImagePickerControllerOriginalImage];
     
-    // 元の画面に画像をUIImageViewとして追加する
-    //UIImageView *iv = [[UIImageView alloc] initWithImage:fromCamera];
-    //[self.view addSubview:iv];
-    
     // picker を閉じる
     NSLog(@"close Picker");
     //[picker dismissModalViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:NO completion:nil];
 
-    
     // ぐるぐる表示
-    //[SVProgressHUD show];
+    [SVProgressHUD show];
     
     // OCRにかける
     NSLog(@"launch OCR");
-    OcrViewController *ocr_vc = [[OcrViewController alloc] initWithPlayerAndImg:player OCRImage:camera_img];
+    OcrViewController *ocr_vc = [[OcrViewController alloc] initWithPlayer:player OCRImage:camera_img];
     [self presentViewController:ocr_vc animated:NO completion:nil];
-    //[SVProgressHUD dismiss];
+    [SVProgressHUD dismiss];
 }
-
-- (Meishi *)ocr:(UIImage *)img{
-    // openCVを試す
-    // 対象画像からImageRefを作成
-    NSLog(@"ImageRef 作成");
-    CGImageRef image_ref = img.CGImage;
-    
-    // 長編を640に合わせてリサイズ
-    // 縮小割合を求める
-    size_t image_w = CGImageGetWidth(image_ref);
-    size_t image_h = CGImageGetHeight(image_ref);
-    double mult;
-    NSLog(@"OCR image size %ld * %ld", image_w, image_h);
-    if(image_w > image_h){
-        mult = 320.0 / image_w;
-    }else{
-        mult = 320.0 / image_h;
-    }
-    image_w = image_w * mult;
-    image_h = image_h * mult;
-    NSLog(@"mult: %f, w: %ld, h: %ld", mult, image_w, image_h);
-    
-    UIGraphicsBeginImageContext(CGSizeMake(image_w, image_h));
-    [img drawInRect:CGRectMake(0, 0, image_w, image_h)];
-    img = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    UIImageView *view = [[UIImageView alloc] initWithImage:img];
-    [[self view] addSubview:view];
-
-    
-    // MonochromeFilter を使う
-    // まずはグレースケールに
-    MonochromeFilter *mf = [[MonochromeFilter alloc] init];
-    CGImageRef gray_ref = [mf doGrayScaleFilter:image_ref];
-    // UIImageに
-    UIImage *gray_img = [UIImage imageWithCGImage:gray_ref];
-    // 表示してみる
-    /* NSLog(@"表示");
-     UIImageView *gray_view = [[UIImageView alloc] initWithImage:gray_img];
-     gray_view.frame = CGRectMake(0, 100, 320, 240);
-     [[self view] addSubview:gray_view];
-     */
-    
-    // カラー画像→2値画像に
-    CGImageRef monotone_ref = [mf do2ValueFilter:image_ref];
-    UIImage *monotone_img = [UIImage imageWithCGImage:monotone_ref]; // UIImage に変換
-    // UIImageView *view1 = [[UIImageView alloc] initWithImage:monotone_img];
-    // view1.frame = CGRectMake(0, -50, 320, 240);
-    // [[self view] addSubview:view1];
-    // モノクロ画像→2値画像に
-    /*
-     CGImageRef monotone_ref2 = [mf do2ValueFilter:gray_ref];
-     UIImage *monotone_img2 = [UIImage imageWithCGImage:monotone_ref2];
-     UIImageView *view2 = [[UIImageView alloc] initWithImage:monotone_img2];
-     view2.frame = CGRectMake(0, 190, 320, 240);
-     [[self view] addSubview:view2];
-     */
-    
-    // ここからOCR
-    
-    // 英語用OCR
-    // フルカラー画像
-    NSLog(@"OCR Language:eng Color:fullcolor");
-    Tesseract *tesseract_en = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"];
-    [tesseract_en setImage:gray_img];
-    //[tesseract_en setVariableValue:@"0123456789〒-" forKey:@"tessedit_char_whitelist"]; // ホワイトリスト
-    // どうも o を 0 に誤認識してしまうので、小文字 a-z 以外の文字にはペナルティを課す
-    [tesseract_en setVariableValue:@"abcdefghijklmnopqrstuvwxyz" forKey:@"freq_dawg"];
-    [tesseract_en setVariableValue:@"0.2" forKey:@"language_model_penalty_non_freq_dict_word"];
-    [tesseract_en recognize];
-    NSLog(@"%@", [tesseract_en recognizedText]);
-    
-    // 2値画像
-    NSLog(@"OCR Language:eng Color:monotone");
-    tesseract_en = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"];
-    [tesseract_en setImage:monotone_img];
-    //[tesseract_en setVariableValue:@"〒" forKey:@"user_words_suffix"];
-    //[tesseract_en setVariableValue:@"0123456789〒-" forKey:@"tessedit_char_whitelist"]; // ホワイトリスト
-    // どうも o を 0 に誤認識してしまうので、小文字 a-z 以外の文字にはペナルティを課す
-    [tesseract_en setVariableValue:@"abcdefghijklmnopqrstuvwxyz" forKey:@"freq_dawg"];
-    [tesseract_en setVariableValue:@"0.3" forKey:@"language_model_penalty_non_freq_dict_word"];
-    [tesseract_en recognize];
-    NSLog(@"%@", [tesseract_en recognizedText]);
-    
-    
-    // 日本語用のOCR初期化
-    // フルカラー画像
-    NSLog(@"OCR Language:jpn Color:fullcolor");
-    Tesseract *tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"jpn"];
-    // 画像をセット
-    [tesseract setImage:gray_img];
-    // 日本語の認識率を上げる魔法の呪文 by http://code.google.com/p/tesseract-ocr/wiki/ControlParams こ↑こ↓
-    [tesseract setVariableValue:@"T" forKey:@"chop_enable"];
-    [tesseract setVariableValue:@"F" forKey:@"use_new_state_cost"];
-    [tesseract setVariableValue:@"F" forKey:@"segment_segcost_rating"];
-    [tesseract setVariableValue:@"0" forKey:@"enable_new_segsearch"];
-    [tesseract setVariableValue:@"0" forKey:@"language_model_ngram_on"];
-    [tesseract setVariableValue:@"F" forKey:@"textord_force_make_prop_words"];
-    [tesseract recognize];  // OCR実行
-    NSLog(@"%@", [tesseract recognizedText]);
-    
-    // 二値化
-    NSLog(@"OCR Language:jpn Color:monotone");
-    tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"jpn"];
-    // 画像をセット
-    [tesseract setImage:monotone_img];
-    // 日本語の認識率を上げる魔法の呪文 by http://code.google.com/p/tesseract-ocr/wiki/ControlParams こ↑こ↓
-    [tesseract setVariableValue:@"T" forKey:@"chop_enable"];
-    [tesseract setVariableValue:@"F" forKey:@"use_new_state_cost"];
-    [tesseract setVariableValue:@"F" forKey:@"segment_segcost_rating"];
-    [tesseract setVariableValue:@"0" forKey:@"enable_new_segsearch"];
-    [tesseract setVariableValue:@"0" forKey:@"language_model_ngram_on"];
-    [tesseract setVariableValue:@"F" forKey:@"textord_force_make_prop_words"];
-    [tesseract recognize];  // OCR実行
-    NSLog(@"%@", [tesseract recognizedText]);
-    
-    return nil;
-}
-
 
 // 名刺召喚のエフェクト等表示
 - (void)summonMeishi:(Meishi *)meishi{

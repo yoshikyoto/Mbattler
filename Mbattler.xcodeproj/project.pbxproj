@@ -94,7 +94,6 @@
 		92641B9717BA5A91001AC271 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92641B9617BA5A90001AC271 /* libc++.dylib */; };
 		92641B9A17BA5E40001AC271 /* FilterBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92641B9917BA5E3E001AC271 /* FilterBase.mm */; };
 		92641B9D17BA7046001AC271 /* MonochromeFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92641B9C17BA7044001AC271 /* MonochromeFilter.mm */; };
-		92641BA017BB24E9001AC271 /* MBTesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92641B9F17BB24E6001AC271 /* MBTesseract.mm */; };
 		92641BA217BB2F3F001AC271 /* tessdata_en in Resources */ = {isa = PBXBuildFile; fileRef = 92641BA117BB2F36001AC271 /* tessdata_en */; };
 		926CFD6317ED6A3B00655779 /* phoe.png in Resources */ = {isa = PBXBuildFile; fileRef = 926CFD6217ED6A3B00655779 /* phoe.png */; };
 		926CFD6517ED6E4000655779 /* recover.png in Resources */ = {isa = PBXBuildFile; fileRef = 926CFD6417ED6E4000655779 /* recover.png */; };
@@ -346,8 +345,6 @@
 		92641B9917BA5E3E001AC271 /* FilterBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterBase.mm; sourceTree = "<group>"; };
 		92641B9B17BA7043001AC271 /* MonochromeFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonochromeFilter.h; sourceTree = "<group>"; };
 		92641B9C17BA7044001AC271 /* MonochromeFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MonochromeFilter.mm; sourceTree = "<group>"; };
-		92641B9E17BB24E1001AC271 /* MBTesseract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBTesseract.h; sourceTree = "<group>"; };
-		92641B9F17BB24E6001AC271 /* MBTesseract.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MBTesseract.mm; sourceTree = "<group>"; };
 		92641BA117BB2F36001AC271 /* tessdata_en */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata_en; sourceTree = "<group>"; };
 		926CFD6217ED6A3B00655779 /* phoe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phoe.png; sourceTree = "<group>"; };
 		926CFD6417ED6E4000655779 /* recover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recover.png; sourceTree = "<group>"; };
@@ -918,8 +915,6 @@
 				920360AE17B5C9C400EDB590 /* MBAnimationView.m */,
 				92EA2505173EBCA10012AE3A /* BackButton.h */,
 				92EA2506173EBCA10012AE3A /* BackButton.mm */,
-				92641B9E17BB24E1001AC271 /* MBTesseract.h */,
-				92641B9F17BB24E6001AC271 /* MBTesseract.mm */,
 				92641B9817BA5E3D001AC271 /* FilterBase.h */,
 				92641B9917BA5E3E001AC271 /* FilterBase.mm */,
 				92641B9B17BA7043001AC271 /* MonochromeFilter.h */,
@@ -1177,7 +1172,6 @@
 				92641B3517B8FB79001AC271 /* Tesseract.mm in Sources */,
 				92641B9A17BA5E40001AC271 /* FilterBase.mm in Sources */,
 				92641B9D17BA7046001AC271 /* MonochromeFilter.mm in Sources */,
-				92641BA017BB24E9001AC271 /* MBTesseract.mm in Sources */,
 				9207018718026C99000ACA58 /* MBDatabase.m in Sources */,
 				9298595817C24E5000DD9942 /* OcrViewController.mm in Sources */,
 				920701811802522F000ACA58 /* FMDatabasePool.m in Sources */,

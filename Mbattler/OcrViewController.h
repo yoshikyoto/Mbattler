@@ -34,6 +34,6 @@
     UITextField *activeField;
 }
 
-- (id)initWithPlayerAndImg:(Player *)p OCRImage:(UIImage *)_img;
+- (id)initWithPlayer:(Player *)p OCRImage:(UIImage *)_img;
 
 @end
