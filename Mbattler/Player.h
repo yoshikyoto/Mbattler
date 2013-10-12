@@ -59,6 +59,7 @@
 - (Boolean)isDead;
 - (void)makeTestdata; // デバッグ用のデータ作成
 - (void)addMeishi:(Meishi *)m; // 新名刺キャラクターを追加する
+- (void)removeMeishiAtIndex:(int)index;
 
 - (Boolean)iskMeishiFull;
 /* 名刺がいっぱいかどうか確認する関数。

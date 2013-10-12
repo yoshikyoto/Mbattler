@@ -51,6 +51,8 @@
      */
 }
 
+@property(readonly) NSDate *date;
+
 // 名刺に社名とかを入れて、キャラを生成するための関数
 - (id)initWithInformation:(NSString *)_name CompanyName:(NSString*)_company Mail1:(NSString *)_mail1 Mail2:(NSString *)_mail2 Zip1:(int)_zip1 Zip2:(int)_zip2 Sex:(int)_sex;
 
@@ -107,6 +109,13 @@
 - (void)reflesh;
 // 経験値を与える関数
 - (int)exp:(int)e;
+- (int)getUpLvInt;
+- (int)getUpHInt;
+- (int)getUpAInt;
+- (int)getUpBInt;
+- (int)getUpCInt;
+- (int)getUpDInt;
+- (int)getUpSInt;
 /*
  経験値をもらった際に、呼び出されるメソッド
  経験値を入力すると、レベルアップするかどうかを判定し、

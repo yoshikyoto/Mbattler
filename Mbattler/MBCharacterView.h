@@ -7,9 +7,12 @@
 //
 
 #import "MBScrollView.h"
+#import "MBStatusView.h"
 
 @interface MBCharacterView : MBScrollView{
-    
+    int tag;
+    MBStatusView *status_view;
+    UIScrollView *characters_scrollView;
 }
 
 @end

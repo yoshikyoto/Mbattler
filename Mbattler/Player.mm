@@ -51,7 +51,7 @@
             NSLog(@"%s %d", __func__, i);
             Meishi *m = [[Meishi alloc] init];
             [m setName:[NSString stringWithFormat:@"坂本%d", i]];
-            [m setLv:5];
+            [m setLv:15];
             //[m setImageNum:i%8];
             [m setSex:rand()%2];
             [m setJob: i%4];
@@ -151,6 +151,11 @@
 - (void)addMeishi:(Meishi *)m{
     [meishis addObject:m];
     // 名刺が一杯の場合を考慮しなければならない
+}
+
+
+- (void)removeMeishiAtIndex:(int)index{
+    [meishis removeObjectAtIndex:index];
 }
 
 // HPバー取得

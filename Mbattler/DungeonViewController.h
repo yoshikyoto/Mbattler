@@ -10,6 +10,7 @@
 #import "Player.h"
 #import "Dungeon.h"
 #import "MBConbatantView.h"
+#import "MBScrollView.h"
 
 
 @interface DungeonViewController : UIViewController{
@@ -46,6 +47,9 @@
     // アビリティキュー
     NSMutableArray *ability_meishi_queue;
     
+    
+    //以下結果画面用 ---------
+    MBScrollView *resultView;
 }
 
 - (id)initWithPlayer:(Player *)p;

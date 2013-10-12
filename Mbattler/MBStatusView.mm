@@ -11,12 +11,26 @@
 
 @implementation MBStatusView
 
-- (id)initWithMeishi:(Meishi *)meishi
+- (id) initWithMeishi:(Meishi *)m Player:(Player *)p{
+    // 解雇ボタン
+    _fire_button = [UIButton buttonWithType:UIButtonTypeCustom];
+    _fire_button.frame = CGRectMake(250, 10, 56, 30);
+    [_fire_button setBackgroundImage:[UIImage imageNamed:@"fire.png"] forState:UIControlStateNormal];
+    //[fire_button setTitleColor:[UIColor colorWithRed:0.9 green:0 blue:0 alpha:0] forState:UIControlStateNormal];
+    //[fire_button setTitle:@"解雇" forState:UIControlStateNormal];
+    self = [self initWithMeishi:m];
+    if(self){
+    }
+    return self;
+}
+
+- (id)initWithMeishi:(Meishi *)m
 {
     self = [super initWithPlayer:nil];
     if (self) {
         // Initialization code
         //self.backgroundColor = [UIColor yellowColor]; //とりあえず背景黄色に
+        meishi = m;
         
         // 画面の縦横を取得
         CGRect screen_rect = [UIScreen mainScreen].applicationFrame;
@@ -29,11 +43,24 @@
         [self addSubview:title];
         
         // 戻るボタン
-        backbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        backbutton.frame = CGRectMake(20, 5, 50, 32);
-        [backbutton setTitle:@"戻る" forState:UIControlStateNormal];
+        backbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+        backbutton.frame = CGRectMake(10, 10, 60, 30);
+        //[backbutton setTitleColor:[UIColor colorWithRed:0 green:0 blue:0.6 alpha:0] forState:UIControlStateNormal];
+        //[backbutton setTitle:@"戻る" forState:UIControlStateNormal];
+        [backbutton setBackgroundImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
         [backbutton addTarget:self action:@selector(close:)forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:backbutton];
+        
+        UILabel *space1 = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 1, 30)];
+        space1.backgroundColor = [UIColor whiteColor];
+        [self addSubview:space1];
+        
+        if(_fire_button){
+            [self addSubview:_fire_button];
+            UILabel *space2 = [[UILabel alloc] initWithFrame:CGRectMake(249, 10, 1, 30)];
+            space2.backgroundColor = [UIColor whiteColor];
+            [self addSubview:space2];
+        }
         
         // イメージ画像
         NSLog(@"イメージ画像");
@@ -143,7 +170,7 @@
         // 経歴
         UILabel *hislabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 245, 280, 100)];
         hislabel.numberOfLines = 6;
-        hislabel.font = [UIFont systemFontOfSize:14];
+        hislabel.font = [UIFont systemFontOfSize:12];
         hislabel.text = [meishi getHistory];
         [self addSubview:hislabel];
 

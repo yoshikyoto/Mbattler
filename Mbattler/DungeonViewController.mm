@@ -17,6 +17,7 @@
 #import "MBScrollView.h"
 #import "DamageValueLabel.h"
 #import "MBAbilityCutin.h"
+#import "UIOutlineLabel.h"
 
 @interface DungeonViewController ()
 
@@ -146,7 +147,7 @@
     messege_window.editable = NO;
     messege_window.font = [UIFont systemFontOfSize:16];
     messege_window.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
-    messege_window.text = @"タップで戦闘開始";
+    messege_window.text = @"タップで戦闘を開始します";
     [[self view] addSubview:messege_window];
     
     // ability queue の初期化
@@ -254,6 +255,7 @@
                         [[self view] addSubview:dl];
                         [dl startAnimation];
                         [self addMessege:[NSString stringWithFormat:@"HPを%d回復した！", recover]];
+                        break;
                     }
                     case 10: // 鳴き声
                     case 11: // しっぽをふる
@@ -755,20 +757,13 @@
     [[self view] removeGestureRecognizer:tgr];
     
     // 結果画面の初期化
-    MBScrollView *resultView = [[MBScrollView alloc] initWithPlayer:player];
+    resultView = [[MBScrollView alloc] initWithPlayer:player];
     CGRect screen_rect = [UIScreen mainScreen].applicationFrame;
     resultView.frame = CGRectMake(0, 40, screen_rect.size.width, screen_rect.size.height-40);
     UIImage *backgroundImage = [UIImage imageNamed:@"bg.png"];
     resultView.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
 
     [resultView setTitle:@"リザルト"];
-    
-    // 画面閉じるボタン設置
-    UIButton *backbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    backbutton.frame = CGRectMake(20, 5, 50, 32);
-    [backbutton setTitle:@"戻る" forState:UIControlStateNormal];
-    [backbutton addTarget:self action:@selector(close:)forControlEvents:UIControlEventTouchUpInside];
-    [resultView addSubview:backbutton];
     
     // 勝ったかどうかで分岐
     if(exp == 0){
@@ -779,6 +774,9 @@
         resultlabel.backgroundColor = [UIColor clearColor];
         resultlabel.textAlignment = NSTextAlignmentCenter;
         [resultView addSubview:resultlabel];
+        
+        // 画面閉じるボタン設置
+        [self viewBackButton];
     }else{
         // 勝った場合
         // 一人あたりの経験値を計算
@@ -792,6 +790,8 @@
         resultlabel.backgroundColor = [UIColor clearColor];
         [resultView addSubview:resultlabel];
         
+        BOOL lvup_flag = false;
+        
         for(int i = 0; i < [player getPartynum]; i++){
             Meishi *meishi = [player getMeishi:i];
             int uplv = [meishi exp:exp_per_m];
@@ -801,11 +801,14 @@
             view.frame = CGRectMake(40, 100+(50*i), 32, 48);
             [resultView addSubview:view];
             // 名前
-            UILabel *name = [[UILabel alloc] init];
-            name.text = [meishi getName];
-            name.frame = CGRectMake(80, 100+(50*i), 80, 24);
-            name.backgroundColor = [UIColor clearColor];
-            [resultView addSubview:name];
+            
+            UIOutlineLabel *name_label = [[UIOutlineLabel alloc] init];
+            [name_label setOutlineColor:[UIColor grayColor]];
+            [name_label setOutlineWidth:5.f];
+            name_label.text = [meishi getName];
+            name_label.frame = CGRectMake(80, 100+(50*i), 80, 24);
+            name_label.backgroundColor = [UIColor clearColor];
+            [resultView addSubview:name_label];
             // レベルアップしたかどうか
             if(uplv > 0){
                 UILabel *attention = [[UILabel alloc] init];
@@ -813,7 +816,16 @@
                 attention.frame = CGRectMake(80, 124+(50*i), 200, 24);
                 attention.backgroundColor = [UIColor clearColor];
                 [resultView addSubview:attention];
+                lvup_flag = true;
             }
+        }
+        // 画面をタップした時に次に行くように
+        if(lvup_flag){
+            tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewResult2:)];
+            [[self view] addGestureRecognizer:tgr];
+        }else{
+            // 画面閉じるボタン設置
+            [self viewBackButton];
         }
     }
     [[self view] addSubview:resultView];
@@ -821,6 +833,95 @@
     // タイトルとかを全面に持ってくる
     [[self view] bringSubviewToFront:navImage];
     [[self view] bringSubviewToFront:title];
+    
+
+}
+
+
+- (void)viewResult2:(UITapGestureRecognizer *)sender{
+    // タップイベントリスナーの除去
+    [[self view] removeGestureRecognizer:tgr];
+    [self viewBackButton];
+    
+    // 上にかぶせるビューの初期化
+    UIScrollView *result2_view = [[UIScrollView alloc] init];
+    result2_view.frame = CGRectMake(0, 100, 320, 260);
+    UIImage *backgroundImage = [UIImage imageNamed:@"bg.png"];
+    result2_view.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
+    
+    
+    for(int i = 0; i < [player getPartynum]; i++){
+        Meishi *meishi = [player getMeishi:i];
+        
+        // アイコン
+        UIImageView *view = [meishi getCenterImage];
+        view.frame = CGRectMake(40, 50*i, 32, 48);
+        [result2_view addSubview:view];
+        // 名前
+        
+        UIOutlineLabel *name_label = [[UIOutlineLabel alloc] init];
+        [name_label setOutlineColor:[UIColor whiteColor]];
+        [name_label setOutlineWidth:2];
+        name_label.text = [meishi getName];
+        name_label.frame = CGRectMake(20, 24+50*i, 80, 24);
+        name_label.font = [UIFont systemFontOfSize:12];
+        name_label.backgroundColor = [UIColor clearColor];
+        [result2_view addSubview:name_label];
+        
+        // レベルアップしたかどうか
+        NSLog(@"%d", [meishi getUpLvInt]);
+        if([meishi getUpLvInt] > 0){
+            UILabel *upH_label  = [[UILabel alloc] initWithFrame:CGRectMake(100, 2+50*i, 80, 16)];
+            upH_label.font = [UIFont systemFontOfSize:14];
+            upH_label.text = [NSString stringWithFormat:@"HP +%d", [meishi getUpHInt]];
+            upH_label.backgroundColor = [UIColor clearColor];
+            [result2_view addSubview:upH_label];
+            
+            
+            UILabel *upA_label  = [[UILabel alloc] initWithFrame:CGRectMake(100, 17+50*i, 80, 16)];
+            upA_label.font = [UIFont systemFontOfSize:14];
+            upA_label.text = [NSString stringWithFormat:@"攻撃 +%d", [meishi getUpAInt]];
+            upA_label.backgroundColor = [UIColor clearColor];
+            [result2_view addSubview:upA_label];
+            
+            
+            UILabel *upB_label  = [[UILabel alloc] initWithFrame:CGRectMake(100, 32+50*i, 80, 16)];
+            upB_label.font = [UIFont systemFontOfSize:14];
+            upB_label.text = [NSString stringWithFormat:@"防御 +%d", [meishi getUpBInt]];
+            upB_label.backgroundColor = [UIColor clearColor];
+            [result2_view addSubview:upB_label];
+            
+            UILabel *upC_label  = [[UILabel alloc] initWithFrame:CGRectMake(200, 2+50*i, 80, 16)];
+            upC_label.font = [UIFont systemFontOfSize:14];
+            upC_label.text = [NSString stringWithFormat:@"魔攻 +%d", [meishi getUpCInt]];
+            upC_label.backgroundColor = [UIColor clearColor];
+            [result2_view addSubview:upC_label];
+            
+            
+            UILabel *upD_label  = [[UILabel alloc] initWithFrame:CGRectMake(200, 17+50*i, 80, 16)];
+            upD_label.font = [UIFont systemFontOfSize:14];
+            upD_label.text = [NSString stringWithFormat:@"魔防 +%d", [meishi getUpDInt]];
+            upD_label.backgroundColor = [UIColor clearColor];
+            [result2_view addSubview:upD_label];
+            
+            
+            UILabel *upS_label  = [[UILabel alloc] initWithFrame:CGRectMake(200, 32+50*i, 80, 16)];
+            upS_label.font = [UIFont systemFontOfSize:14];
+            upS_label.text = [NSString stringWithFormat:@"素早さ +%d", [meishi getUpSInt]];
+            upS_label.backgroundColor = [UIColor clearColor];
+            [result2_view addSubview:upS_label];
+        }
+    }
+    [resultView addSubview:result2_view];
+}
+
+- (void)viewBackButton{
+    // 画面閉じるボタン設置
+    UIButton *backbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    backbutton.frame = CGRectMake(100, 360, 120, 32);
+    [backbutton setTitle:@"戻る" forState:UIControlStateNormal];
+    [backbutton addTarget:self action:@selector(close:)forControlEvents:UIControlEventTouchUpInside];
+    [resultView addSubview:backbutton];
 }
 
 @end

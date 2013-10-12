@@ -27,16 +27,19 @@
         self.frame = CGRectMake(0, 56, width, height);
         
         // タイトル部分の背景
+        /*
         titleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"blueTape.png"]];
         titleImage.frame = CGRectMake(0, 3, 320, 50);
         [self addSubview:titleImage];
+         */
         
         // タイトル初期化
         title = [[UILabel alloc] init];
-        title.font = [UIFont boldSystemFontOfSize:20];
-        //[title setBackgroundColor:title_bg];
-        title.backgroundColor = [UIColor clearColor];
-        title.frame = CGRectMake(0, 10, 320, 35);
+        title.font = [UIFont systemFontOfSize:20];
+        //[title setBackgroundColor:[UIColor whiteColor]];
+        title.backgroundColor = [UIColor grayColor];
+        title.textColor = [UIColor whiteColor];
+        title.frame = CGRectMake(20, 10, 280, 30);
         title.textAlignment = NSTextAlignmentCenter;
         // title.textColor = [UIColor whiteColor];
         [self addSubview:title];

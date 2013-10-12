@@ -17,6 +17,9 @@
     UIImage *gray_img;
     UIImage *mono_img;
     
+    NSString *str_eng;
+    NSString *str_jpn;
+    
     NSString *zip;
     int zip1;
     int zip2;
@@ -32,6 +35,8 @@
     UITextField *nameField;
     UITextField *mailField;
     UITextField *activeField;
+    
+    NSString *name_kanji;
 }
 
 - (id)initWithPlayer:(Player *)p OCRImage:(UIImage *)_img;

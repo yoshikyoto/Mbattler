@@ -243,11 +243,11 @@
     // ダンジョン一覧を表示するスクロールエリア
     UIScrollView *dungeonsv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 320, 300)];
     dungeonsv.backgroundColor = [UIColor clearColor];
-    dungeonsv.contentSize = CGSizeMake(300, 480);    // スクロール内部のサイズ
     [dungeonView addSubview:dungeonsv];
     
     // ダンジョン名一覧を取得
     NSArray *dungeonNames = [dungeon getNames];
+    dungeonsv.contentSize = CGSizeMake(300, 58 * [dungeonNames count] + 20);    // スクロール内部のサイズ
     UIButton *button;
     for(int i = 0; i < [dungeonNames count]; i++){
         button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -384,13 +384,13 @@
     [self dismissViewControllerAnimated:NO completion:nil];
 
     // ぐるぐる表示
-    [SVProgressHUD show];
+    // [SVProgressHUD show];
     
     // OCRにかける
     NSLog(@"launch OCR");
     OcrViewController *ocr_vc = [[OcrViewController alloc] initWithPlayer:player OCRImage:camera_img];
     [self presentViewController:ocr_vc animated:NO completion:nil];
-    [SVProgressHUD dismiss];
+    // [SVProgressHUD dismiss];
 }
 
 // 名刺召喚のエフェクト等表示

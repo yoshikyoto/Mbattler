@@ -9,6 +9,7 @@
 #import "MBCharacterView.h"
 #import "Player.h"
 #import "MBStatusView.h"
+#import "UIOutlineLabel.h"
 
 @implementation MBCharacterView
 
@@ -21,7 +22,11 @@
         title.text = @"キャラクター";
         [self addSubview:title];
         
+        characters_scrollView = [self getCharactersScrollView];
+        [self addSubview:characters_scrollView];
+        
         // スクロールビューを作成
+        /*
         UIScrollView *characterScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, 320, height - 40)];
         characterScrollView.backgroundColor = [UIColor clearColor]; // 背景透明
         // スクロールビュー内部のサイズ 縦はキャラ数に依存させる感じになる
@@ -50,9 +55,61 @@
             // ボタンを画面に表示
             [characterScrollView addSubview:button];
         }
+         */
 
     }
     return self;
+}
+
+- (UIScrollView *)getCharactersScrollView{
+    // スクロールビューを作成
+    UIScrollView *characterScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, 320, height - 40)];
+    characterScrollView.backgroundColor = [UIColor clearColor]; // 背景透明
+    // スクロールビュー内部のサイズ 縦はキャラ数に依存させる感じになる
+    int h = 58*ceil([player getNumOfMeishi] / 5.0) + 10;
+    characterScrollView.contentSize = CGSizeMake(320, h);
+    //[self addSubview:characterScrollView];
+    //[self setTitle];
+    // NSLog(@"%d", h);
+    
+    // パディングを指定
+    int padding = 20;
+    
+    // キャラクターのボタン作成
+    UIButton *button;
+    for(int i = 0; i < [player getNumOfMeishi]; i++){
+        Meishi *meishi = [player getMeishi:i];
+        // ボタンの配置場所は i 依存になる
+        button = [UIButton buttonWithType:UIButtonTypeCustom];
+        // ボタンのサイズを指定。もうちょっと小さくしてもいいかも。
+        button.frame = CGRectMake(padding+58*(i%5), padding+58*(i/5), 48, 48);
+        //CGRectMake(5+59*(i%5), 5+59*(i/5), 54, 54);
+        // ボタンの tag としてキャラ番号を保持させる
+        button.tag = i;
+        // ボタンに画像をセット
+        [button setBackgroundImage:[meishi getIcon] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(viewStatus:)forControlEvents:UIControlEventTouchUpInside];
+        // ボタンを画面に表示
+        [characterScrollView addSubview:button];
+        
+        // キャラの名前を表示
+        UIOutlineLabel *name_label = [[UIOutlineLabel alloc] init];
+        [name_label setOutlineColor:[UIColor whiteColor]];
+        [name_label setOutlineWidth:3];
+        name_label.text = [meishi getName];
+        name_label.frame = CGRectMake(padding+58*(i%5), padding+58*(i/5)+38, 48, 10);
+        name_label.textAlignment = NSTextAlignmentCenter;
+        name_label.font = [UIFont systemFontOfSize:10];
+        name_label.backgroundColor = [UIColor clearColor];
+        [characterScrollView addSubview:name_label];
+    }
+    return characterScrollView;
+}
+
+- (void)rewriteCharactersScrollView{
+    [characters_scrollView removeFromSuperview];
+    characters_scrollView = [self getCharactersScrollView];
+    [self addSubview:characters_scrollView];
 }
 
 // キャラが押された時 ------------------------------------------------------------
@@ -60,10 +117,46 @@
     NSLog(@"キャラが選択されました");
     // Sender となったボタンを取得
     UIButton *button = (UIButton *)sender;
+    tag = button.tag;
     
     // ステータス表示
-    MBStatusView *view = [[MBStatusView alloc] initWithMeishi:[player getMeishi:button.tag]];
-    [self addSubview:view];
+    // 解雇ボタンの処理も書く
+    status_view = [[MBStatusView alloc] initWithMeishi:[player getMeishi:tag] Player:player];
+    [status_view.fire_button addTarget:self action:@selector(fireAlert:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:status_view];
+}
+
+// 解雇
+- (void)fireAlert:(id)sender{
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    alert.delegate = self;
+    alert.title = @"この操作は取り消せません";
+    alert.message = @"解雇してもよろしいですか？\n解雇したキャラクターは削除されます";
+    [alert addButtonWithTitle:@"削除"];
+    [alert addButtonWithTitle:@"やめる"];
+    [alert show];
+}
+
+
+-(void)alertView:(UIAlertView*)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(alertView.tag == 1){
+        NSLog(@"%s dismissするよ！", __func__);
+        return;
+    }else{
+        switch (buttonIndex) {
+            case 0:
+                [player removeMeishiAtIndex:tag];
+                [status_view removeFromSuperview];
+                [self rewriteCharactersScrollView];
+                break;
+            case 1:
+                break;
+        }
+    }
+}
+
+- (void)fire:(id)sender{
 }
 
 /*

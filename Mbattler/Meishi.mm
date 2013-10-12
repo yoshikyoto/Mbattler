@@ -95,8 +95,10 @@
         
         NSLog(@"indicidual %d %d %d %d %d %d", i[0], i[1], i[2], i[3], i[4], i[5]);
         
-        [self setLv:5];
-        [self setJob:rand()%4];
+        [self setLv:1];
+        [self setJob:arc4random()%4];
+        [self setHistory];
+        [self setAbility:(i[0]+i[1]+i[2]+i[3]+i[4]+i[5])%22];
         [self calcParameter];
         [self reflesh];
         [self setExp:0];
@@ -295,15 +297,15 @@
     abilityID = abl;
     switch (abilityID){
         case 0:
-            ability = @"ギガインパクト";
+            ability = @"インパクト";
             ability_desc = @"キャラが光った時にタップして発動。強い物理攻撃を行う。";
             break;
         case 1:
-            ability = @"破壊光線";
+            ability = @"破壊魔法";
             ability_desc = @"キャラが光った時にタップして発動。強い魔法攻撃を行う。";
             break;
         case 2:
-            ability = @"自己再生";
+            ability = @"治癒";
             ability_desc = @"キャラが光った時にタップして発動。自分のHPを半分回復する。";
             break;
         case 3:
@@ -315,39 +317,39 @@
             ability_desc = @"キャラが光った時にタップして発動。2回攻撃を行う。";
             break;
         case 5:
-            ability = @"アナライズ";
+            ability = @"重火力";
             ability_desc = @"素早さの高い敵に攻撃する時、攻撃力と魔法攻撃力が上がる。";
             break;
         case 6:
-            ability = @"激流";
+            ability = @"根性";
             ability_desc = @"HPが少なくなると、攻撃力と魔法攻撃力が上がる。";
             break;
         case 7:
-            ability = @"自信過剰";
+            ability = @"向上心";
             ability_desc = @"相手モンスターを倒すと、一時的に攻撃力が上がる。";
             break;
         case 8:
-            ability = @"ソニックブーム";
+            ability = @"超音波";
             ability_desc = @"キャラが光った時にタップして発動。防御や魔法防御を無視した攻撃を行う。";
             break;
         case 9:
-            ability = @"鮫肌";
+            ability = @"トゲの鎧";
             ability_desc = @"物理攻撃を受けた場合、相手にもダメージを与える。";
             break;
         case 10:
-            ability = @"鳴き声";
+            ability = @"ほえる";
             ability_desc = @"キャラが光った時にタップして発動。相手の攻撃力を下げる。";
             break;
         case 11:
-            ability = @"尻尾を降る";
+            ability = @"ガードブレイク";
             ability_desc = @"キャラが光った時にタップして発動。相手の防御力を下げる。";
             break;
         case 12:
-            ability = @"バークアウト";
+            ability = @"歌う";
             ability_desc = @"キャラが光った時にタップして発動。相手の魔法攻撃力を下げる。";
             break;
         case 13:
-            ability = @"嘘泣き";
+            ability = @"シールドブレイク";
             ability_desc = @"キャラが光った時にタップして発動。相手の魔法防御を下げる。";
             break;
         case 14:
@@ -363,11 +365,11 @@
             ability_desc = @"パーティに居るだけで、味方全員の防御力が上がる。";
             break;
         case 17:
-            ability = @"悪巧み";
+            ability = @"精神統一";
             ability_desc = @"パーティに居るだけで、味方全員の魔法攻撃力が上がる。";
             break;
         case 18:
-            ability = @"ど忘れ";
+            ability = @"バリアー";
             ability_desc = @"パーティに居るだけで、味方全員の魔法防御力が上がる。";
             break;
         case 19:
@@ -375,11 +377,11 @@
             ability_desc = @"パーティに居るだけで、味方全員の素早さが上がる。";
             break;
         case 20:
-            ability = @"岩雪崩";
+            ability = @"ロックブレイク";
             ability_desc = @"敵全体に物理攻撃を行う";
             break;
         case 21:
-            ability = @"波乗り";
+            ability = @"津波";
             ability_desc = @"敵全体に魔法攻撃を行う";
             break;
     }
@@ -396,6 +398,7 @@
 // 経歴 ----------------------------------------------------------------------
 - (void)setHistory{
     // c+dの値で、高校名、大学名を決定
+    _date = [NSDate date];
     NSString *c;
     int sum = i[3] + i[4];
     if(sum <= 12){
@@ -428,7 +431,9 @@
     }
     
     // 転職日時（仮）
-    NSString *d = @"yyyy年mm月dd日";
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateFormat  = @"yyyy年MM月dd日";
+    NSString *d = [df stringFromDate:[NSDate date]];
     
     // y(year)によってキャリア決定
     NSString *z;
@@ -439,6 +444,8 @@
     }else{
         z = @"ベテラン";
     }
+    
+
     
     // h+sによって最終学歴を決定
     sum = i[0] + i[5];
@@ -737,7 +744,7 @@
     // [UIView beginAnimations:nil context:nil];
     // [UIView setAnimationDuration: 0.5];
     UIImageView *view = [self getBattleImage];
-    view.transform = CGAffineTransformMakeTranslation(20, 0);
+    view.transform = CGAffineTransformMakeTranslation(10, 0);
     
     // 種族によって、Aで攻撃するかCで攻撃するか分岐
     int damage = 0;
@@ -886,6 +893,7 @@
 // 特殊能力攻撃
 - (float)abilityAttack:(Enemy *)target{
     NSLog(@"%s", __func__);
+    //  UIImageView *view = [self getBattleImage];
     switch (abilityID) {
         case 0:{
             // ギガインパクト
@@ -1191,7 +1199,7 @@
             // 鉄壁
             for(int k = 0; k < [party count]; k++){
                 Meishi *meishi = [party objectAtIndex:k];
-                [meishi multParameter:2 :0.2];
+                [meishi multParameter:2 :0.1];
             }
             break;
         }
@@ -1209,7 +1217,7 @@
             // ど忘れ
             for(int k = 0; k < [party count]; k++){
                 Meishi *meishi = [party objectAtIndex:k];
-                [meishi multParameter:4 :0.2];
+                [meishi multParameter:4 :0.1];
             }
             break;
         }
@@ -1218,7 +1226,7 @@
             // 高速移動
             for(int k = 0; k < [party count]; k++){
                 Meishi *meishi = [party objectAtIndex:k];
-                [meishi multParameter:5 :0.2];
+                [meishi multParameter:5 :0.1];
             }
             break;
         }
@@ -1287,6 +1295,15 @@
     NSLog(@"Meishi.exp %d", exp);
     return uplv;
 }
+
+
+- (int)getUpHInt{ return([self getH] - past_p[0]); }
+- (int)getUpAInt{ return([self getA] - past_p[1]); }
+- (int)getUpBInt{ return([self getB] - past_p[2]); }
+- (int)getUpCInt{ return([self getC] - past_p[3]); }
+- (int)getUpDInt{ return([self getD] - past_p[4]); }
+- (int)getUpSInt{ return([self getS] - past_p[5]); }
+- (int)getUpLvInt{ return uplv; }
 
 // 内部メソッド
 - (void) calcParameter{
