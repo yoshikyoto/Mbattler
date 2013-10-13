@@ -11,23 +11,33 @@
 #import "PartyChangeView.h"
 
 @interface MBPartyView : MBScrollView{
-    UIScrollView *p_view;
-    UIScrollView *n_view;
-    MiniStatusView *pministatus;
-    MiniStatusView *nministatus;
-    UILabel *p_black, *n_black;
+    UIScrollView *party_view;
+    UIScrollView *reserve_view;
+    UILabel *party_black_mask, *reserve_black_mask;
     Boolean latest_view;
     UIButton *p_cancelbutton;
     UIButton *n_cancelbutton;
-    Boolean p_selected;
-    Boolean n_selected;
+    Boolean party_select_flag;
+    Boolean reserve_select_flag;
     int p_id;
     int n_id;
     
-    UILabel *confirm_message;
+    int selected_party_tag;
+    int selected_reserve_tag;
+    /* これらの変数は、
+     * -2 何も選択されていない
+     * -1 「はずす」「いれる」が選択されている
+     * 1~ 何かが選択されている
+     */
+    
+    Boolean latest_selection_bool;
+    
     PartyChangeView *confirm_window;
-    UIButton *confirm;
-    UIButton *cancel;
+    UIButton *confirm_button;
+    UIButton *cancel_button;
+    
+    UIButton *selected_p_button;
+    UIButton *selected_n_button;
 }
 
 @end

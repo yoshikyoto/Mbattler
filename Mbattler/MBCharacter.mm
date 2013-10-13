@@ -27,7 +27,10 @@
         p_mult[3] = 1.0;
         p_mult[4] = 1.0;
         p_mult[5] = 1.0;
-        // 上昇、下降
+        
+        // 名前ラベル初期化
+        
+        name_label = [[UIOutlineLabel alloc] init];
     }
     return self;
 }
@@ -49,6 +52,11 @@
 - (int) getCMult{ return p_mult[3]; }
 - (int) getDMult{ return p_mult[4]; }
 - (int) getSMult{ return p_mult[5]; }
+
+- (UIOutlineLabel *)getNameLabel{
+    [name_label setCharacterName:name];
+    return name_label;
+}
 
 - (MBAnimationView *)getEffect{
     return effect;

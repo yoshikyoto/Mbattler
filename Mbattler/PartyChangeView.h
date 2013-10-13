@@ -8,21 +8,22 @@
 
 #import <UIKit/UIKit.h>
 #import "Meishi.h"
+#import "UIOutlineLabel.h"
 
 @interface PartyChangeView : UIScrollView{
-    Meishi *p_meishi;
     UIImageView *p_image;
+    UILabel *p_name_label;
+    UILabel *pjob, *plv, *pabl;
     UILabel *ph, *pa, *pb, *pc, *pd, *ps;
     UILabel *phv, *pav, *pbv, *pcv, *pdv, *psv;
     
-    Meishi *n_meishi;
-    UIImageView *n_image;
-    UILabel *nh, *na, *nb, *nc, *nd, *ns;
-    UILabel *nhv, *nav, *nbv, *ncv, *ndv, *nsv;
+    UIImageView *r_image;
+    UILabel *r_name_label;
+    UILabel *rjob, *rlv, *rabl;
+    UILabel *rh, *ra, *rb, *rc, *rd, *rs;
+    UILabel *rhv, *rav, *rbv, *rcv, *rdv, *rsv;
 }
 
-- (void)set_p:(Meishi *)m;
-- (void)set_n:(Meishi *)m;
-- (void)draw;
-
+- (void)setPartyMember:(Meishi *)meishi;
+- (void)setReserveMember:(Meishi *)meishi;
 @end

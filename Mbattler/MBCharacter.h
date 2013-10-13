@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MBAnimationView.h"
+#import "UIOutlineLabel.h"
 
 @interface MBCharacter : NSObject{
     // 敵と見方、両方持つパラメータ
@@ -21,6 +22,9 @@
     MBAnimationView *upView;    // 能力上がった時のエフェクト
     
     UIImageView *hpbar;
+    
+    // 名前のラベル
+    UIOutlineLabel *name_label;
 }
 
 // 各種ゲッター
@@ -39,6 +43,7 @@
 - (int) getDMult;
 - (int) getSMult;
 - (UIImageView *) getBattleImage;
+- (UIOutlineLabel *)getNameLabel;
 
 // 各種セッター
 - (void)setName:(NSString *)n;

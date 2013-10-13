@@ -13,4 +13,6 @@
 @property (nonatomic, retain) UIColor *OutlineColor;
 @property (nonatomic, assign) CGFloat OutlineWidth;
 
+- (void)setCharacterName:(NSString *)name;
+
 @end

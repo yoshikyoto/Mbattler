@@ -17,162 +17,273 @@
     if (self) {
         // Initialization code
         // 「HP」とか表示する部分の初期化まとめて
-        [self initStatusLabel];
-        // 画像
-        p_image = [[UIImageView alloc] initWithFrame:CGRectMake(30, 30, 48, 48)];
-        [self addSubview:p_image];
-        n_image = [[UIImageView alloc] initWithFrame:CGRectMake(180, 30, 48, 48)];
-        [self addSubview:n_image];
+        // [self initStatusLabel];
+        self.frame = CGRectMake(10, 80, 300, 250);
+        // 影をつける
+        self.layer.masksToBounds = NO;
+        self.layer.shadowOffset = CGSizeMake(3.0f, 3.0f);  //影の方向
+        self.layer.shadowOpacity = 0.7f; // 影の透明度
+        self.layer.shadowColor = [UIColor blackColor].CGColor;   // 影の色
+        self.layer.shadowRadius = 2.0f;  // ぼかし
+        self.backgroundColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:0.9];
+        
+        // 各種初期化
+        UILabel *out_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 30)];
+        out_label.text = @"Out";
+        out_label.textColor = [UIColor whiteColor];
+        out_label.backgroundColor = [UIColor grayColor];
+        out_label.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:out_label];
+        
+        p_name_label = [[UILabel alloc] initWithFrame:CGRectMake(60, 2, 80, 30)];
+        p_name_label.font = [UIFont systemFontOfSize:16];
+        pjob = [[UILabel alloc] initWithFrame:CGRectMake(150, 2, 70, 30)];
+        pjob.font = [UIFont systemFontOfSize:16];
+        plv = [[UILabel alloc] initWithFrame:CGRectMake(230, 2, 70, 30)];
+        plv.font = [UIFont systemFontOfSize:16];
+        
+        ph = [[UILabel alloc] initWithFrame:CGRectMake(80, 30, 70, 14)];
+        ph.font = [UIFont systemFontOfSize:14];
+        ph.text = @"HP";
+        phv = [[UILabel alloc] initWithFrame:CGRectMake(80, 30, 70, 14)];
+        phv.font = [UIFont systemFontOfSize:14];
+        phv.textAlignment = NSTextAlignmentRight;
+        
+        pa = [[UILabel alloc] initWithFrame:CGRectMake(80, 46, 70, 14)];
+        pa.font = [UIFont systemFontOfSize:14];
+        pa.text = @"攻撃";
+        pav = [[UILabel alloc] initWithFrame:CGRectMake(80, 46, 70, 14)];
+        pav.font = [UIFont systemFontOfSize:14];
+        pav.textAlignment = NSTextAlignmentRight;
+        
+        pb = [[UILabel alloc] initWithFrame:CGRectMake(80, 62, 70, 14)];
+        pb.font = [UIFont systemFontOfSize:14];
+        pb.text = @"防御";
+        pbv = [[UILabel alloc] initWithFrame:CGRectMake(80, 62, 70, 14)];
+        pbv.font = [UIFont systemFontOfSize:14];
+        pbv.textAlignment = NSTextAlignmentRight;
+        
+        pc = [[UILabel alloc] initWithFrame:CGRectMake(170, 30, 70, 14)];
+        pc.font = [UIFont systemFontOfSize:14];
+        pc.text = @"魔攻";
+        pcv = [[UILabel alloc] initWithFrame:CGRectMake(170, 30, 70, 14)];
+        pcv.font = [UIFont systemFontOfSize:14];
+        pcv.textAlignment = NSTextAlignmentRight;
+        
+        pd = [[UILabel alloc] initWithFrame:CGRectMake(170, 46, 70, 14)];
+        pd.font = [UIFont systemFontOfSize:14];
+        pd.text = @"魔防";
+        pdv = [[UILabel alloc] initWithFrame:CGRectMake(170, 46, 70, 14)];
+        pdv.font = [UIFont systemFontOfSize:14];
+        pdv.textAlignment = NSTextAlignmentRight;
+        
+        ps = [[UILabel alloc] initWithFrame:CGRectMake(170, 62, 70, 14)];
+        ps.font = [UIFont systemFontOfSize:14];
+        ps.text = @"素早さ";
+        psv = [[UILabel alloc] initWithFrame:CGRectMake(170, 62, 70, 14)];
+        psv.font = [UIFont systemFontOfSize:14];
+        psv.textAlignment = NSTextAlignmentRight;
+        
+        pabl = [[UILabel alloc] initWithFrame:CGRectMake(70, 76, 200, 20)];
+        pabl.font = [UIFont systemFontOfSize:14];
+        
+        UILabel *in_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, 50, 30)];
+        in_label.text = @"In";
+        in_label.textColor = [UIColor whiteColor];
+        in_label.backgroundColor = [UIColor grayColor];
+        in_label.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:in_label];
+        r_name_label = [[UILabel alloc] initWithFrame:CGRectMake(60, 102, 80, 30)];
+        r_name_label.font = [UIFont systemFontOfSize:16];
+        rjob = [[UILabel alloc] initWithFrame:CGRectMake(150, 102, 70, 30)];
+        rjob.font = [UIFont systemFontOfSize:16];
+        rlv = [[UILabel alloc] initWithFrame:CGRectMake(230, 102, 70, 30)];
+        rlv.font = [UIFont systemFontOfSize:16];
+        
+        rh = [[UILabel alloc] initWithFrame:CGRectMake(80, 130, 70, 14)];
+        rh.font = [UIFont systemFontOfSize:14];
+        rh.text = @"HP";
+        rhv = [[UILabel alloc] initWithFrame:CGRectMake(80, 130, 70, 14)];
+        rhv.font = [UIFont systemFontOfSize:14];
+        rhv.textAlignment = NSTextAlignmentRight;
+        
+        ra = [[UILabel alloc] initWithFrame:CGRectMake(80, 146, 70, 14)];
+        ra.font = [UIFont systemFontOfSize:14];
+        ra.text = @"攻撃";
+        rav = [[UILabel alloc] initWithFrame:CGRectMake(80, 146, 70, 14)];
+        rav.font = [UIFont systemFontOfSize:14];
+        rav.textAlignment = NSTextAlignmentRight;
+        
+        rb = [[UILabel alloc] initWithFrame:CGRectMake(80, 162, 70, 14)];
+        rb.font = [UIFont systemFontOfSize:14];
+        rb.text = @"防御";
+        rbv = [[UILabel alloc] initWithFrame:CGRectMake(80, 162, 70, 14)];
+        rbv.font = [UIFont systemFontOfSize:14];
+        rbv.textAlignment = NSTextAlignmentRight;
+        
+        rc = [[UILabel alloc] initWithFrame:CGRectMake(170, 130, 70, 14)];
+        rc.font = [UIFont systemFontOfSize:14];
+        rc.text = @"魔攻";
+        rcv = [[UILabel alloc] initWithFrame:CGRectMake(170, 130, 70, 14)];
+        rcv.font = [UIFont systemFontOfSize:14];
+        rcv.textAlignment = NSTextAlignmentRight;
+        
+        rd = [[UILabel alloc] initWithFrame:CGRectMake(170, 146, 70, 14)];
+        rd.font = [UIFont systemFontOfSize:14];
+        rd.text = @"魔防";
+        rdv = [[UILabel alloc] initWithFrame:CGRectMake(170, 146, 70, 14)];
+        rdv.font = [UIFont systemFontOfSize:14];
+        rdv.textAlignment = NSTextAlignmentRight;
+        
+        rs = [[UILabel alloc] initWithFrame:CGRectMake(170, 162, 70, 14)];
+        rs.font = [UIFont systemFontOfSize:14];
+        rs.text = @"素早さ";
+        rsv = [[UILabel alloc] initWithFrame:CGRectMake(170, 162, 70, 14)];
+        rsv.font = [UIFont systemFontOfSize:14];
+        rsv.textAlignment = NSTextAlignmentRight;
+        
+        rabl = [[UILabel alloc] initWithFrame:CGRectMake(70, 176, 200, 20)];
+        rabl.font = [UIFont systemFontOfSize:14];
+        
+        UILabel *message_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 220, 150, 30)];
+        message_label.text = @"よろしいですか？";
+        message_label.textAlignment = NSTextAlignmentCenter;
+        message_label.backgroundColor = [UIColor grayColor];
+        message_label.textColor = [UIColor whiteColor];
+        [self addSubview:message_label];
     }
     return self;
 }
 
-// 「HP」とか表示する部分の初期化 ----------------------------------------------------------------
-- (void)initStatusLabel{
-    // 
-    ph = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, 40, 20)];
-    [ph setBackgroundColor:[UIColor clearColor]];
-    [ph setText:@"HP"];
-    [self addSubview:ph];
-    
-    pa = [[UILabel alloc] initWithFrame:CGRectMake(20, 120, 40, 20)];
-    [pa setBackgroundColor:[UIColor clearColor]];
-    [pa setText:@"攻撃"];
-    [self addSubview:pa];
-    
-    pb= [[UILabel alloc] initWithFrame:CGRectMake(20, 140, 40, 20)];
-    [pb setBackgroundColor:[UIColor clearColor]];
-    [pb setText:@"防御"];
-    [self addSubview:pb];
-    
-    pc = [[UILabel alloc] initWithFrame:CGRectMake(20, 160, 40, 20)];
-    [pc setBackgroundColor:[UIColor clearColor]];
-    [pc setText:@"魔攻"];
-    [self addSubview:pc];
-    
-    pd = [[UILabel alloc] initWithFrame:CGRectMake(20, 180, 40, 20)];
-    [pd setBackgroundColor:[UIColor clearColor]];
-    [pd setText:@"魔防"];
-    [self addSubview:pd];
-    
-    ps = [[UILabel alloc] initWithFrame:CGRectMake(20, 200, 60, 20)];
-    [ps setBackgroundColor:[UIColor clearColor]];
-    [ps setText:@"素早さ"];
-    [self addSubview:ps];
-    
-    
-    phv = [[UILabel alloc] initWithFrame:CGRectMake(70, 100, 40, 20)];
-    [phv setBackgroundColor:[UIColor clearColor]];
-    [self addSubview:phv];
-    
-    pav = [[UILabel alloc] initWithFrame:CGRectMake(70, 120, 40, 20)];
-    [pav setBackgroundColor:[UIColor clearColor]];
-    [self addSubview:pav];
-    
-    pbv = [[UILabel alloc] initWithFrame:CGRectMake(70, 140, 40, 20)];
-    [pbv setBackgroundColor:[UIColor clearColor]];
-    [self addSubview:pbv];
-    
-    pcv = [[UILabel alloc] initWithFrame:CGRectMake(70, 160, 40, 20)];
-    [pcv setBackgroundColor:[UIColor clearColor]];
-    [self addSubview:pcv];
-    
-    pdv = [[UILabel alloc] initWithFrame:CGRectMake(70, 180, 40, 20)];
-    [pdv setBackgroundColor:[UIColor clearColor]];
-    [self addSubview:pdv];
-    
-    psv = [[UILabel alloc] initWithFrame:CGRectMake(70, 200, 40, 20)];
-    [psv setBackgroundColor:[UIColor clearColor]];
-    [self addSubview:psv];
-    
-    
-    nh = [[UILabel alloc] initWithFrame:CGRectMake(180, 100, 40, 20)];
-    [nh setBackgroundColor:[UIColor clearColor]];
-    [nh setText:@"HP"];
-    [self addSubview:nh];
-    
-    na = [[UILabel alloc] initWithFrame:CGRectMake(180, 120, 40, 20)];
-    [na setBackgroundColor:[UIColor clearColor]];
-    [na setText:@"攻撃"];
-    [self addSubview:na];
-    
-    nb= [[UILabel alloc] initWithFrame:CGRectMake(180, 140, 40, 20)];
-    [nb setBackgroundColor:[UIColor clearColor]];
-    [nb setText:@"防御"];
-    [self addSubview:nb];
-    
-    nc = [[UILabel alloc] initWithFrame:CGRectMake(180, 160, 40, 20)];
-    [nc setBackgroundColor:[UIColor clearColor]];
-    [nc setText:@"魔攻"];
-    [self addSubview:nc];
-    
-    nd = [[UILabel alloc] initWithFrame:CGRectMake(180, 180, 40, 20)];
-    [nd setBackgroundColor:[UIColor clearColor]];
-    [nd setText:@"魔防"];
-    [self addSubview:nd];
-    
-    ns = [[UILabel alloc] initWithFrame:CGRectMake(180, 200, 60, 20)];
-    [ns setBackgroundColor:[UIColor clearColor]];
-    [ns setText:@"素早さ"];
-    [self addSubview:ns];
-    
-    nhv = [[UILabel alloc] initWithFrame:CGRectMake(230, 100, 40, 20)];
-    [nhv setBackgroundColor:[UIColor clearColor]];
-    [self addSubview:nhv];
-    
-    nav = [[UILabel alloc] initWithFrame:CGRectMake(230, 120, 40, 20)];
-    [nav setBackgroundColor:[UIColor clearColor]];
-    [self addSubview:nav];
-    
-    nbv = [[UILabel alloc] initWithFrame:CGRectMake(230, 140, 40, 20)];
-    [nbv setBackgroundColor:[UIColor clearColor]];
-    [self addSubview:nbv];
-    
-    ncv = [[UILabel alloc] initWithFrame:CGRectMake(230, 160, 40, 20)];
-    [ncv setBackgroundColor:[UIColor clearColor]];
-    [self addSubview:ncv];
-    
-    ndv = [[UILabel alloc] initWithFrame:CGRectMake(230, 180, 40, 20)];
-    [ndv setBackgroundColor:[UIColor clearColor]];
-    [self addSubview:ndv];
-    
-    nsv = [[UILabel alloc] initWithFrame:CGRectMake(230, 200, 40, 20)];
-    [nsv setBackgroundColor:[UIColor clearColor]];
-    [self addSubview:nsv];
-}
 
-// setp ------------------------------------------------------------------------------------
-- (void)set_p:(Meishi *)m{
-    p_meishi = m;
-    p_image.image = [m getIcon];
-    [phv setText:[m getHString]];
-    [pav setText:[m getAString]];
-    [pbv setText:[m getBString]];
-    [pcv setText:[m getCString]];
-    [pdv setText:[m getDString]];
-    [psv setText:[m getSString]];
-}
-
-// setn ------------------------------------------------------------------------------------
-- (void)set_n:(Meishi *)m{
-    if(m){
-        n_meishi = m;
-        n_image.image = [m getIcon];
-        [nhv setText:[m getHString]];
-        [nav setText:[m getAString]];
-        [nbv setText:[m getBString]];
-        [ncv setText:[m getCString]];
-        [ndv setText:[m getDString]];
-        [nsv setText:[m getSString]];
+- (void)setPartyMember:(Meishi *)meishi{
+    NSLog(@"%s", __func__);
+    if(meishi){
+        NSLog(@"%s キャラが選択された", __func__);
+        // 画像
+        [p_image removeFromSuperview];
+        p_image = [meishi getCenterImage];
+        p_image.frame = CGRectMake(20, 30, 32, 48);
+        [self addSubview:p_image];
+        
+        // 名前
+        p_name_label.text = [meishi getName];
+        [self addSubview:p_name_label];
+        // 職業
+        pjob.text = [meishi getJobString];
+        [self addSubview:pjob];
+        // レベル
+        plv.text = [NSString stringWithFormat:@"Lv %d", [meishi getLv]];
+        [self addSubview:plv];
+        // ステータス
+        [self addSubview:ph];
+        [self addSubview:pa];
+        [self addSubview:pb];
+        [self addSubview:pc];
+        [self addSubview:pd];
+        [self addSubview:ps];
+        phv.text = [NSString stringWithFormat:@"%d", [meishi getH]];
+        [self addSubview:phv];
+        pav.text = [NSString stringWithFormat:@"%d", [meishi getA]];
+        [self addSubview:pav];
+        pbv.text = [NSString stringWithFormat:@"%d", [meishi getB]];
+        [self addSubview:pbv];
+        pcv.text = [NSString stringWithFormat:@"%d", [meishi getC]];
+        [self addSubview:pcv];
+        pdv.text = [NSString stringWithFormat:@"%d", [meishi getD]];
+        [self addSubview:pdv];
+        psv.text = [NSString stringWithFormat:@"%d", [meishi getS]];
+        [self addSubview:psv];
+        
+        pabl.text = [NSString stringWithFormat:@"特殊能力: %@", [meishi getAbilityString]];
+        [self addSubview:pabl];
     }else{
-        n_image.image = [UIImage imageNamed:@"outicon.png"];
+        // 入れる
+        NSLog(@"%s はずすが選択された", __func__);
+        p_name_label.text = @"なし";
+        [self addSubview:p_name_label];
+        [p_image removeFromSuperview];
+        [pjob removeFromSuperview];
+        [plv removeFromSuperview];
+        [ph removeFromSuperview];
+        [pa removeFromSuperview];
+        [pb removeFromSuperview];
+        [pc removeFromSuperview];
+        [pd removeFromSuperview];
+        [ps removeFromSuperview];
+        [phv removeFromSuperview];
+        [pav removeFromSuperview];
+        [pbv removeFromSuperview];
+        [pcv removeFromSuperview];
+        [pdv removeFromSuperview];
+        [psv removeFromSuperview];
+        [pabl removeFromSuperview];
     }
 }
 
-- (void)draw{
-    p_image = [p_meishi getCenterImage];
-    p_image.frame = CGRectMake(10, 10, 32, 48);
-    [self addSubview:p_image];
+- (void)setReserveMember:(Meishi *)meishi{
+    NSLog(@"%s", __func__);
+    if(meishi){
+        NSLog(@"%s キャラが選択された", __func__);
+        // 画像
+        [r_image removeFromSuperview];
+        r_image = [meishi getCenterImage];
+        r_image.frame = CGRectMake(20, 130, 32, 48);
+        [self addSubview:r_image];
+        
+        // 名前
+        r_name_label.text = [meishi getName];
+        [self addSubview:r_name_label];
+        // 職業
+        rjob.text = [meishi getJobString];
+        [self addSubview:rjob];
+        // レベル
+        rlv.text = [NSString stringWithFormat:@"Lv %d", [meishi getLv]];
+        [self addSubview:rlv];
+        // ステータス
+        [self addSubview:rh];
+        [self addSubview:ra];
+        [self addSubview:rb];
+        [self addSubview:rc];
+        [self addSubview:rd];
+        [self addSubview:rs];
+        rhv.text = [NSString stringWithFormat:@"%d", [meishi getH]];
+        [self addSubview:rhv];
+        rav.text = [NSString stringWithFormat:@"%d", [meishi getA]];
+        [self addSubview:rav];
+        rbv.text = [NSString stringWithFormat:@"%d", [meishi getB]];
+        [self addSubview:rbv];
+        rcv.text = [NSString stringWithFormat:@"%d", [meishi getC]];
+        [self addSubview:rcv];
+        rdv.text = [NSString stringWithFormat:@"%d", [meishi getD]];
+        [self addSubview:rdv];
+        rsv.text = [NSString stringWithFormat:@"%d", [meishi getS]];
+        [self addSubview:rsv];
+        
+        rabl.text = [NSString stringWithFormat:@"特殊能力: %@", [meishi getAbilityString]];
+        [self addSubview:rabl];
+    }else{
+        // 入れる
+        NSLog(@"%s はずすが選択された", __func__);
+        r_name_label.text = @"なし";
+        [self addSubview:r_name_label];
+        [r_image removeFromSuperview];
+        [rjob removeFromSuperview];
+        [rlv removeFromSuperview];
+        [rh removeFromSuperview];
+        [ra removeFromSuperview];
+        [rb removeFromSuperview];
+        [rc removeFromSuperview];
+        [rd removeFromSuperview];
+        [rs removeFromSuperview];
+        [rhv removeFromSuperview];
+        [rav removeFromSuperview];
+        [rbv removeFromSuperview];
+        [rcv removeFromSuperview];
+        [rdv removeFromSuperview];
+        [rsv removeFromSuperview];
+        [rabl removeFromSuperview];
+    }
 }
 
 /*

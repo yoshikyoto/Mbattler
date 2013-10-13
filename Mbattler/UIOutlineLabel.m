@@ -39,6 +39,15 @@
     self.shadowOffset = shadowOffset;
 }
 
+- (void)setCharacterName:(NSString *)name{
+    [self setOutlineColor:[UIColor whiteColor]];
+    [self setOutlineWidth:3];
+    self.textAlignment = NSTextAlignmentCenter;
+    self.font = [UIFont systemFontOfSize:10];
+    self.text = name;
+    self.backgroundColor = [UIColor clearColor];
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
