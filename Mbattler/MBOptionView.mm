@@ -29,7 +29,7 @@
         
         UILabel *version_label = [[UILabel alloc] initWithFrame:CGRectMake(30, 55, 260, 20)];
         version_label.text = @"バージョン";
-        version_label.font = [UIFont boldSystemFontOfSize:16];
+        version_label.font = [UIFont fontWithName:@"mikachan_o" size:16];
         [self addSubview:version_label];
         
         UILabel *version_desc_label = [[UILabel alloc] initWithFrame:CGRectMake(30, 80, 260, 15)];
@@ -41,7 +41,7 @@
         
         UILabel *credit_label = [[UILabel alloc] initWithFrame:CGRectMake(30, 115, 260, 20)];
         credit_label.text = @"クレジット";
-        credit_label.font = [UIFont boldSystemFontOfSize:16];
+        credit_label.font = [UIFont fontWithName:@"mikachan_o" size:16];
         [self addSubview:credit_label];
         
         UILabel *credit_label1 = [[UILabel alloc] initWithFrame:CGRectMake(30, 140, 260, 30)];

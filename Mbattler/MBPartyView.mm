@@ -39,17 +39,19 @@
         confirm_window = [[PartyChangeView alloc] initWithFrame:CGRectMake(10, 150, 300, 250)];
         // 決定ボタンの初期化
         confirm_button = [UIButton buttonWithType:UIButtonTypeCustom];
-        confirm_button.frame = CGRectMake(151, 220, 74, 30);
+        confirm_button.frame = CGRectMake(151, 210, 74, 40);
         [confirm_button setTitle:@"はい" forState:UIControlStateNormal];
-        confirm_button.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:1.0 alpha:1.0];
+        confirm_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
+        confirm_button.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:1.0 alpha:0.8];
         [confirm_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [confirm_button addTarget:self action:@selector(confirmChange:)forControlEvents:UIControlEventTouchUpInside];
         [confirm_window addSubview:confirm_button];
         // キャンセルボタンの初期化
         cancel_button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        cancel_button.frame = CGRectMake(226, 220, 74, 30);
+        cancel_button.frame = CGRectMake(226, 210, 74, 40);
         [cancel_button setTitle:@"いいえ" forState:UIControlStateNormal];
-        cancel_button.backgroundColor = [UIColor colorWithRed:1.0 green:0.5 blue:0.5 alpha:1.0];
+        cancel_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
+        cancel_button.backgroundColor = [UIColor colorWithRed:1.0 green:0.5 blue:0.5 alpha:0.8];
         [cancel_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [cancel_button addTarget:self action:@selector(cancelChange:)forControlEvents:UIControlEventTouchUpInside];
         [confirm_window addSubview:cancel_button];
@@ -61,16 +63,24 @@
 // パーティ部分描写 ------------------------------------------------------------------------------------------
 - (void)drawPartyView{
     // パーティ部分のビュー
-    party_view = [[UIScrollView alloc] initWithFrame:CGRectMake(8, 52, 300, 90)];
-    party_view.backgroundColor = [UIColor grayColor];
+    party_view = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 50, 300, 90)];
+    party_view.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.2];
     [self addSubview:party_view];
+    UILabel *party_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 26)];
+    party_label.backgroundColor = [UIColor grayColor];
+    [party_label setTextColor:[UIColor whiteColor]];
+    party_label.textAlignment = NSTextAlignmentCenter;
+    party_label.font = [UIFont fontWithName:@"mikachan_o" size:16];
+    party_label.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
+    party_label.text = @"パーティ";
+    [party_view addSubview:party_label];
     int i;
     for(i = 0; i < [player getPartynum]; i++){
         Meishi *meishi = [player getMeishi:i];
         
         // ボタンのサイズとかを指定
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(12+58*i, 10, 48, 48);
+        button.frame = CGRectMake(10+58*i, 34, 48, 48);
         // ボタンの tag としてキャラ番号を保持させる
         button.tag = i;
         // ボタンに画像をセット
@@ -81,13 +91,13 @@
         
         // キャラの名前の表示
         UIOutlineLabel *name_label = [meishi getNameLabel];
-        name_label.frame = CGRectMake(12+58*(i%5), 10+38, 48, 10);
+        name_label.frame = CGRectMake(12+58*(i%5), 34+38, 48, 10);
         [party_view addSubview:name_label];
     }
     // パーティ不足の時の追加ボタン
     if(i < 5){
         UIButton *in_button = [UIButton buttonWithType:UIButtonTypeCustom];
-        in_button.frame = CGRectMake(10+58*i, 10, 48, 48);
+        in_button.frame = CGRectMake(10+58*i, 34, 48, 48);
         // アイコンはとりあえず代用
         [in_button setBackgroundImage:[UIImage imageNamed:@"outicon.PNG"] forState:UIControlStateNormal];
         in_button.tag = -1;
@@ -239,8 +249,15 @@
     [reserve_black_mask removeFromSuperview];
     selected_party_tag = -2;
     selected_reserve_tag = -2;
+    
+    // バックグラウンドでセーブ
+    [self performSelectorInBackground:@selector(save:) withObject:nil];
     // 再描写
     [self reDraw];
+}
+
+- (void)save:(id)sender{
+    [player save];
 }
 
 // キャラ選択が解除されたとき------------------------------------------------------------------------------------

@@ -19,6 +19,11 @@
         self.backgroundColor = [UIColor whiteColor]; // とりあえず白
         player = p;
         
+        // 色初期化
+        title_back_color = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:1.0];
+        subtitle_back_color = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
+        back_color = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.2];
+        
         // 画面の縦横を取得
         CGRect screen_rect = [UIScreen mainScreen].applicationFrame;
         width = screen_rect.size.width;
@@ -35,23 +40,26 @@
         
         // タイトル初期化
         title = [[UILabel alloc] init];
-        title.font = [UIFont systemFontOfSize:20];
+        title.font = [UIFont fontWithName:@"mikachan_o" size:20];//[UIFont systemFontOfSize:20];
         //[title setBackgroundColor:[UIColor whiteColor]];
-        title.backgroundColor = [UIColor grayColor];
+        title.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:1.0];
         title.textColor = [UIColor whiteColor];
-        title.frame = CGRectMake(20, 10, 280, 30);
+        title.frame = CGRectMake(-5, 4, 310, 40);
         title.textAlignment = NSTextAlignmentCenter;
         // title.textColor = [UIColor whiteColor];
         [self addSubview:title];
         self.backgroundColor = [UIColor clearColor];
         
+        title.layer.masksToBounds = NO;
+        title.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);  //影の方向
+        title.layer.shadowOpacity = 0.7f; // 影の透明度
+        title.layer.shadowColor = [UIColor blackColor].CGColor;   // 影の色
+        title.layer.shadowRadius = 1.0f;  // ぼかし
+        
 
         // 背景の設定
         UIImage *backgroundImage = [UIImage imageNamed:@"bg.png"];
         self.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
-        
-        // 色の初期化
-        sub_bg = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
     }
     return self;
 }
@@ -76,10 +84,6 @@
 
 - (void)close:(id)sender{
     [self removeFromSuperview];
-}
-
-- (UIColor *)getSubBg{
-    return sub_bg;
 }
 
 /*

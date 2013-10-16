@@ -780,7 +780,8 @@
     }else{
         // 勝った場合
         // 一人あたりの経験値を計算
-        int exp_per_m = ceil((double)exp / [player getPartynum]);
+        [dungeon clear];
+        int exp_per_m = ceil((double)exp * (1.05 - 0.05*[player getPartynum]));
         NSLog(@"Exp: %d", exp_per_m);
         
         UILabel *resultlabel = [[UILabel alloc] init];
@@ -834,7 +835,8 @@
     [[self view] bringSubviewToFront:navImage];
     [[self view] bringSubviewToFront:title];
     
-
+    // セーブ
+    [player save];
 }
 
 

@@ -9,6 +9,7 @@
 #import "Meishi.h"
 #import "Enemy.h"
 #import "DamageValueLabel.h"
+#import "UIImageView+effects.h"
 
 // 名刺から生成されたキャラクター
 @implementation Meishi
@@ -151,6 +152,12 @@
 - (int)getZip1{ return zip1; }
 - (int)getZip2{ return zip2; }
 - (int)getSex{ return sex; }
+- (int)getIndividualHInt{ return i[0]; }
+- (int)getIndividualAInt{ return i[1]; }
+- (int)getIndividualBInt{ return i[2]; }
+- (int)getIndividualCInt{ return i[3]; }
+- (int)getIndividualDInt{ return i[4]; }
+- (int)getIndividualSInt{ return i[5]; }
 
 // アビリティ名取得
 - (NSString *)getAbilityString{
@@ -217,8 +224,8 @@
         case 0:
             // 戦士
             j[0] = 1.0;
-            j[1] = 1.2;
-            j[2] = 1.1;
+            j[1] = 1.1;
+            j[2] = 0.95;
             j[3] = 0.7;
             j[4] = 0.7;
             j[5] = 1.0;
@@ -237,9 +244,9 @@
             // 格闘家
             j[0] = 0.9;
             j[1] = 1.3;
-            j[2] = 0.9;
+            j[2] = 0.8;
             j[3] = 0.7;
-            j[4] = 0.7;
+            j[4] = 0.8;
             j[5] = 1.1;
             if(sex == 0){
                 i_num = 3;
@@ -256,9 +263,9 @@
             // 魔法使い
             j[0] = 0.8;
             j[1] = 0.8;
-            j[2] = 0.6;
+            j[2] = 0.7;
             j[3] = 1.3;
-            j[4] = 1.0;
+            j[4] = 0.9;
             j[5] = 0.9;
             if(sex == 0){
                 i_num = 2;
@@ -273,10 +280,10 @@
         case 3:
             // 僧侶
             j[0] = 0.8;
-            j[1] = 0.6;
-            j[2] = 0.8;
-            j[3] = 1.0;
-            j[4] = 1.1;
+            j[1] = 0.7;
+            j[2] = 0.9;
+            j[3] = 1.15;
+            j[4] = 1.0;
             j[5] = 0.8;
             if(sex == 0){
                 i_num = 1;
@@ -385,6 +392,11 @@
             ability_desc = @"敵全体に魔法攻撃を行う";
             break;
     }
+}
+
+
+- (void)setHistory:(NSString *)his{
+    history = his;
 }
 // 個体値決定 ----------------------------------------------------------------------
 - (void) setIndividual:(int *)_i{
@@ -893,6 +905,7 @@
 // 特殊能力攻撃
 - (float)abilityAttack:(Enemy *)target{
     NSLog(@"%s", __func__);
+    [self stopFlush];
     //  UIImageView *view = [self getBattleImage];
     switch (abilityID) {
         case 0:{
@@ -1026,6 +1039,7 @@
 
 - (void)abilityAttackWhole:(NSMutableArray *)enemys{
     NSLog(@"%s", __func__);
+    [self stopFlush];
     switch (abilityID) {
         case 10: // 鳴き声
         {
@@ -1252,15 +1266,40 @@
 - (int)gainAbilityPow:(int)g{
     // 既に溜まってるときはなにもしない
     if(ability_pow >= 100) return ability_pow;
-    
-    ability_pow += g;
-    // マックスになった場合は
-    if(ability_pow >= 100){
-        ability_pow = 100;
-        NSLog(@"%s %@: 特殊能力ゲージマックス", __func__, name);
+    switch (abilityID) {
+        case 0:
+        case 1:
+        case 2:
+        case 8:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 20:
+        case 21:
+            ability_pow += g;
+            // マックスになった場合は
+            if(ability_pow >= 100){
+                ability_pow = 100;
+                NSLog(@"%s %@: 特殊能力ゲージマックス", __func__, name);
+                // 光らせる
+                flush_timer = [NSTimer scheduledTimerWithTimeInterval:1
+                                                               target:self
+                                                             selector:@selector(flush:)
+                                                             userInfo:nil
+                                                              repeats:true];
+            }
     }
     return ability_pow;
 }
+
+- (void)flush:(id)sender{
+    [[self getBattleImage] whiteFadeInWithDuration:0.3 delay:0.0 block:nil];
+}
+- (void)stopFlush{
+    [flush_timer invalidate];
+}
+
 // その他外部メソッド
 // HPとか、ダンジョン入る前にリセットしておきたいこと
 - (void) reflesh{
@@ -1273,6 +1312,7 @@
     p_mult[3] = 1.0;
     p_mult[4] = 1.0;
     p_mult[5] = 1.0;
+    [self stopFlush];
 }
 
 - (int)exp:(int)e{

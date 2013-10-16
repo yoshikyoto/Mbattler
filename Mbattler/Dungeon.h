@@ -20,11 +20,13 @@
     UIImageView *bgImageView;   // 背景
     NSArray *names;  // すべてのダンジョンの名前
     NSString *name; // 今入っているダンジョンの名前
+    int dungeon_id;
 }
 
 // セッター
 // 指定された番号のダンジョンを選択
 - (void)setDungeon:(int)i;
+- (int)clear;
 
 // 背景画像を設定
 - (void)setBackgroundInt:(int)image_num;

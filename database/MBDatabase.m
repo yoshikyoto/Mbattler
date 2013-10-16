@@ -100,13 +100,7 @@
     NSString *query = @"SELECT * FROM meishi ORDER BY meishiId";
     [db open];
     FMResultSet *rs = [db executeQuery:query];
-    
-    // 持ってた名刺の数を見る
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    int meishi_count = [ud integerForKey:@"MEISHI_NUM"];
-    //while([rs next]){
-    for(int i = 0; i < meishi_count; i++){
-        if(![rs next]) break;
+    while([rs next]){
         NSLog(@"%d", [rs intForColumn:@"meishiId"]);
         Meishi *m = [[Meishi alloc] init];
         [m setName:[rs stringForColumn:@"name"]];

@@ -27,6 +27,9 @@
     NSString *ability_desc;
     int ability_pow;
     BOOL ability_flag;
+    // 点滅させるためのタイマー
+    NSTimer *flush_timer;
+    
     
     int sex;        // 性別
     NSString *history; // 経歴
@@ -82,6 +85,12 @@
 - (int)getZip1;
 - (int)getZip2;
 - (int)getSex;
+- (int)getIndividualHInt;
+- (int)getIndividualAInt;
+- (int)getIndividualBInt;
+- (int)getIndividualCInt;
+- (int)getIndividualDInt;
+- (int)getIndividualSInt;
 
 // 画像オブジェクト関係のゲッターとか
 - (UIImageView *) getBattleImage;
@@ -101,6 +110,7 @@
 - (void) setAbility:(int)abl;
 /* 特殊能力セッター
  */
+- (void)setHistory:(NSString *)his;
 
 - (void) setIndividual:(int *)_i;
 - (void) setNowH:(int)_h;

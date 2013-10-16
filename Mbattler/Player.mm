@@ -43,6 +43,14 @@
     return self;
 }
 
+- (id)initWithInitializeData{
+    self = [self init];
+    if(self){
+        
+    }
+    return self;
+}
+
 - (id)initWithTestdata{
     self = [self init];
     if(self){
@@ -73,6 +81,17 @@
     if(self){
         // プレイヤーネームヨシキ
         name = n;
+        stamina_date = [NSDate date];
+        
+        // 初期名刺
+        Meishi *developer_meishi = [[Meishi alloc] initWithInformation:@"坂本祥之" CompanyName:@"京都大学大学院情報学研究科" Mail1:@"sakamoto" Mail2:@"db.soc.i.kyoto-u.ac.jp" Zip1:606 Zip2:8267 Sex:0];
+        [developer_meishi setAbility:0]; // ギガインパクト
+        [developer_meishi setHistory:[NSString stringWithFormat:@"京都の某大学にて大学生活を過ごす。学生の間は主にポケモンをして過ごし、4年で卒業。その後、大学院に行くが、研究に嫌気がさし、2013年4月1日、%@に転職する。転職1年目のかけだし。", [developer_meishi getJobString]]];
+        [self addMeishi:developer_meishi];
+        
+        Meishi *meishi = [[Meishi alloc] initWithInformation:name CompanyName:@"名刺バトラー" Mail1:@"meishi" Mail2:@"battler" Zip1:000 Zip2:0000 Sex:0];
+        [meishi setAbility:1]; // 破壊光線
+        [self addMeishi:meishi];
     }
     return self;
 }
@@ -85,9 +104,13 @@
         maxmeishi = [ud integerForKey:@"MAX_MEISHI"];
         partynum = [ud integerForKey:@"PARTY_NUM"];
         stamina = [ud integerForKey:@"STAMINA"];
+        stamina_date = [ud objectForKey:@"STAMINA_DATE"];
         item[0] = [ud integerForKey:@"ITEM_0"];
         item[1] = [ud integerForKey:@"ITEM_1"];
         item[2] = [ud integerForKey:@"ITEM_2"];
+        
+        MBDatabase *mbdb = [[MBDatabase alloc] init];
+        meishis = [mbdb loadAllMeishi];
     }
     return self;
 }
@@ -102,9 +125,13 @@
     // そのほかの情報はNSUserDefaultsに保存
     // 名刺の最大数
     [ud setInteger:maxmeishi forKey:@"MAX_MEISHI"];
+    // 名刺所持数
+    NSLog(@"%s 名刺所持数保存 %d", __func__, [self getNumOfMeishi]);
+    [ud setInteger:[self getNumOfMeishi] forKey:@"MEISHI_NUM"];
     // パーティの所属数
     [ud setInteger:partynum forKey:@"PARTY_NUM"];
-    
+    // stamina_date
+    [ud setObject:stamina_date forKey:@"STAMINA_DATE"];
     [self saveStamina]; // スタミナ
     
     // アイテムの所持数セーブ
@@ -127,6 +154,7 @@
 - (void)saveStamina{
     // スタミナ
     [ud setInteger:stamina forKey:@"STAMINA"];
+    [ud setObject:stamina_date forKey:@"STAMINA_DATE"];
 }
 
 
@@ -243,11 +271,22 @@
     }
 }
 
+- (Boolean)haveStamina:(int)s{
+    if(s > stamina){
+        return false;
+    }else{
+        return true;
+    }
+}
+
 - (Boolean)minusStaimna:(int)s{
     if(s > stamina) return false;
-    if(stamina == 50) stamina_date = [NSDate date];
+    if(stamina == 50){
+        stamina_date = [NSDate date];
+    }
     stamina -= s;
     [self reCalcStamina];
+    [self saveStamina];
     return true;
 }
 
@@ -260,6 +299,7 @@
     }
     //NSLog(@"スタミナ計算 %d", duration );
     [self reCalcStamina];
+    [self saveStamina];
 }
 
 - (void)reCalcStamina{

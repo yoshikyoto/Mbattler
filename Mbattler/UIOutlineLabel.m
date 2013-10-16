@@ -48,6 +48,14 @@
     self.backgroundColor = [UIColor clearColor];
 }
 
+- (void)setTitle:(NSString *)str{
+    [self setOutlineColor:[UIColor whiteColor]];
+    [self setOutlineWidth:3];
+    self.textAlignment = NSTextAlignmentCenter;
+    self.text = str;
+    self.backgroundColor = [UIColor clearColor];
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

@@ -129,11 +129,17 @@
 // 解雇
 - (void)fireAlert:(id)sender{
     UIAlertView *alert = [[UIAlertView alloc] init];
-    alert.delegate = self;
-    alert.title = @"この操作は取り消せません";
-    alert.message = @"解雇してもよろしいですか？\n解雇したキャラクターは削除されます";
-    [alert addButtonWithTitle:@"削除"];
-    [alert addButtonWithTitle:@"やめる"];
+    if([player getNumOfMeishi] > 1){
+        alert.delegate = self;
+        alert.title = @"この操作は取り消せません";
+        alert.message = @"解雇してもよろしいですか？\n解雇したキャラクターは削除されます";
+        [alert addButtonWithTitle:@"削除"];
+        [alert addButtonWithTitle:@"やめる"];
+    }else{
+        alert.title = @"最後の名刺です";
+        alert.message = @"キャラクターが一人しか居ない場合は\n解雇できません";
+        [alert addButtonWithTitle:@"とじる"];
+    }
     [alert show];
 }
 
@@ -147,7 +153,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         switch (buttonIndex) {
             case 0:
                 [player removeMeishiAtIndex:tag];
+                if(tag < [player getPartynum]) [player setPartyNum:[player getPartynum] - 1];
                 [status_view removeFromSuperview];
+                [player save];
                 [self rewriteCharactersScrollView];
                 break;
             case 1:

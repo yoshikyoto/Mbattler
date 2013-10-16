@@ -25,15 +25,20 @@
         self.layer.shadowOpacity = 0.7f; // 影の透明度
         self.layer.shadowColor = [UIColor blackColor].CGColor;   // 影の色
         self.layer.shadowRadius = 2.0f;  // ぼかし
-        self.backgroundColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:0.9];
+        self.backgroundColor = [UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.9];
         
         // 各種初期化
         UILabel *out_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 30)];
+        out_label.font = [UIFont fontWithName:@"mikachan_o" size:16];
         out_label.text = @"Out";
         out_label.textColor = [UIColor whiteColor];
-        out_label.backgroundColor = [UIColor grayColor];
+        out_label.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
         out_label.textAlignment = NSTextAlignmentCenter;
         [self addSubview:out_label];
+        
+        UILabel *out_back_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 30)];
+        out_back_label.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.2];
+        [self addSubview:out_back_label];
         
         p_name_label = [[UILabel alloc] initWithFrame:CGRectMake(60, 2, 80, 30)];
         p_name_label.font = [UIFont systemFontOfSize:16];
@@ -89,10 +94,16 @@
         
         UILabel *in_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, 50, 30)];
         in_label.text = @"In";
+        in_label.font = [UIFont fontWithName:@"mikachan_o" size:16];
         in_label.textColor = [UIColor whiteColor];
-        in_label.backgroundColor = [UIColor grayColor];
+        in_label.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
         in_label.textAlignment = NSTextAlignmentCenter;
         [self addSubview:in_label];
+        
+        UILabel *in_back_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, 300, 30)];
+        in_back_label.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.2];
+        [self addSubview:in_back_label];
+        
         r_name_label = [[UILabel alloc] initWithFrame:CGRectMake(60, 102, 80, 30)];
         r_name_label.font = [UIFont systemFontOfSize:16];
         rjob = [[UILabel alloc] initWithFrame:CGRectMake(150, 102, 70, 30)];
@@ -145,10 +156,11 @@
         rabl = [[UILabel alloc] initWithFrame:CGRectMake(70, 176, 200, 20)];
         rabl.font = [UIFont systemFontOfSize:14];
         
-        UILabel *message_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 220, 150, 30)];
+        UILabel *message_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 210, 150, 40)];
         message_label.text = @"よろしいですか？";
+        message_label.font = [UIFont fontWithName:@"mikachan_o" size:16];
         message_label.textAlignment = NSTextAlignmentCenter;
-        message_label.backgroundColor = [UIColor grayColor];
+        message_label.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
         message_label.textColor = [UIColor whiteColor];
         [self addSubview:message_label];
     }

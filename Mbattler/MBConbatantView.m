@@ -20,7 +20,7 @@
         // ラベル初期化
         turn_label = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, 200, 30)];
         turn_label.textColor = [UIColor whiteColor];
-        [self addSubview:turn_label];
+        //[self addSubview:turn_label];
         [self setTurn:0];
     }
     return self;

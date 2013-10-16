@@ -61,7 +61,7 @@
 - (void)addMeishi:(Meishi *)m; // 新名刺キャラクターを追加する
 - (void)removeMeishiAtIndex:(int)index;
 
-- (Boolean)iskMeishiFull;
+- (Boolean)isMeishiFull;
 /* 名刺がいっぱいかどうか確認する関数。
  * true ならいっぱいである。
  */
@@ -88,6 +88,7 @@
  * とりあえず、成功したら0を返す。
  */
 
+- (Boolean)haveStamina:(int)s;
 - (Boolean)minusStaimna:(int)s;
 /* スタミナを消費する関数
  * スタミナが足りない場合はfalseが返される

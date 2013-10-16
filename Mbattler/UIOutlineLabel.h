@@ -14,5 +14,6 @@
 @property (nonatomic, assign) CGFloat OutlineWidth;
 
 - (void)setCharacterName:(NSString *)name;
+- (void)setTitle:(NSString *)str;
 
 @end

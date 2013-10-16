@@ -16,19 +16,15 @@
     UIImageView *titleImage;
     UILabel *title;
     
-    // 下のスクロールのやつ
-    
-    UIColor *title_bg;
-    UIColor *sub_bg;
-    
     Player *player;
+    
+    UIColor *title_back_color;
+    UIColor *subtitle_back_color;
+    UIColor *back_color;
 }
 
 - (id)initWithPlayer:(Player *)p;
 - (void)setTitle:(NSString *)t;
 - (void)setTitle;
 - (void)setBackButton;
-
-// ゲッター
-- (UIColor *)getSubBg;
 @end

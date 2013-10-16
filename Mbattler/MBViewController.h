@@ -30,5 +30,5 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info;
-
+- (id)initWithPlayer:(Player *)p;
 @end

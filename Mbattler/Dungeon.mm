@@ -16,38 +16,55 @@
     if(self){
         // ダンジョン名一覧 ！！最後にはnilを入れること！！
         names = [NSArray arrayWithObjects:
-                 @"ふつうのダンジョン",
-                 @"つよそう",
-                 @"よわそう",
-                 @"アビリティデバッガー",
-                 @"全体攻撃デバッガー2",
-                 @"チュートリアル",
-                 @"はじまりの森",
-                 @"昆虫の森",
-                 @"食人の花",
-                 @"植物たちの下克上",
-                 @"少女寄生中",
-                 @"海岸の戦い",
-                 @"海中の魔物たち",
-                 @"触手の猛撃",
-                 @"野生の反乱",
-                 @"君臨せし空中王女",
-                 @"かぼちゃの愉快な仲間たち",
-                 @"いにしえの悪魔",
-                 @"和世界の邪鬼",
-                 @"洋館の悪霊",
-                 @"ゴブリン集会場",
-                 @"スライムの洞窟",
-                 @"盗賊の住処",
-                 @"遊戯の館",
-                 @"食物パラダイス",
+                 @"チュートリアル(スタミナ消費:5)",
+                 @"はじまりの森(スタミナ消費:5)",
+                 @"昆虫の森(スタミナ消費:7)",
+                 @"食人の花(スタミナ消費:7)",
+                 @"植物たちの下克上(スタミナ消費:10)",
+                 @"少女寄生中(スタミナ消費:10)",
+                 @"海原の戦い(スタミナ消費:10)",
+                 @"海中の魔物たち(スタミナ消費:12)",
+                 @"触手の猛撃(スタミナ消費:12)",
+                 @"野生の反乱(スタミナ消費:15)",
+                 @"君臨せし空中王女(スタミナ消費:18)",
+                 @"かぼちゃの愉快な仲間たち(スタミナ消費:18)",
+                 @"いにしえの悪魔(スタミナ消費:18)",
+                 @"和世界の邪鬼(スタミナ消費:20)",
+                 @"洋館の悪霊(スタミナ消費:20)",
+                 @"ゴブリン集会場(スタミナ消費:22)",
+                 @"スライムの洞窟(スタミナ消費:22)",
+                 @"盗賊の住処(スタミナ消費:22)",
+                 @"遊戯の館(スタミナ消費:22)",
+                 @"食物の天国(スタミナ消費:22)",
+                 @"陽落つる祭壇(スタミナ消費:25)",
+                 @"不死者の巣食う世界(スタミナ消費:25)",
+                 @"獅子奮迅の空(スタミナ消費:28)",
+                 @"鎧の蠢く城(スタミナ消費:28)",
+                 @"大洋の魔物(スタミナ消費:30)",
+                 @"大海の深世界(スタミナ消費:30)",
+                 @"溟海潜入路(スタミナ消費:30)",
+                 @"世界を統べる双火竜(スタミナ消費:50)",
                  nil];
         
     }
     return self;
 }
 
-- (NSArray *)getNames{ return names; }
+- (NSArray *)getNames{
+    // クリア情報の応じてダンジョン配列を返す
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *result_array = [[NSMutableArray alloc] init];
+    // 以下、クリアしてないダンジョンが出てくるまで繰り返す
+    for(int i = 0; i < [names count]; i++){
+        [result_array addObject:[names objectAtIndex:i]];
+        // ダンジョンクリア回数見る
+        NSString *key = [NSString stringWithFormat:@"CLEARCOUNT_DUNGEON_%d", i];
+        int clear_count = [ud integerForKey:key];
+        NSLog(@"クリアカウント%d", clear_count);
+        if(clear_count <= 0) break;
+    }
+    return result_array;
+}
 - (NSString *)getName{ return name; }
 
 - (void)reset{
@@ -55,10 +72,26 @@
     arr = [[NSMutableArray alloc] init];
 }
 
+- (int)clear{
+    // クリアカウントを1増やす
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSString *key = [NSString stringWithFormat:@"CLEARCOUNT_DUNGEON_%d", dungeon_id];
+    int clear_count = [ud integerForKey:key];
+    if(clear_count <= 0){
+        clear_count = 1;
+    }else{
+        clear_count++;
+    }
+    // セーブ
+    [ud setInteger:clear_count forKey:key];
+    return exp;
+}
+
 - (void)setDungeon:(int)i{
     NSLog(@"ダンジョンをセット");
     // ダンジョンの名前をセット
     name = [names objectAtIndex:i];
+    dungeon_id = i;
     switch (i) {
         case 0:
             [self dungeon0];
@@ -135,30 +168,20 @@
         case 24:
             [self dungeon24];
             break;
-            /*
-             case 25:
-             [self dungeon25];
-             break;
-             case 26:
-             [self dungeon26];
-             break;
-             case 27:
-             [self dungeon27];
-             break;
-             case 28:
-             [self dungeon28];
-             break;
-             case 29:
-             [self dungeon29];
-             break;
-             case 30:
-             [self dungeon30];
-             break;
-             */
+        case 25:
+            [self dungeon25];
+            break;
+        case 26:
+            [self dungeon26];
+            break;
+        case 27:
+            [self dungeon27];
+            break;
     }
 }
 
-- (void)dungeon0{
+/*
+- (void)testDungeon1{
     [self reset];
     NSLog(@"ダンジョン1生成 in Dungeon");
     
@@ -180,7 +203,7 @@
     [self setBackgroundInt:0];
 }
 
-- (void)dungeon1{
+- (void)testDungeon2{
     [self reset];
     NSLog(@"ダンジョン2");
     // 敵集団1
@@ -193,7 +216,7 @@
     [self setBackgroundInt:1];
 }
 
-- (void)dungeon2{
+- (void)testDungeon3{
     [self reset];
     NSLog(@"ダンジョン3");
     
@@ -209,7 +232,7 @@
     [self setBackgroundInt:2];
 }
 
-- (void)dungeon3{
+- (void)abilityDebuger{
     [self reset];
     NSLog(@"%s", __func__);
     
@@ -224,7 +247,7 @@
     [self setBackgroundInt:3];
 }
 
-- (void)dungeon4{
+- (void)wholeAbilityDebuger{
     [self reset];
     NSLog(@"%s", __func__);
     
@@ -241,60 +264,62 @@
     stamina = 5;
     [self setBackgroundInt:3];
 }
+*/
 
-- (void)dungeon5{
+// 以下本番ダンジョン
+- (void)dungeon0{
     
     //推奨レベル1
     
     [self reset];
-    NSLog(@"チュートリアルステージ生成 in Dungeon");
+    NSLog(@"%s チュートリアルステージ生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
                        [[Enemy alloc] initWithName:@"ビックリネズミ１" H:60 	A:25 	B:0 	C:25 	D:0 	S:30
-                                       ImageString:@"solid07.PNG"],
-                       [[Enemy alloc] initWithName:@"ビックリネズミ２" H:60 	A:25 	B:0 	C:25 	D:0 	S:30 ImageString:@"solid07.PNG"],
-                       [[Enemy alloc] initWithName:@"ビックリネズミ３" H:60 	A:25 	B:0 	C:25 	D:0 	S:30 ImageString:@"solid07.PNG"],
+                                          attackBy:1 ImageString:@"solid07.png"],
+                       [[Enemy alloc] initWithName:@"ビックリネズミ２" H:60 	A:25 	B:0 	C:25 	D:0 	S:30 attackBy:1 ImageString:@"solid07.png"],
+                       [[Enemy alloc] initWithName:@"ビックリネズミ３" H:60 	A:25 	B:0 	C:25 	D:0 	S:30 attackBy:1 ImageString:@"solid07.png"],
                        nil];
     [arr addObject:subarr];
     
     // 敵襲団2
     subarr = [NSArray arrayWithObjects:
               [[Enemy alloc] initWithName:@"汚いネズミ１" H:65 	A:30 	B:0 	C:30 	D:0 	S:35
-                              ImageString:@"animal19.PNG"],
+                              ImageString:@"animal19.png"],
               [[Enemy alloc] initWithName:@"汚いネズミ１" H:65 	A:30 	B:0 	C:30 	D:0 	S:35
-                              ImageString:@"animal19.PNG"],
+                              ImageString:@"animal19.png"],
               [[Enemy alloc] initWithName:@"汚いネズミ１" H:65 	A:30 	B:0 	C:30 	D:0 	S:35
-                              ImageString:@"animal19.PNG"],
+                              ImageString:@"animal19.png"],
               nil];
     [arr addObject:subarr];
     
     //敵集団3
     subarr = [NSArray arrayWithObjects:
               [[Enemy alloc] initWithName:@"獰猛カマキリ" H:150 	A:40 	B:0 	C:30 	D:0 	S:35
-                              ImageString:@"animal22.PNG"],
+                              ImageString:@"animal22.png"],
               nil];
     [arr addObject:subarr];
     
     
-    exp = 124;
+    exp = 25;
     stamina = 5;
     [self setBackgroundInt:0];
 }
 
-- (void)dungeon6{
+- (void)dungeon1{
     
     //推奨レベル2
     
     [self reset];
-    NSLog(@"はじまりの森生成 in Dungeon");
+    NSLog(@"%s はじまりの森生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
-                       [[Enemy alloc] initWithName:@"毒々しいちょうちょ１" H:60 	A:42 	B:0 	C:42 	D:0 	S:35 ImageString:@"spirit81.png"],
-                       [[Enemy alloc] initWithName:@"毒々しいちょうちょ２" H:60 	A:42 	B:0 	C:42 	D:0 	S:35 ImageString:@"spirit81.png"],
-                       [[Enemy alloc] initWithName:@"毒々しいちょうちょ３" H:60 	A:42 	B:0 	C:42 	D:0 	S:35 ImageString:@"animal17.png"],
-                       [[Enemy alloc] initWithName:@"毒々しいちょうちょ４" H:60 	A:42 	B:0 	C:42 	D:0 	S:35 ImageString:@"animal17.png"],
+                       [[Enemy alloc] initWithName:@"毒々しいちょうちょ１" H:60 	A:42 	B:0 	C:42 	D:0 	S:35 attackBy:1 ImageString:@"spirit81.png"],
+                       [[Enemy alloc] initWithName:@"毒々しいちょうちょ２" H:60 	A:42 	B:0 	C:42 	D:0 	S:35 attackBy:1 ImageString:@"spirit81.png"],
+                       [[Enemy alloc] initWithName:@"毒々しいちょうちょ３" H:60 	A:42 	B:0 	C:42 	D:0 	S:35 attackBy:1 ImageString:@"animal17.png"],
+                       [[Enemy alloc] initWithName:@"毒々しいちょうちょ４" H:60 	A:42 	B:0 	C:42 	D:0 	S:35 attackBy:1 ImageString:@"animal17.png"],
                        nil];
     [arr addObject:subarr];
     
@@ -324,17 +349,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
+    exp = 25;
     stamina = 5;
-    [self setBackgroundInt:0];
+    [self setBackgroundInt:2];
 }
 
-- (void)dungeon7{
+- (void)dungeon2{
     
     //推奨レベル3
     
     [self reset];
-    NSLog(@"昆虫の森生成 in Dungeon");
+    NSLog(@"%s 昆虫の森生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -365,25 +390,25 @@
               [[Enemy alloc] initWithName:@"ヘラクレスビートル２" H:80 	A:50 	B:20 	C:45 	D:20 	S:40
                               ImageString:@"animal20.png"],
               [[Enemy alloc] initWithName:@"ミヤマクワガタ１" H:80 	A:50 	B:20 	C:45 	D:20 	S:40
-                              ImageString:@"animal06.png"],
+                              attackBy:1 ImageString:@"animal06.png"],
               [[Enemy alloc] initWithName:@"ミヤマクワガタ２" H:80 	A:45 	B:20 	C:50 	D:20 	S:40
-                              ImageString:@"animal06.png"],
+                              attackBy:1 ImageString:@"animal06.png"],
               nil];
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 38;
+    stamina = 7;
+    [self setBackgroundInt:2];
 }
 
 
-- (void)dungeon8{
+- (void)dungeon3{
     
     //推奨レベル3
     
     [self reset];
-    NSLog(@"食人の花生成 in Dungeon");
+    NSLog(@"%s 食人の花生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -417,17 +442,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
+    exp = 38;
+    stamina = 7;
     [self setBackgroundInt:0];
 }
 
-- (void)dungeon9{
+- (void)dungeon4{
     
     //推奨レベル4
     
     [self reset];
-    NSLog(@"植物たちの下克上生成 in Dungeon");
+    NSLog(@"%s 植物たちの下克上生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -464,17 +489,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
+    exp = 50;
+    stamina = 10;
     [self setBackgroundInt:0];
 }
 
-- (void)dungeon10{
+- (void)dungeon5{
     
     //推奨レベル5
     
     [self reset];
-    NSLog(@"少女寄生中生成 in Dungeon");
+    NSLog(@"%s 少女寄生中生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -510,17 +535,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 50;
+    stamina = 10;
+    [self setBackgroundInt:2];
 }
 
-- (void)dungeon11{
+- (void)dungeon6{
     
     //推奨レベル5
     
     [self reset];
-    NSLog(@"海岸の戦い生成 in Dungeon");
+    NSLog(@"%s 海原の戦い生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -562,17 +587,17 @@
               nil];
     [arr addObject:subarr];
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 50;
+    stamina = 10;
+    [self setBackgroundInt:18];
 }
 
-- (void)dungeon12{
+- (void)dungeon7{
     
     //推奨レベル6
     
     [self reset];
-    NSLog(@"海中の魔物たち生成 in Dungeon");
+    NSLog(@"%s 海中の魔物たち生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -623,17 +648,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 56;
+    stamina = 12;
+    [self setBackgroundInt:18];
 }
 
-- (void)dungeon13{
+- (void)dungeon8{
     
     //推奨レベル7
     
     [self reset];
-    NSLog(@"触手の猛撃生成 in Dungeon");
+    NSLog(@"%s 触手の猛撃生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -685,17 +710,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 63;
+    stamina = 12;
+    [self setBackgroundInt:18];
 }
 
-- (void)dungeon14{
+- (void)dungeon9{
     
     //推奨レベル8
     
     [self reset];
-    NSLog(@"野生の反乱生成 in Dungeon");
+    NSLog(@"%s 野生の反乱生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -738,17 +763,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 75;
+    stamina = 15;
+    [self setBackgroundInt:1];
 }
 
-- (void)dungeon15{
+- (void)dungeon10{
     
     //推奨レベル10
     
     [self reset];
-    NSLog(@"君臨せし空中王女生成 in Dungeon");
+    NSLog(@"%s 君臨せし空中王女生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -806,17 +831,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 88;
+    stamina = 18;
+    [self setBackgroundInt:17];
 }
 
-- (void)dungeon16{
+- (void)dungeon11{
     
     //推奨レベル10
     
     [self reset];
-    NSLog(@"かぼちゃの愉快な仲間たち生成 in Dungeon");
+    NSLog(@"%s かぼちゃの愉快な仲間たち生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -859,17 +884,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 88;
+    stamina = 18;
+    [self setBackgroundInt:10];
 }
 
-- (void)dungeon17{
+- (void)dungeon12{
     
     //推奨レベル11
     
     [self reset];
-    NSLog(@"いにしえの悪魔生成 in Dungeon");
+    NSLog(@"%s いにしえの悪魔生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -924,17 +949,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 94;
+    stamina = 18;
+    [self setBackgroundInt:10];
 }
 
-- (void)dungeon18{
+- (void)dungeon13{
     
     //推奨レベル11
     
     [self reset];
-    NSLog(@"和世界の邪鬼生成 in Dungeon");
+    NSLog(@"%s 和世界の邪鬼生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -991,17 +1016,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 94;
+    stamina = 20;
+    [self setBackgroundInt:10];
 }
 
-- (void)dungeon19{
+- (void)dungeon14{
     
     //推奨レベル11
     
     [self reset];
-    NSLog(@"洋館の悪霊生成 in Dungeon");
+    NSLog(@"%s 洋館の悪霊生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -1058,17 +1083,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 100;
+    stamina = 20;
+    [self setBackgroundInt:9];
 }
 
-- (void)dungeon20{
+- (void)dungeon15{
     
     //推奨レベル13
     
     [self reset];
-    NSLog(@"ゴブリン集会場生成 in Dungeon");
+    NSLog(@"%s ゴブリン集会場生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -1125,17 +1150,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 106;
+    stamina = 22;
+    [self setBackgroundInt:8];
 }
 
-- (void)dungeon21{
+- (void)dungeon16{
     
     //推奨レベル13
     
     [self reset];
-    NSLog(@"スライムの洞窟生成 in Dungeon");
+    NSLog(@"%s スライムの洞窟生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -1192,17 +1217,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 106;
+    stamina = 22;
+    [self setBackgroundInt:8];
 }
 
-- (void)dungeon22{
+- (void)dungeon17{
     
     //推奨レベル13
     
     [self reset];
-    NSLog(@"盗賊の住処生成 in Dungeon");
+    NSLog(@"%s 盗賊の住処生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -1260,17 +1285,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 112;
+    stamina = 22;
+    [self setBackgroundInt:8];
 }
 
-- (void)dungeon23{
+- (void)dungeon18{
     
     //推奨レベル14
     
     [self reset];
-    NSLog(@"遊戯の館生成 in Dungeon");
+    NSLog(@"%s 遊戯の館生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -1338,17 +1363,17 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 112;
+    stamina = 22;
+    [self setBackgroundInt:9];
 }
 
-- (void)dungeon24{
+- (void)dungeon19{
     
     //推奨レベル14
     
     [self reset];
-    NSLog(@"食物パラダイス生成 in Dungeon");
+    NSLog(@"%s 食物パラダイス生成", __func__);
     
     // 敵集団1
     NSArray *subarr = [NSArray arrayWithObjects:
@@ -1401,281 +1426,513 @@
     [arr addObject:subarr];
     
     
-    exp = 124;
-    stamina = 5;
-    [self setBackgroundInt:0];
+    exp = 112;
+    stamina = 22;
+    [self setBackgroundInt:12];
 }
 
 
-/*　ここから先、作成中
- 
- - (void)dungeon25{
- [self reset];
- NSLog(@"いにしえの悪魔生成 in Dungeon");
- 
- // 敵集団1
- NSArray *subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"フライングアイ１" H:200 	A:90 	B:20 	C:85 	D:20 	S:85
- ImageString:@"monster86.png"],
- nil];
- [arr addObject:subarr];
- 
- // 敵襲団2
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- //敵集団3
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- //敵集団4
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー１" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- //敵集団5
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー１" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- 
- exp = 124;
- stamina = 5;
- [self setBackgroundInt:0];
- }
- 
- - (void)dungeon26{
- [self reset];
- NSLog(@"いにしえの悪魔生成 in Dungeon");
- 
- // 敵集団1
- NSArray *subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"フライングアイ１" H:200 	A:90 	B:20 	C:85 	D:20 	S:85
- ImageString:@"monster86.png"],
- nil];
- [arr addObject:subarr];
- 
- // 敵襲団2
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- //敵集団3
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- //敵集団4
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー１" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- //敵集団5
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー１" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- 
- exp = 124;
- stamina = 5;
- [self setBackgroundInt:0];
- }
- 
- - (void)dungeon27{
- [self reset];
- NSLog(@"いにしえの悪魔生成 in Dungeon");
- 
- // 敵集団1
- NSArray *subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"フライングアイ１" H:200 	A:90 	B:20 	C:85 	D:20 	S:85
- ImageString:@"monster86.png"],
- nil];
- [arr addObject:subarr];
- 
- // 敵襲団2
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- //敵集団3
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- //敵集団4
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー１" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- //敵集団5
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー１" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- 
- exp = 124;
- stamina = 5;
- [self setBackgroundInt:0];
- }
- 
- - (void)dungeon28{
- [self reset];
- NSLog(@"いにしえの悪魔生成 in Dungeon");
- 
- // 敵集団1
- NSArray *subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"フライングアイ１" H:200 	A:90 	B:20 	C:85 	D:20 	S:85
- ImageString:@"monster86.png"],
- nil];
- [arr addObject:subarr];
- 
- // 敵襲団2
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- //敵集団3
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- //敵集団4
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー１" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- //敵集団5
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー１" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- 
- exp = 124;
- stamina = 5;
- [self setBackgroundInt:0];
- }
- 
- - (void)dungeon29{
- [self reset];
- NSLog(@"いにしえの悪魔生成 in Dungeon");
- 
- // 敵集団1
- NSArray *subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"フライングアイ１" H:200 	A:90 	B:20 	C:85 	D:20 	S:85
- ImageString:@"monster86.png"],
- nil];
- [arr addObject:subarr];
- 
- // 敵襲団2
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- //敵集団3
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- //敵集団4
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー１" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- //敵集団5
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー１" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- 
- exp = 124;
- stamina = 5;
- [self setBackgroundInt:0];
- }
- 
- - (void)dungeon30{
- [self reset];
- NSLog(@"いにしえの悪魔生成 in Dungeon");
- 
- // 敵集団1
- NSArray *subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"フライングアイ１" H:200 	A:90 	B:20 	C:85 	D:20 	S:85
- ImageString:@"monster86.png"],
- nil];
- [arr addObject:subarr];
- 
- // 敵襲団2
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- //敵集団3
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- //敵集団4
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー１" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- //敵集団5
- subarr = [NSArray arrayWithObjects:
- [[Enemy alloc] initWithName:@"マミー１" H:350 	A:95 	B:10	C:95 	D:50 	S:85
- ImageString:@"undead26.png"],
- nil];
- [arr addObject:subarr];
- 
- 
- exp = 124;
- stamina = 5;
- [self setBackgroundInt:0];
- }
- */
+- (void)dungeon20{
+    [self reset];
+    NSLog(@"%s 陽落つる祭壇生成", __func__);
+    
+    // 敵集団1
+    NSArray *subarr = [NSArray arrayWithObjects:
+                       [[Enemy alloc] initWithName:@"ケルベロス１" H:350 	A:103 	B:35 	C:103 	D:35 	S:92
+                                       ImageString:@"monster24"],
+                       [[Enemy alloc] initWithName:@"ケルベロス２" H:350 	A:103 	B:35 	C:103 	D:35 	S:92
+                                       ImageString:@"monster24"],
+                       [[Enemy alloc] initWithName:@"ケルベロス３" H:350 	A:103 	B:35 	C:103 	D:35 	S:92
+                                       ImageString:@"monster24"],
+                       nil];
+    [arr addObject:subarr];
+    
+    // 敵襲団2
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"ケルベロス１" H:350 	A:103 	B:35 	C:103 	D:35 	S:92
+                              ImageString:@"monster24"],
+              [[Enemy alloc] initWithName:@"マミーナイト" H:450 	A:106 	B:40	C:95 	D:40 	S:100
+                              ImageString:@"undead03.png"],
+              [[Enemy alloc] initWithName:@"ケルベロス２" H:350 	A:103 	B:35 	C:103 	D:35 	S:92
+                              ImageString:@"monster24"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団3
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"マミーナイト１" H:450 	A:106 	B:40	C:95 	D:40 	S:100
+                              ImageString:@"undead03.png"],
+              [[Enemy alloc] initWithName:@"マミーナイト２" H:450 	A:106 	B:40	C:95 	D:40 	S:100
+                              ImageString:@"undead03.png"],
+              [[Enemy alloc] initWithName:@"マミーナイト３" H:450 	A:106 	B:40	C:95 	D:40 	S:100
+                              ImageString:@"undead03.png"],
+              nil];
+    [arr addObject:subarr];
+    //敵集団4
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"女王の従者" H:500 	A:107 	B:60	C:107 	D:0 	S:95
+                              ImageString:@"spirit15.png"],
+              [[Enemy alloc] initWithName:@"王の従者" H:500 	A:107 	B:60	C:95 	D:0 	S:95
+                              ImageString:@"spirit15.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団5
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"落陽の王" H:1800 	A:107 	B:50	C:95 	D:50 	S:95
+                              ImageString:@"spirit16.png"],
+              [[Enemy alloc] initWithName:@"落陽の女王" H:1800 	A:107 	B:50	C:107 	D:50 	S:95
+                              ImageString:@"spirit14.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    
+    exp = 125;
+    stamina = 25;
+    [self setBackgroundInt:13];
+}
 
+- (void)dungeon21{
+    [self reset];
+    NSLog(@"%s 不死者の巣食う世界生成", __func__);
+    
+    // 敵集団1
+    NSArray *subarr = [NSArray arrayWithObjects:
+                       [[Enemy alloc] initWithName:@"墓から這い出しもの１" H:500 	A:107 	B:20	C:107 	D:20 	S:100
+                                       ImageString:@"undead02.png"],
+                       [[Enemy alloc] initWithName:@"墓から這い出しもの２" H:500 	A:107 	B:20	C:107 	D:20 	S:100
+                                       ImageString:@"undead02.png"],
+                       [[Enemy alloc] initWithName:@"墓から這い出しもの３" H:500 	A:107 	B:20	C:107 	D:20 	S:100
+                                       ImageString:@"undead02.png"],
+                       nil];
+    [arr addObject:subarr];
+    
+    // 敵襲団2
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"暗闇の女１" H:650 	A:112 	B:40	C:112 	D:40 	S:110
+                              ImageString:@"human193.png"],
+              [[Enemy alloc] initWithName:@"暗闇の女２" H:650 	A:112 	B:40	C:112 	D:40 	S:110
+                              ImageString:@"human193.png"],
+              [[Enemy alloc] initWithName:@"暗闇の女３" H:650 	A:112 	B:40	C:112 	D:40 	S:110
+                              ImageString:@"human193.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団3
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"空の不死者１" H:650 	A:115 	B:40	C:115 	D:40 	S:115
+                              ImageString:@"monster31.png"],
+              [[Enemy alloc] initWithName:@"空の不死者２" H:650 	A:115 	B:40	C:115 	D:40 	S:115
+                              ImageString:@"monster31.png"],
+              [[Enemy alloc] initWithName:@"空の不死者３" H:650 	A:115 	B:40	C:115 	D:40 	S:115
+                              ImageString:@"monster31.png"],
+              nil];
+    [arr addObject:subarr];
+    //敵集団4
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"闇のならずもの１" H:650 	A:115 	B:40	C:115 	D:40 	S:120
+                              ImageString:@"human147.png"],
+              [[Enemy alloc] initWithName:@"闇のならずもの２" H:650 	A:115 	B:40	C:115 	D:40 	S:120
+                              ImageString:@"human147.png"],
+              [[Enemy alloc] initWithName:@"闇のならずもの３" H:650 	A:115 	B:40	C:115 	D:40 	S:120
+                              ImageString:@"human147.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団5
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"闇のならずもの１" H:650 	A:115 	B:40	C:115 	D:40 	S:120
+                              ImageString:@"human147.png"],
+              [[Enemy alloc] initWithName:@"暗闇の召喚者" H:2200 	A:120 	B:0	C:95 	D:60 	S:95
+                              ImageString:@"undead27.png"],
+              [[Enemy alloc] initWithName:@"闇のならずもの２" H:650 	A:115 	B:40	C:115 	D:40 	S:120
+                              ImageString:@"human147.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    
+    exp = 125;
+    stamina = 25;
+    [self setBackgroundInt:11];
+}
 
+- (void)dungeon22{
+    [self reset];
+    NSLog(@"%s 獅子奮迅の空生成", __func__);
+    
+    // 敵集団1
+    NSArray *subarr = [NSArray arrayWithObjects:
+                       [[Enemy alloc] initWithName:@"空飛竜" H:500 	A:110 	B:20	C:110 	D:20 	S:120
+                                       ImageString:@"monster57.png"],
+                       [[Enemy alloc] initWithName:@"地飛竜" H:500 	A:110 	B:20	C:100 	D:20 	S:120
+                                       ImageString:@"monster103.png"],
+                       nil];
+    [arr addObject:subarr];
+    
+    // 敵襲団2
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"空飛竜" H:500 	A:110 	B:20	C:110 	D:20 	S:120
+                              ImageString:@"monster57.png"],
+              [[Enemy alloc] initWithName:@"ポイズンガーゴイル" H:800 	A:115 	B:60	C:110 	D:60 	S:100
+                              ImageString:@"monster28.png"],
+              [[Enemy alloc] initWithName:@"地飛竜" H:500 	A:110 	B:20	C:100 	D:20 	S:120
+                              ImageString:@"monster103.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団3
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"白天使１" H:750 	A:115 	B:30	C:115 	D:30 	S:120
+                              ImageString:@"spirit03.png"],
+              [[Enemy alloc] initWithName:@"白天使２" H:750 	A:115 	B:30	C:115 	D:30 	S:120
+                              ImageString:@"spirit03.png"],
+              [[Enemy alloc] initWithName:@"白天使３" H:750 	A:115 	B:30	C:115 	D:30 	S:120
+                              ImageString:@"spirit03.png"],
+              nil];
+    [arr addObject:subarr];
+    //敵集団4
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"黒天使１" H:750 	A:115 	B:30	C:95 	D:30 	S:120
+                              ImageString:@"spirit35.png"],
+              [[Enemy alloc] initWithName:@"黒天使２" H:750 	A:115 	B:30	C:95 	D:30 	S:120
+                              ImageString:@"spirit35.png"],
+              [[Enemy alloc] initWithName:@"黒天使３" H:750 	A:115 	B:30	C:95 	D:30 	S:120
+                              ImageString:@"spirit35.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団5
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"白天使" H:750 	A:115 	B:30	C:115 	D:30 	S:120
+                              ImageString:@"spirit03.png"],
+              [[Enemy alloc] initWithName:@"獅子奮迅" H:2500 	A:120 	B:30	C:95 	D:30 	S:110
+                              ImageString:@"dh11.png"],
+              [[Enemy alloc] initWithName:@"黒天使" H:750 	A:115 	B:30	C:95 	D:30 	S:120
+                              ImageString:@"spirit35.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    
+    exp = 125;
+    stamina = 28;
+    [self setBackgroundInt:17];
+}
 
+- (void)dungeon23{
+    [self reset];
+    NSLog(@"%s 鎧たちの蠢く城生成", __func__);
+    
+    // 敵集団1
+    NSArray *subarr = [NSArray arrayWithObjects:
+                       [[Enemy alloc] initWithName:@"上半身だけの鎧１" H:500 	A:110 	B:60	C:100 	D:30 	S:100
+                                       ImageString:@"solid06.png"],
+                       [[Enemy alloc] initWithName:@"上半身だけの鎧２" H:500 	A:110 	B:60	C:100 	D:30 	S:100
+                                       ImageString:@"solid06.png"],
+                       [[Enemy alloc] initWithName:@"上半身だけの鎧３" H:500 	A:110 	B:60	C:100 	D:30 	S:100
+                                       ImageString:@"solid06.png"],
+                       nil];
+    [arr addObject:subarr];
+    
+    // 敵襲団2
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"上半身だけの鎧１" H:500 	A:110 	B:60	C:100 	D:30 	S:100
+                              ImageString:@"solid06.png"],
+              [[Enemy alloc] initWithName:@"無言の鎧騎士" H:500 	A:116 	B:80	C:100 	D:30 	S:110
+                              ImageString:@"human127.png"],
+              [[Enemy alloc] initWithName:@"上半身だけの鎧２" H:500 	A:110 	B:60	C:100 	D:30 	S:100
+                              ImageString:@"solid06.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団3
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"無言の鎧騎士１" H:500 	A:116 	B:80	C:100 	D:30 	S:110
+                              ImageString:@"human127.png"],
+              [[Enemy alloc] initWithName:@"蜥蜴戦士（柔）" H:800 	A:118 	B:50	C:100 	D:30 	S:110
+                              ImageString:@"dh24.png"],
+              [[Enemy alloc] initWithName:@"無言の鎧騎士２" H:500 	A:116 	B:80	C:100 	D:30 	S:110
+                              ImageString:@"human127.png"],
+              nil];
+    [arr addObject:subarr];
+    //敵集団4
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"蜥蜴戦士（柔）１" H:800 	A:118 	B:50	C:100 	D:30 	S:110
+                              ImageString:@"dh24.png"],
+              [[Enemy alloc] initWithName:@"蜥蜴戦士（硬）" H:800 	A:118 	B:80	C:100 	D:30 	S:110
+                              ImageString:@"dh24.png"],
+              [[Enemy alloc] initWithName:@"蜥蜴戦士（柔）２" H:800 	A:118 	B:50	C:100 	D:30 	S:110
+                              ImageString:@"dh24.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団5
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"蜥蜴戦士（硬）１" H:800 	A:118 	B:80	C:100 	D:30 	S:110
+                              ImageString:@"dh24.png"],
+              [[Enemy alloc] initWithName:@"ゴブリンナイト（強）" H:2500 	A:120 	B:80	C:100 	D:30 	S:120
+                              ImageString:@"dh05.png"],
+              [[Enemy alloc] initWithName:@"蜥蜴戦士（硬）２" H:800 	A:118 	B:80	C:100 	D:30 	S:110
+                              ImageString:@"dh24.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    
+    exp = 131;
+    stamina = 28;
+    [self setBackgroundInt:14];
+}
+
+- (void)dungeon24{
+    [self reset];
+    NSLog(@"%s 大洋の魔物生成", __func__);
+    
+    // 敵集団1
+    NSArray *subarr = [NSArray arrayWithObjects:
+                       [[Enemy alloc] initWithName:@"ラッセンのイルカ１" H:500 	A:119 	B:40	C:119 	D:40 	S:118
+                                       ImageString:@"aquatic08.png"],
+                       [[Enemy alloc] initWithName:@"ラッセンのイルカ２" H:500 	A:119 	B:40	C:119 	D:40 	S:118
+                                       ImageString:@"aquatic08.png"],
+                       [[Enemy alloc] initWithName:@"ラッセンのイルカ３" H:500 	A:119 	B:40	C:119 	D:40 	S:118
+                                       ImageString:@"aquatic08.png"],
+                       nil];
+    [arr addObject:subarr];
+    
+    // 敵襲団2
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"ラッセンのイルカ１" H:500 	A:119 	B:40	C:119 	D:40 	S:118
+                              ImageString:@"aquatic08.png"],
+              [[Enemy alloc] initWithName:@"巨大コバンザメ" H:750 	A:119 	B:35	C:95 	D:35 	S:115
+                              ImageString:@"aquatic07.png"],
+              [[Enemy alloc] initWithName:@"ラッセンのイルカ２" H:500 	A:119 	B:40	C:119 	D:40 	S:118
+                              ImageString:@"aquatic08.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団3
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"巨大コバンザメ１" H:750 	A:119 	B:35	C:95 	D:35 	S:115
+                              ImageString:@"aquatic07.png"],
+              [[Enemy alloc] initWithName:@"極悪深海魚" H:1000 	A:119 	B:25	C:95 	D:25 	S:110
+                              ImageString:@"aquatic22.png"],
+              [[Enemy alloc] initWithName:@"巨大コバンザメ２" H:750 	A:119 	B:35	C:95 	D:35 	S:115
+                              ImageString:@"aquatic07.png"],
+              nil];
+    [arr addObject:subarr];
+    //敵集団4
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"極悪深海魚１" H:1000 	A:119 	B:25	C:95 	D:25 	S:110
+                              ImageString:@"aquatic22.png"],
+              [[Enemy alloc] initWithName:@"極悪深海魚２" H:1000 	A:119 	B:25	C:95 	D:25 	S:110
+                              ImageString:@"aquatic22.png"],
+              [[Enemy alloc] initWithName:@"極悪深海魚３" H:1000 	A:119 	B:25	C:95 	D:25 	S:110
+                              ImageString:@"aquatic22.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団5
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"極悪深海魚１" H:1000 	A:119 	B:25	C:95 	D:25 	S:110
+                              ImageString:@"aquatic22.png"],
+              [[Enemy alloc] initWithName:@"皇帝シーホース" H:2500 	A:123 	B:40	C:125 	D:40 	S:115
+                              ImageString:@"monster70.png"],
+              [[Enemy alloc] initWithName:@"極悪深海魚２" H:1000 	A:119 	B:25	C:95 	D:25 	S:110
+                              ImageString:@"aquatic22.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    
+    exp = 131;
+    stamina = 30;
+    [self setBackgroundInt:18];
+}
+
+- (void)dungeon25{
+    [self reset];
+    NSLog(@"%s 大海の深世界生成", __func__);
+    
+    // 敵集団1
+    NSArray *subarr = [NSArray arrayWithObjects:
+                       [[Enemy alloc] initWithName:@"墨染めシャーク１" H:650 	A:115   B:50	C:95 	D:50 	S:113
+                                       ImageString:@"aquatic03.png"],
+                       [[Enemy alloc] initWithName:@"墨染めシャーク２" H:650 	A:115   B:50	C:95 	D:50 	S:113
+                                       ImageString:@"aquatic03.png"],
+                       [[Enemy alloc] initWithName:@"墨染めシャーク３" H:650 	A:115   B:50	C:95 	D:50 	S:113
+                                       ImageString:@"aquatic03.png"],
+                       nil];
+    [arr addObject:subarr];
+    
+    // 敵襲団2
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"墨染めシャーク１" H:650 	A:115   B:50	C:95 	D:50 	S:113
+                              ImageString:@"aquatic03.png"],
+              [[Enemy alloc] initWithName:@"未発達人魚" H:750 	A:123   B:50	C:123 	D:50 	S:115
+                              ImageString:@"aquatic10.png"],
+              [[Enemy alloc] initWithName:@"墨染めシャーク２" H:650 	A:115   B:50	C:95 	D:50 	S:113
+                              ImageString:@"aquatic03.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団3
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"未発達人魚１" H:750 	A:123   B:50	C:123 	D:50 	S:115
+                              ImageString:@"aquatic10.png"],
+              [[Enemy alloc] initWithName:@"赤ウミヘビ" H:1000 	A:126 	B:35	C:126 	D:35 	S:112
+                              ImageString:@"monster73.png"],
+              [[Enemy alloc] initWithName:@"未発達人魚２" H:750 	A:123   B:50	C:123 	D:50 	S:115
+                              ImageString:@"aquatic10.png"],
+              nil];
+    [arr addObject:subarr];
+    //敵集団4
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"赤ウミヘビ１" H:1000 	A:126 	B:35	C:126 	D:35 	S:112
+                              ImageString:@"monster73.png"],
+              [[Enemy alloc] initWithName:@"赤ウミヘビ２" H:1000 	A:126 	B:35	C:126 	D:35 	S:112
+                              ImageString:@"monster73.png"],
+              [[Enemy alloc] initWithName:@"赤ウミヘビ３" H:1000 	A:126 	B:35	C:126 	D:35 	S:112
+                              ImageString:@"monster73.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団5
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"赤ウミヘビ１" H:1000 	A:126 	B:35	C:126 	D:35 	S:112
+                              ImageString:@"monster73.png"],
+              [[Enemy alloc] initWithName:@"皇帝シーホース" H:2500 	A:128 	B:40	C:125 	D:40 	S:126
+                              ImageString:@"monster70.png"],
+              [[Enemy alloc] initWithName:@"赤ウミヘビ２" H:1000 	A:126 	B:35	C:126 	D:35 	S:112
+                              ImageString:@"monster73.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    
+    exp = 138;
+    stamina = 30;
+    [self setBackgroundInt:18];
+}
+
+- (void)dungeon26{
+    [self reset];
+    NSLog(@"%s 溟海潜入路生成", __func__);
+    
+    // 敵集団1
+    NSArray *subarr = [NSArray arrayWithObjects:
+                       [[Enemy alloc] initWithName:@"墨染めシャーク１" H:650 	A:115   B:50	C:95 	D:50 	S:113
+                                       ImageString:@"aquatic03.png"],
+                       [[Enemy alloc] initWithName:@"墨染めシャーク２" H:650 	A:115   B:50	C:95 	D:50 	S:113
+                                       ImageString:@"aquatic03.png"],
+                       [[Enemy alloc] initWithName:@"墨染めシャーク３" H:650 	A:115   B:50	C:95 	D:50 	S:113
+                                       ImageString:@"aquatic03.png"],
+                       nil];
+    [arr addObject:subarr];
+    
+    // 敵襲団2
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"墨染めシャーク１" H:650 	A:115   B:50	C:95 	D:50 	S:113
+                              ImageString:@"aquatic03.png"],
+              [[Enemy alloc] initWithName:@"極悪深海魚" H:1000 	A:119 	B:25	C:95 	D:25 	S:115
+                              ImageString:@"aquatic22.png"],
+              [[Enemy alloc] initWithName:@"墨染めシャーク２" H:650 	A:115   B:50	C:95 	D:50 	S:113
+                              ImageString:@"aquatic03.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団3
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"極悪深海魚１" H:1000 	A:119 	B:25	C:95 	D:25 	S:115
+                              ImageString:@"aquatic22.png"],
+              [[Enemy alloc] initWithName:@"深海の密猟者" H:1200 	A:125 	B:25	C:125 	D:25 	S:125
+                              ImageString:@"dh25.png"],
+              [[Enemy alloc] initWithName:@"極悪深海魚２" H:1000 	A:119 	B:25	C:95 	D:25 	S:115
+                              ImageString:@"aquatic22.png"],
+              nil];
+    [arr addObject:subarr];
+    //敵集団4
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"深海の密猟者１" H:1200 	A:125 	B:25	C:125 	D:25 	S:125
+                              ImageString:@"dh25.png"],
+              [[Enemy alloc] initWithName:@"深海の密猟者２" H:1200 	A:125 	B:25	C:125 	D:25 	S:125
+                              ImageString:@"dh25.png"],
+              [[Enemy alloc] initWithName:@"深海の密猟者３" H:1200 	A:125 	B:25	C:125 	D:25 	S:125
+                              ImageString:@"dh25.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団5
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"深海の密猟者１" H:1200 	A:125 	B:25	C:125 	D:25 	S:125
+                              ImageString:@"dh25.png"],
+              [[Enemy alloc] initWithName:@"溟海に住まう王女" H:3200 	A:135 	B:0	C:135 	D:0 	S:135
+                              ImageString:@"dh38.png"],
+              [[Enemy alloc] initWithName:@"深海の密猟者２" H:1200 	A:125 	B:25	C:125 	D:25 	S:125
+                              ImageString:@"dh25.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    
+    exp = 138;
+    stamina = 30;
+    [self setBackgroundInt:18];
+}
+
+- (void)dungeon27{
+    [self reset];
+    NSLog(@"%s 世界を統べる双火竜生成", __func__);
+    
+    // 敵集団1
+    NSArray *subarr = [NSArray arrayWithObjects:
+                       [[Enemy alloc] initWithName:@"完全勝利するユニコーン１" H:1800 	A:155   B:50	C:155 	D:50 	S:165
+                                       ImageString:@"monster27.png"],
+                       [[Enemy alloc] initWithName:@"完全勝利するユニコーン２" H:1800 	A:155   B:50	C:155 	D:50 	S:165                                       ImageString:@"monster27.png"],
+                       [[Enemy alloc] initWithName:@"完全勝利するユニコーン３" H:1800 	A:155   B:50	C:155 	D:50 	S:165                                       ImageString:@"monster27.png"],
+                       nil];
+    [arr addObject:subarr];
+    
+    // 敵襲団2
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"黄金子ドラゴン" H:2000 	A:156   B:40	C:156 	D:40 	S:155
+                              ImageString:@"monster63.png"],
+              [[Enemy alloc] initWithName:@"古代竜" H:2200 	A:160   B:40	C:95 	D:40 	S:150
+                              ImageString:@"animal29.png"],
+              [[Enemy alloc] initWithName:@"黄金子ドラゴン" H:2000 	A:156   B:40	C:156 	D:40 	S:155
+                              ImageString:@"monster63.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団3
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"紅玉竜１" H:2000 	A:157 	B:40	C:157 	D:40 	S:160
+                              ImageString:@"monster44.png"],
+              [[Enemy alloc] initWithName:@"紅玉竜２" H:2000 	A:157 	B:40	C:157 	D:40 	S:160
+                              ImageString:@"monster44.png"],
+              [[Enemy alloc] initWithName:@"紅玉竜３" H:2000 	A:157 	B:40	C:157 	D:40 	S:160
+                              ImageString:@"monster44.png"],
+              nil];
+    [arr addObject:subarr];
+    //敵集団4
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"緑毒竜１" H:2400 	A:158 	B:40	C:125 	D:40 	S:158
+                              ImageString:@"dh12.png"],
+              [[Enemy alloc] initWithName:@"緑毒竜２" H:2400 	A:158 	B:40	C:125 	D:40 	S:158
+                              ImageString:@"dh12.png"],
+              [[Enemy alloc] initWithName:@"緑毒竜３" H:2400 	A:158 	B:40	C:125 	D:40 	S:158
+                              ImageString:@"dh12.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    //敵集団5
+    subarr = [NSArray arrayWithObjects:
+              [[Enemy alloc] initWithName:@"赤竜王" H:4000 	A:180 	B:80	C:125 	D:80 	S:165
+                              ImageString:@"monster08.png"],
+              [[Enemy alloc] initWithName:@"青竜王" H:4000 	A:180 	B:80	C:180 	D:80 	S:165
+                              ImageString:@"monster04.png"],
+              nil];
+    [arr addObject:subarr];
+    
+    
+    exp = 320;
+    stamina = 50;
+    [self setBackgroundInt:6];
+}
 
 - (void)setBackgroundInt:(int)image_num{
     NSString *image_string = [NSString stringWithFormat:@"battlebg%d.jpg", image_num];

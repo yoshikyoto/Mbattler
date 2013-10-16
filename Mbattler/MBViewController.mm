@@ -39,6 +39,14 @@
     return self;
 }
 
+- (id)initWithPlayer:(Player *)p{
+    self = [super init];
+    if(self) {
+        player = p;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -60,22 +68,6 @@
     // AppDelegate 初期化(グローバル変数的な使い方)
     ad = [[UIApplication sharedApplication] delegate];
     
-    // プレイヤーオブジェクトの初期化
-    // セーブデータがあるかどうかで分岐させる
-    /*
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if([ud stringForKey:@"PLAYER_NAME"]){
-        NSLog(@"%s セーブデータをロードします", __func__);
-        player = [[Player alloc] initWithLoad];
-    }else{
-        NSLog(@"%s 初回起動", __func__);
-        player = [[Player alloc] init];
-    }
-     */
-    // これはデバッグ用
-    player = [[Player alloc] initWithTestdata];
-    // player = [[Player alloc] init];
-    // データベースアクセス用オブジェクトの初期化
     mbdb = [[MBDatabase alloc] init];
     [player save];
     
@@ -86,7 +78,6 @@
     
     // 上にステータスみたいなのつける(仮)
     UIScrollView *status = [[UIScrollView alloc] init];
-    //[status setBackgroundColor:menucolor]; // 背景
     status.backgroundColor = [UIColor clearColor];
     status.frame = CGRectMake(0, 0, 320, 56);
     [[self view] addSubview:status];
@@ -241,13 +232,13 @@
     [dungeonView setTitle:@"ダンジョン選択"];
     
     // ダンジョン一覧を表示するスクロールエリア
-    UIScrollView *dungeonsv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 320, 300)];
-    dungeonsv.backgroundColor = [UIColor clearColor];
-    [dungeonView addSubview:dungeonsv];
+    UIScrollView *dungeon_view = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 320, 300)];
+    dungeon_view.backgroundColor = [UIColor clearColor];
+    [dungeonView addSubview:dungeon_view];
     
     // ダンジョン名一覧を取得
     NSArray *dungeonNames = [dungeon getNames];
-    dungeonsv.contentSize = CGSizeMake(300, 58 * [dungeonNames count] + 20);    // スクロール内部のサイズ
+    dungeon_view.contentSize = CGSizeMake(300, 58 * [dungeonNames count] + 20);    // スクロール内部のサイズ
     UIButton *button;
     for(int i = 0; i < [dungeonNames count]; i++){
         button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -255,21 +246,82 @@
         [button setBackgroundImage:[UIImage imageNamed:@"husen1.png"] forState:UIControlStateNormal];
         button.tag = i;
         [button setTitle:[dungeonNames objectAtIndex:i] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(openDungeon:)forControlEvents:UIControlEventTouchUpInside];
-        [dungeonsv addSubview:button];
+        [button addTarget:self action:@selector(dungeonTouched:)forControlEvents:UIControlEventTouchUpInside];
+        [dungeon_view addSubview:button];
     }
 
     [[self view] addSubview:dungeonView];
     nowScrollView = dungeonView;
 }
 
-- (void)openDungeon:(id)sender{
-    NSLog(@"MBViewController: opeDungeon");
-    UIButton *button = (UIButton *)sender;
-    // 選択したダンジョンのデータを取得
-    int dungeonid = button.tag;
+// ダンジョンに入る時の確認ウィンドウ
+- (void)dungeonTouched:(UIButton *)sender{
+    UIScrollView *confirm_view = [[UIScrollView alloc] initWithFrame:CGRectMake(30, 80, 260, 160)];
+    confirm_view.layer.masksToBounds = NO;
+    confirm_view.layer.shadowOffset = CGSizeMake(3.0f, 3.0f);  //影の方向
+    confirm_view.layer.shadowOpacity = 0.7f; // 影の透明度
+    confirm_view.layer.shadowColor = [UIColor blackColor].CGColor;   // 影の色
+    confirm_view.layer.shadowRadius = 2.0f;  // ぼかし
+    confirm_view.backgroundColor = [UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.9];
+    [nowScrollView addSubview:confirm_view];
+    
     Dungeon *dungeon = [[Dungeon alloc] init];
-    [dungeon setDungeon:dungeonid];
+    [dungeon setDungeon:sender.tag];
+    // ダンジョン名
+    UILabel *name_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 260, 40)];
+    name_label.text = [dungeon getName];
+    name_label.font = [UIFont fontWithName:@"mikachan_o" size:16];
+    name_label.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
+    name_label.textAlignment = NSTextAlignmentCenter;
+    [confirm_view addSubview:name_label];
+    // 消費スタミナ
+    UILabel *stamina_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, 260, 20)];
+    stamina_label.text = [NSString stringWithFormat:@"消費スタミナ: %d", [dungeon getStamina]];
+    stamina_label.font = [UIFont fontWithName:@"mikachan_o" size:14];
+    stamina_label.textAlignment = NSTextAlignmentCenter;
+    [confirm_view addSubview:stamina_label];
+    // 消費スタミナ
+    UILabel *alert_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, 260, 20)];
+    alert_label.font = [UIFont fontWithName:@"mikachan_o" size:14];
+    alert_label.textAlignment = NSTextAlignmentCenter;
+    [confirm_view addSubview:alert_label];
+    // 確認メッセージとボタン
+    // キャンセルボタンの初期化
+    UIButton *cancel_button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    cancel_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
+    cancel_button.backgroundColor = [UIColor colorWithRed:1.0 green:0.5 blue:0.5 alpha:0.8];
+    [cancel_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [cancel_button addTarget:self action:@selector(cancelOpenDungeon:)forControlEvents:UIControlEventTouchUpInside];
+    [confirm_view addSubview:cancel_button];
+    if([player haveStamina:[dungeon getStamina]]){
+        alert_label.text = @"入りますか？";
+        // GO
+        UIButton *confirm_button = [UIButton buttonWithType:UIButtonTypeCustom];
+        confirm_button.frame = CGRectMake(0, 120, 130, 40);
+        [confirm_button setTitle:@"GO!" forState:UIControlStateNormal];
+        confirm_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
+        confirm_button.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:1.0 alpha:0.8];
+        [confirm_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [confirm_button addTarget:self action:@selector(openDungeon:)forControlEvents:UIControlEventTouchUpInside];
+        confirm_button.tag = sender.tag;
+        [confirm_view addSubview:confirm_button];
+        // やめる
+        cancel_button.frame = CGRectMake(131, 120, 130, 40);
+        [cancel_button setTitle:@"やめる" forState:UIControlStateNormal];
+    }else{
+        alert_label.text = @"スタミナが足りません";
+        alert_label.textColor = [UIColor redColor];
+        cancel_button.frame = CGRectMake(70, 110, 120, 40);
+        [cancel_button setTitle:@"× とじる" forState:UIControlStateNormal];
+    }
+}
+
+- (void)openDungeon:(UIButton *)sender{
+    NSLog(@"%s", __func__);
+    [[sender superview] removeFromSuperview];
+    // 選択したダンジョンのデータを取得
+    Dungeon *dungeon = [[Dungeon alloc] init];
+    [dungeon setDungeon:sender.tag];
     
     if(![player minusStaimna:[dungeon getStamina]]){
         // 体力足りない場合
@@ -280,6 +332,11 @@
     [dvc setPlayer:player];
     [dvc setDungeon:dungeon];
     [self presentViewController:dvc animated:NO completion:nil];
+}
+
+- (void)cancelOpenDungeon:(UIButton *)sender{
+    NSLog(@"%s", __func__);
+    [[sender superview] removeFromSuperview];
 }
 
 /**********************************************************************
@@ -296,8 +353,15 @@
     nowScrollView = summonView;
     
     // カメラ起動ボタン
-    UIButton *camera_button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *camera_button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [camera_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    camera_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:20];
     camera_button.frame = CGRectMake(30, 80, 260, 40);
+    
+    // 注意書きラメル
+    UILabel *alert_label = [[UILabel alloc] initWithFrame:CGRectMake(15, 140, 300, 100)];
+    alert_label.numberOfLines = 5;
+    [summonView addSubview:alert_label];
     // ここでカメラが起動できるか確認
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
         /* キャラクターがいっぱいかどうか確認が必要
@@ -305,14 +369,26 @@
          * 　はい　いいえ
          * 　キャラ上限増加（有料）」
          * みたいな */
-        [camera_button setTitle:@"カメラ起動" forState:UIControlStateNormal];
-        [camera_button addTarget:self action:@selector(launchCamera:)forControlEvents:UIControlEventTouchUpInside];
+        if([player isMeishiFull]){
+            // 名刺が一杯の場合
+            camera_button.backgroundColor = [UIColor colorWithRed:1.0 green:0.6 blue:0.6 alpha:1.0];
+            [camera_button setTitle:@"名刺がいっぱいです" forState:UIControlStateNormal];
+            alert_label.text = @"新たに名刺からバトラーを召喚したい場合は、Statusから、バトラーを解雇してください。";
+        }else{
+            camera_button.backgroundColor = [UIColor colorWithRed:0.7 green:0.7 blue:1.0 alpha:1.0];
+            [camera_button setTitle:@"カメラ起動" forState:UIControlStateNormal];
+            [camera_button addTarget:self action:@selector(launchCamera:)forControlEvents:UIControlEventTouchUpInside];
+            alert_label.text = @"文字認識を行いますので、名刺をカメラと平行に持って、明るい場所で撮影してください。\n画像認識には少々時間がかかります。";
+        }
     }else{
+        camera_button.backgroundColor = [UIColor colorWithRed:1.0 green:0.6 blue:0.6 alpha:1.0];
         [camera_button setTitle:@"カメラ非対応なデバイスです" forState:UIControlStateNormal];
+        alert_label.text = @"お使いのデバイスはカメラががついていません。\n申し訳ありませんが名刺の召喚は行えません。";
     }
     [summonView addSubview:camera_button];
     
     // デバッグ用
+    /*
     UIButton *rand_button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     rand_button.frame = CGRectMake(30, 140, 260, 40);
     [rand_button setTitle:@"ランダム名刺召喚" forState:UIControlStateNormal];
@@ -330,6 +406,7 @@
     test_label.numberOfLines = 2;
     test_label.text = @"少し処理に時間がかかります。連打しないでください。";
     [summonView addSubview:test_label];
+     */
 }
 
 // OCRテスト（デバッグ用）

@@ -14,10 +14,12 @@
 - (id) initWithMeishi:(Meishi *)m Player:(Player *)p{
     // 解雇ボタン
     _fire_button = [UIButton buttonWithType:UIButtonTypeCustom];
-    _fire_button.frame = CGRectMake(250, 10, 56, 30);
-    [_fire_button setBackgroundImage:[UIImage imageNamed:@"fire.png"] forState:UIControlStateNormal];
-    //[fire_button setTitleColor:[UIColor colorWithRed:0.9 green:0 blue:0 alpha:0] forState:UIControlStateNormal];
-    //[fire_button setTitle:@"解雇" forState:UIControlStateNormal];
+    _fire_button.frame = CGRectMake(253, 6, 50, 36);
+    _fire_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
+    _fire_button.backgroundColor = [UIColor colorWithRed:1.0 green:0.5 blue:0.5 alpha:0.8];
+    [_fire_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_fire_button setTitle:@"解雇" forState:UIControlStateNormal];
+    
     self = [self initWithMeishi:m];
     if(self){
     }
@@ -44,122 +46,225 @@
         
         // 戻るボタン
         backbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-        backbutton.frame = CGRectMake(10, 10, 60, 30);
-        //[backbutton setTitleColor:[UIColor colorWithRed:0 green:0 blue:0.6 alpha:0] forState:UIControlStateNormal];
-        //[backbutton setTitle:@"戻る" forState:UIControlStateNormal];
-        [backbutton setBackgroundImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+        backbutton.frame = CGRectMake(0, 6, 70, 36);
+        backbutton.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
+        backbutton.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:1.0 alpha:0.8];
+        [backbutton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [backbutton setTitle:@"〈 戻る" forState:UIControlStateNormal];
         [backbutton addTarget:self action:@selector(close:)forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:backbutton];
         
+        /*
         UILabel *space1 = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 1, 30)];
         space1.backgroundColor = [UIColor whiteColor];
         [self addSubview:space1];
+         */
         
         if(_fire_button){
             [self addSubview:_fire_button];
+            /*
             UILabel *space2 = [[UILabel alloc] initWithFrame:CGRectMake(249, 10, 1, 30)];
             space2.backgroundColor = [UIColor whiteColor];
             [self addSubview:space2];
+             */
         }
+        
+        int yposition = 46;
         
         // イメージ画像
         NSLog(@"イメージ画像");
         UIImageView *imageview = [meishi getCenterImage];
-        imageview.frame = CGRectMake(40, 40, 48, 72);
+        imageview.frame = CGRectMake(40, yposition, 48, 72);
         [self addSubview:imageview];
         
+        yposition += 8;
         // 役職
-        NSLog(@"役職");
-        UILabel *joblabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 45, 100, 20)];
+        UILabel *bg_label = [[UILabel alloc] initWithFrame:CGRectMake(120, yposition, 180, 20)];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        UILabel *joblabel = [[UILabel alloc] initWithFrame:CGRectMake(125, yposition, 155, 20)];
         [joblabel setText:[meishi getJobString]];
         [self addSubview:joblabel];
+        yposition += 21;
+        yposition += 1;
         
         // レベル
+        
+        bg_label = [[UILabel alloc] initWithFrame:CGRectMake(120, yposition, 180, 20)];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        CGRect dark_bg_rect = bg_label.frame;
+        dark_bg_rect.size.width = (int)(([meishi getLv]/50.0)*dark_bg_rect.size.width);
+        bg_label = [[UILabel alloc] initWithFrame:dark_bg_rect];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
         NSLog(@"レベル");
-        UILabel *lvlabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 65, 100, 20)];
-        [lvlabel setText:[NSString stringWithFormat:@"Lv %@", [meishi getLvString]]];
+        UILabel *lvlabel = [[UILabel alloc] initWithFrame:CGRectMake(125, yposition, 155, 20)];
+        [lvlabel setText:[NSString stringWithFormat:@"Lv %d", [meishi getLv]]];
         [self addSubview:lvlabel];
+        yposition += 21;
+        yposition += 1;
         
         // 経験値
+
+        //
         NSLog(@"経験値");
-        UILabel *explabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 85, 200, 20)];
-        explabel.text = [NSString stringWithFormat:@"Exp　%d/%d", [meishi getExp], [meishi getNextExp]];
-        [self addSubview:explabel];
+        bg_label = [[UILabel alloc] initWithFrame:CGRectMake(120, yposition, 180, 20)];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        dark_bg_rect = bg_label.frame;
+        dark_bg_rect.size.width = (int)(([meishi getExp]/(float)[meishi getNextExp])*dark_bg_rect.size.width);
+        bg_label = [[UILabel alloc] initWithFrame:dark_bg_rect];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        
+        UILabel *exp_label = [[UILabel alloc] initWithFrame:CGRectMake(125, yposition, 155, 20)];
+        exp_label.text = [NSString stringWithFormat:@"Exp　%d/%d", [meishi getExp], [meishi getNextExp]];
+        [self addSubview:exp_label];
+        yposition += 21;
+        yposition += 1;
         
         
         // 各種能力値
-        NSLog(@"能力値");
-        // HP index
-        UILabel *hilabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 115, 64, 20)];
-        [hilabel setText:@"HP"];
-        [self addSubview:hilabel];
+        // NSLog(@"能力値");
+        int x = 20;
+        int status_w = 139;
+        // HP bg
+        bg_label = [[UILabel alloc] initWithFrame:CGRectMake(x, yposition, status_w, 20)];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        // 取得してラベルの長さ決める
+        dark_bg_rect = bg_label.frame;
+        dark_bg_rect.size.width = (int)(([meishi getH]/400.0)*dark_bg_rect.size.width);
+        bg_label = [[UILabel alloc] initWithFrame:dark_bg_rect];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        // hp index
+        UILabel *h_label = [[UILabel alloc] initWithFrame:CGRectMake(x+5, yposition, status_w -30, 20)];
+        [h_label setText:@"HP"];
+        [self addSubview:h_label];
         // HP value
-        UILabel *hlabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 115, 40, 20)];
-        [hlabel setText:[meishi getHString]];
-        hlabel.textAlignment = NSTextAlignmentRight;
-        [self addSubview:hlabel];
+        UILabel *hv_label = [[UILabel alloc] initWithFrame:CGRectMake(x+5, yposition, status_w -30, 20)];
+        [hv_label setText:[meishi getHString]];
+        hv_label.textAlignment = NSTextAlignmentRight;
+        [self addSubview:hv_label];
+        yposition += 21;
         
+        // a bg
+        bg_label = [[UILabel alloc] initWithFrame:CGRectMake(x, yposition, status_w, 20)];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        dark_bg_rect = bg_label.frame;
+        dark_bg_rect.size.width = (int)(([meishi getA]/400.0)*dark_bg_rect.size.width);
+        bg_label = [[UILabel alloc] initWithFrame:dark_bg_rect];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
         // A index
-        UILabel *ailabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 135, 64, 20)];
-        [ailabel setText:@"攻撃"];
-        [self addSubview:ailabel];
+        UILabel *a_label = [[UILabel alloc] initWithFrame:CGRectMake(x+5, yposition, status_w -30, 20)];
+        [a_label setText:@"攻撃"];
+        [self addSubview:a_label];
         // A value
-        UILabel *alabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 135, 40, 20)];
+        UILabel *alabel = [[UILabel alloc] initWithFrame:CGRectMake(x+5, yposition, status_w -30, 20)];
         [alabel setText:[meishi getAString]];
         alabel.textAlignment = NSTextAlignmentRight;
         [self addSubview:alabel];
+        yposition += 21;
         
+        // B bg
+        bg_label = [[UILabel alloc] initWithFrame:CGRectMake(x, yposition, status_w, 20)];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        dark_bg_rect = bg_label.frame;
+        dark_bg_rect.size.width = (int)(([meishi getB]/400.0)*dark_bg_rect.size.width);
+        bg_label = [[UILabel alloc] initWithFrame:dark_bg_rect];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
         // B index
-        UILabel *bilabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 155, 64, 20)];
-        [bilabel setText:@"防御"];
-        [self addSubview:bilabel];
+        UILabel *b_label = [[UILabel alloc] initWithFrame:CGRectMake(x+5, yposition, status_w -30, 20)];
+        [b_label setText:@"防御"];
+        [self addSubview:b_label];
         // B value
-        UILabel *blabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 155, 40, 20)];
+        UILabel *blabel = [[UILabel alloc] initWithFrame:CGRectMake(x+5, yposition, status_w -30, 20)];
         [blabel setText:[meishi getBString]];
         blabel.textAlignment = NSTextAlignmentRight;
         [self addSubview:blabel];
+        yposition += 21;
         
+        x = 160;
+        
+        bg_label = [[UILabel alloc] initWithFrame:CGRectMake(x, h_label.frame.origin.y, status_w, 20)];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        dark_bg_rect = bg_label.frame;
+        dark_bg_rect.size.width = (int)(([meishi getC]/400.0)*dark_bg_rect.size.width);
+        bg_label = [[UILabel alloc] initWithFrame:dark_bg_rect];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
         // C index
-        UILabel *cilabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 115, 64, 20)];
+        UILabel *cilabel = [[UILabel alloc] initWithFrame:CGRectMake(x+5, h_label.frame.origin.y, status_w -30, 20)];
         [cilabel setText:@"魔攻"];
         [self addSubview:cilabel];
         // C value
-        UILabel *clabel = [[UILabel alloc] initWithFrame:CGRectMake(220, 115, 40, 20)];
+        UILabel *clabel = [[UILabel alloc] initWithFrame:CGRectMake(x+5, h_label.frame.origin.y, status_w -30, 20)];
         [clabel setText:[meishi getCString]];
         clabel.textAlignment = NSTextAlignmentRight;
         [self addSubview:clabel];
         
+        
+        bg_label = [[UILabel alloc] initWithFrame:CGRectMake(x, a_label.frame.origin.y, status_w, 20)];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        dark_bg_rect = bg_label.frame;
+        dark_bg_rect.size.width = (int)(([meishi getD]/400.0)*dark_bg_rect.size.width);
+        bg_label = [[UILabel alloc] initWithFrame:dark_bg_rect];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
         // D index
-        UILabel *dilabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 135, 64, 20)];
+        UILabel *dilabel = [[UILabel alloc] initWithFrame:CGRectMake(x+5, a_label.frame.origin.y, status_w -30, 20)];
         [dilabel setText:@"魔防"];
         [self addSubview:dilabel];
         // D value
-        UILabel *dlabel = [[UILabel alloc] initWithFrame:CGRectMake(220, 135, 40, 20)];
+        UILabel *dlabel = [[UILabel alloc] initWithFrame:CGRectMake(x+5, a_label.frame.origin.y, status_w -30, 20)];
         [dlabel setText:[meishi getDString]];
         dlabel.textAlignment = NSTextAlignmentRight;
         [self addSubview:dlabel];
         
+        bg_label = [[UILabel alloc] initWithFrame:CGRectMake(x, b_label.frame.origin.y, status_w, 20)];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        dark_bg_rect = bg_label.frame;
+        dark_bg_rect.size.width = (int)(([meishi getS]/400.0)*dark_bg_rect.size.width);
+        bg_label = [[UILabel alloc] initWithFrame:dark_bg_rect];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
         // S index
-        UILabel *silabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 155, 64, 20)];
+        UILabel *silabel = [[UILabel alloc] initWithFrame:CGRectMake(x+5, b_label.frame.origin.y, status_w -30, 20)];
         [silabel setText:@"素早さ"];
         [self addSubview:silabel];
         // S value
-        UILabel *slabel = [[UILabel alloc] initWithFrame:CGRectMake(220, 155, 40, 20)];
+        UILabel *slabel = [[UILabel alloc] initWithFrame:CGRectMake(x+5, b_label.frame.origin.y, status_w -30, 20)];
         [slabel setText:[meishi getSString]];
         slabel.textAlignment = NSTextAlignmentRight;
         [self addSubview:slabel];
         
         // 特殊能力
-        UILabel *ablabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 180, 280, 20)];
+        bg_label = [[UILabel alloc] initWithFrame:CGRectMake(20, yposition, 280, 20)];
+        bg_label.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
+        [self addSubview:bg_label];
+        UILabel *ablabel = [[UILabel alloc] initWithFrame:CGRectMake(25, yposition, 270, 20)];
         ablabel.text = [NSString stringWithFormat:@"特殊能力: %@", [meishi getAbilityString]];
         [self addSubview:ablabel];
+        yposition += 20;
         
-        UILabel *ablabel2 = [[UILabel alloc] initWithFrame:CGRectMake(20, 200, 280, 40)];
-        ablabel2.text = [meishi getAbilityDescString];
-        ablabel2.font = [UIFont systemFontOfSize:14];
-        ablabel2.numberOfLines = 2;
-        [self addSubview:ablabel2];
-        
+        bg_label = [[UILabel alloc] initWithFrame:CGRectMake(20, yposition, 280, 40)];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        UILabel *abl_desc_label = [[UILabel alloc] initWithFrame:CGRectMake(25, yposition, 270, 40)];
+        abl_desc_label.text = [meishi getAbilityDescString];
+        abl_desc_label.font = [UIFont systemFontOfSize:14];
+        abl_desc_label.numberOfLines = 2;
+        [self addSubview:abl_desc_label];
+        yposition += 41;
         // 性格
         /*
         UILabel *natlabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 245, 280, 20)];
@@ -168,9 +273,12 @@
          */
         
         // 経歴
-        UILabel *hislabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 245, 280, 100)];
+        bg_label = [[UILabel alloc] initWithFrame:CGRectMake(20, yposition, 280, 100)];
+        bg_label.backgroundColor = back_color;
+        [self addSubview:bg_label];
+        UILabel *hislabel = [[UILabel alloc] initWithFrame:CGRectMake(25, yposition, 270, 100)];
         hislabel.numberOfLines = 6;
-        hislabel.font = [UIFont systemFontOfSize:12];
+        hislabel.font = [UIFont systemFontOfSize:13];
         hislabel.text = [meishi getHistory];
         [self addSubview:hislabel];
 
