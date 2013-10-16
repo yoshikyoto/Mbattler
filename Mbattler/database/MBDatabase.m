@@ -44,13 +44,6 @@
             if(![file_manager copyItemAtPath:template_database_path toPath:database_path error:nil]){
                 NSLog(@"データベーステンプレートのコピーに失敗しました");
             }
-            /* CREATEで作成
-            db = [FMDatabase databaseWithPath:database_path];
-            NSString *create_meishi = @"CREATE TABLE meishi (meishiId INTEGER NOT NULL PRIMARY KEY, name TEXT, lv INTEGER, imageNum INTEGER, job INTEGER, abilityId INTEGER, H INTEGER, A INTEGER, B INTEGER, C INTEGER, D INTEGER, S INTEGER, sex INTEGER, history TEXT, company TEXT, mail1 TEXT, mail2 TEXT, zip1 INTEGER, zip2 INTEGER, exp INTEGER);";
-            [db open];
-            [db executeUpdate:create_meishi];
-            [db close];
-             */
         }
         db = [FMDatabase databaseWithPath:database_path];
     }
@@ -121,6 +114,7 @@
         [m setExp:[rs intForColumn:@"exp"]];
         [m setAbility:[rs intForColumn:@"abilityId"]];
         [m setDateString:[rs stringForColumn:@"date"]];
+        [m overwriteHistory:@"history"];
         [return_result addObject:m];
         NSLog(@"%s, %@", __func__, m.date_string);
     }

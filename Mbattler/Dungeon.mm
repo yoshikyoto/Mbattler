@@ -1969,4 +1969,11 @@
     return true;
 }
 
+- (BOOL)isCleard{
+    if([self isDead]&&([arr count] == 0)){
+        return true;
+    }
+    return false;
+}
+
 @end

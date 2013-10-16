@@ -66,6 +66,7 @@
 
 - (void)setTitle:(NSString *)t{
     title.text = t;
+    [self addSubview:title];
 }
 
 - (void)setTitle{

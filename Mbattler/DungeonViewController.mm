@@ -18,6 +18,7 @@
 #import "DamageValueLabel.h"
 #import "MBAbilityCutin.h"
 #import "UIOutlineLabel.h"
+#import "UIOutlineLabel.h"
 
 @interface DungeonViewController ()
 
@@ -131,16 +132,63 @@
     
     // ポーズボタン
     UIButton *pause_button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [pause_button setTitle:@"停" forState:UIControlStateNormal];
-    pause_button.frame = CGRectMake(288, 0, 32, 32);
+    pause_button.frame = CGRectMake(281, 0, 39, 39);
+    pause_button.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
+    [pause_button setTitle:@"止" forState:UIControlStateNormal];
+    pause_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
+    [pause_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [pause_button addTarget:self action:@selector(pauseButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
     [[self view] addSubview:pause_button];
+    pause_flag = false;
+    battle_continue_flag = true;
+    
+    // ポーズマスク
+    mask_view = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 600)];
+    mask_view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1.0];
+    
+    UIOutlineLabel *pause_label = [[UIOutlineLabel alloc] init];
+    [pause_label setOutlineColor:[UIColor whiteColor]];
+    [pause_label setOutlineWidth:3];
+    pause_label.textAlignment = NSTextAlignmentCenter;
+    pause_label.font = [UIFont fontWithName:@"mikachan_o" size:30];
+    pause_label.text = @"ＰＡＵＳＥ";
+    pause_label.textColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:1.0];
+    pause_label.frame = CGRectMake(30, 50, 260, 40);
+    pause_label.backgroundColor = [UIColor clearColor];
+    [mask_view addSubview:pause_label];
+    
+    UIOutlineLabel *pause_dungeon_label = [[UIOutlineLabel alloc] init];
+    [pause_dungeon_label setOutlineColor:[UIColor whiteColor]];
+    [pause_dungeon_label setOutlineWidth:3];
+    pause_dungeon_label.textAlignment = NSTextAlignmentCenter;
+    pause_dungeon_label.font = [UIFont fontWithName:@"mikachan_o" size:12];
+    pause_dungeon_label.text = [dungeon getName];
+    pause_dungeon_label.textColor = [UIColor grayColor]; //[UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:1.0];
+    pause_dungeon_label.frame = CGRectMake(30, 90, 260, 40);
+    pause_dungeon_label.backgroundColor = [UIColor clearColor];
+    [mask_view addSubview:pause_dungeon_label];
+
+    UIButton *continue_button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [continue_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    continue_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:20];
+    continue_button.frame = CGRectMake(30, 160, 260, 40);
+    continue_button.backgroundColor = [UIColor colorWithRed:0.7 green:0.7 blue:1.0 alpha:1.0];
+    [continue_button setTitle:@"続ける" forState:UIControlStateNormal];
+    [continue_button addTarget:self action:@selector(continueButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [mask_view addSubview:continue_button];
+    
+    UIButton *retire_button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [retire_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    retire_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:20];
+    retire_button.frame = CGRectMake(30, 220, 260, 40);
+    retire_button.backgroundColor = [UIColor colorWithRed:1.0 green:0.6 blue:0.6 alpha:1.0];
+    [retire_button setTitle:@"リタイアする" forState:UIControlStateNormal];
+    [retire_button addTarget:self action:@selector(ritireButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [mask_view addSubview:retire_button];
 
     
-    /*
-    UIImageView *item0 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"yakusou.png"]];
-    item0.frame = CGRectMake(0, 279, 24, 24);
-    [[self view] addSubview:item0];
-     */
+
 
     // メッセージウィンドウ
     messege_window = [[UITextView alloc] initWithFrame:CGRectMake(0, 323, 320, h-323)];
@@ -156,6 +204,22 @@
     // 画面をタップした時に戦闘が始まるようにする
     tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(battle:)];
     [[self view] addGestureRecognizer:tgr];
+}
+
+- (void)pauseButtonTapped:(UIButton *)sender{
+    pause_flag = true;
+}
+
+- (void)continueButtonTapped:(UIButton *)sender{
+    pause_flag = false;
+    [mask_view removeFromSuperview];
+}
+
+- (void)ritireButtonTapped:(UIButton *)sender{
+    battle_continue_flag = false;
+    exp = 0;
+    [mask_view removeFromSuperview];
+    pause_flag = false;
 }
 
 
@@ -188,10 +252,10 @@
         // ゲームループに入る
         NSLog(@"%s gameLoop", __func__);
         turn = 0;
-        while(!([player isDead] || [dungeon isDead])){ // どちらかが全滅するまで
+        while((!([player isDead] || [dungeon isDead]))&&battle_continue_flag){ // どちらかが全滅するまで
             // NSLog(@"ゲームループ");
             // ウェイトを入れる
-            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
             
             // 特殊能力--------------------------------------------------------------------------
             if([ability_meishi_queue count] >= 1){
@@ -336,29 +400,49 @@
                 turn++;
                 if(turn >= [combatant count]) turn = 0;
             }
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+            // ポーズ判定
+            if(pause_flag){
+                NSLog(@"%s ポーズ中…", __func__);
+                [[self view] addSubview:mask_view];
+                // ポーズが解かれるまで停止
+                while(pause_flag){
+                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+                }
+                // タイトルだけ全面に持ってくる
+                //[[self view] bringSubviewToFront:navImage];
+                //[[self view] bringSubviewToFront:title];
+            }
         }// ゲームループの終わり
         
         NSLog(@"%s end of gameLoop", __func__);
         // ウェイト
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+        
+        // 結果画面のセット
+        if([dungeon isDead]){
+            // 勝利した場合
+            exp = [dungeon getExp];
+            break;
+        }else{
+            // 全滅した場合
+            // 経験値0 →　敗北と判定される。
+            exp = 0;
+            break;
+        }
+        
         enemy = [[dungeon next] mutableCopy];
-    }
-    
-    // 結果画面のセット
-    if([dungeon isDead]){
-        // 勝利した場合
-        exp = [dungeon getExp];
-    }else if([player isDead]){
-        // 全滅した場合
-        // 経験値0 →　撤退
-        exp = 0;
     }
     
     // アイテム使用不可に
     item_flag = -1;
-    // タッチイベントリスナー
-    tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewResult:)];
-    [[self view] addGestureRecognizer:tgr];
+    if(battle_continue_flag){
+        // タッチイベントリスナー
+        tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewResult:)];
+        [[self view] addGestureRecognizer:tgr];
+    }else{
+        [self viewResult:nil];
+    }
 }
 
 // 戦闘開始時に味方全体に効果のあるアビリティ

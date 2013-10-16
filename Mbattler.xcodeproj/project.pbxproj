@@ -24,7 +24,7 @@
 		920360DC17B63AAC00EDB590 /* MBCharacterView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 920360DB17B63AAB00EDB590 /* MBCharacterView.mm */; };
 		920360DF17B66C3200EDB590 /* MBStatusView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 920360DE17B66C3100EDB590 /* MBStatusView.mm */; };
 		920360E217B6799200EDB590 /* MBItemView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 920360E117B6799100EDB590 /* MBItemView.mm */; };
-		92049A83175B459400558171 /* MBCharacter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92049A82175B459400558171 /* MBCharacter.mm */; };
+		92049A83175B459400558171 /* MBCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 92049A82175B459400558171 /* MBCharacter.m */; };
 		92049A86175B7AB000558171 /* MBViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92049A85175B7AB000558171 /* MBViewController.mm */; };
 		9207017118024958000ACA58 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9207017018024958000ACA58 /* libsqlite3.0.dylib */; };
 		9207017F1802522F000ACA58 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 920701751802522F000ACA58 /* FMDatabase.m */; };
@@ -552,12 +552,11 @@
 		92D6F0EA17E4BD4F00D187E2 /* line0.png in Resources */ = {isa = PBXBuildFile; fileRef = 92D6F0E917E4BD4F00D187E2 /* line0.png */; };
 		92D719E617DFDB880066FB3F /* c19.png in Resources */ = {isa = PBXBuildFile; fileRef = 92D719E517DFDB880066FB3F /* c19.png */; };
 		92D7A3041769E0E8006E4A90 /* MiniStatusView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92D7A3031769E0E8006E4A90 /* MiniStatusView.mm */; };
-		92E1A3FD17B7FA1400290216 /* MBSummonView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92E1A3FC17B7FA1300290216 /* MBSummonView.mm */; };
 		92E1A40017B804F100290216 /* MBOptionView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92E1A3FF17B804F100290216 /* MBOptionView.mm */; };
 		92E1A40317B80E0C00290216 /* SummonViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92E1A40217B80E0C00290216 /* SummonViewController.mm */; };
 		92E1A40717B812D800290216 /* e_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 92E1A40617B812D800290216 /* e_circle.png */; };
 		92E1A40B17B8162700290216 /* e_thunder_240.png in Resources */ = {isa = PBXBuildFile; fileRef = 92E1A40A17B8162700290216 /* e_thunder_240.png */; };
-		92E73D5817181BC8002C2C92 /* Player.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92E73D5717181BC8002C2C92 /* Player.mm */; };
+		92E73D5817181BC8002C2C92 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E73D5717181BC8002C2C92 /* Player.m */; };
 		92EA2507173EBCA10012AE3A /* BackButton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92EA2506173EBCA10012AE3A /* BackButton.mm */; };
 		92EA46C9180950470022385F /* UIOutlineLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 92EA46C8180950470022385F /* UIOutlineLabel.m */; };
 		92EA46CB18098B4E0022385F /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EA46CA18098B4E0022385F /* back.png */; };
@@ -565,9 +564,9 @@
 		92EA46CF180A88890022385F /* waku.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EA46CE180A88890022385F /* waku.png */; };
 		92EBAA6617E83F7600C31B0B /* pu.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EBAA6517E83F7600C31B0B /* pu.png */; };
 		92EBAA6817E840DC00C31B0B /* mag.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EBAA6717E840DC00C31B0B /* mag.png */; };
-		92F14BA617481FCA00EB31E9 /* Enemy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92F14BA517481FCA00EB31E9 /* Enemy.mm */; };
+		92F14BA617481FCA00EB31E9 /* Enemy.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F14BA517481FCA00EB31E9 /* Enemy.m */; };
 		92F2816917EED7D700B84693 /* DamageValueLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F2816817EED7D700B84693 /* DamageValueLabel.m */; };
-		92F6FD9D16EE2CA2008A55F9 /* Meishi.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92F6FD9C16EE2CA2008A55F9 /* Meishi.mm */; };
+		92F6FD9D16EE2CA2008A55F9 /* Meishi.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F6FD9C16EE2CA2008A55F9 /* Meishi.m */; };
 		92FD9CFE180BFCEE00A72B32 /* UIImage+fill.m in Sources */ = {isa = PBXBuildFile; fileRef = 92FD9CFB180BFCEE00A72B32 /* UIImage+fill.m */; };
 		92FD9CFF180BFCEE00A72B32 /* UIImageView+effects.m in Sources */ = {isa = PBXBuildFile; fileRef = 92FD9CFD180BFCEE00A72B32 /* UIImageView+effects.m */; };
 		92FD9D01180C6C7600A72B32 /* mikachan.otf in Resources */ = {isa = PBXBuildFile; fileRef = 92FD9D00180C69B400A72B32 /* mikachan.otf */; };
@@ -598,7 +597,7 @@
 		920360E017B6799100EDB590 /* MBItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBItemView.h; sourceTree = "<group>"; };
 		920360E117B6799100EDB590 /* MBItemView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MBItemView.mm; sourceTree = "<group>"; };
 		92049A81175B459400558171 /* MBCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBCharacter.h; sourceTree = "<group>"; };
-		92049A82175B459400558171 /* MBCharacter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MBCharacter.mm; sourceTree = "<group>"; };
+		92049A82175B459400558171 /* MBCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBCharacter.m; sourceTree = "<group>"; };
 		92049A84175B7AB000558171 /* MBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBViewController.h; sourceTree = "<group>"; };
 		92049A85175B7AB000558171 /* MBViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MBViewController.mm; sourceTree = "<group>"; };
 		9207017018024958000ACA58 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -1197,8 +1196,6 @@
 		92D719E517DFDB880066FB3F /* c19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c19.png; sourceTree = "<group>"; };
 		92D7A3021769E0E7006E4A90 /* MiniStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniStatusView.h; sourceTree = "<group>"; };
 		92D7A3031769E0E8006E4A90 /* MiniStatusView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MiniStatusView.mm; sourceTree = "<group>"; };
-		92E1A3FB17B7FA1300290216 /* MBSummonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBSummonView.h; sourceTree = "<group>"; };
-		92E1A3FC17B7FA1300290216 /* MBSummonView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MBSummonView.mm; sourceTree = "<group>"; };
 		92E1A3FE17B804F000290216 /* MBOptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBOptionView.h; sourceTree = "<group>"; };
 		92E1A3FF17B804F100290216 /* MBOptionView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MBOptionView.mm; sourceTree = "<group>"; };
 		92E1A40117B80E0C00290216 /* SummonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummonViewController.h; sourceTree = "<group>"; };
@@ -1206,7 +1203,7 @@
 		92E1A40617B812D800290216 /* e_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = e_circle.png; sourceTree = "<group>"; };
 		92E1A40A17B8162700290216 /* e_thunder_240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = e_thunder_240.png; sourceTree = "<group>"; };
 		92E73D5617181BC8002C2C92 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
-		92E73D5717181BC8002C2C92 /* Player.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Player.mm; sourceTree = "<group>"; };
+		92E73D5717181BC8002C2C92 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		92EA2505173EBCA10012AE3A /* BackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackButton.h; sourceTree = "<group>"; };
 		92EA2506173EBCA10012AE3A /* BackButton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BackButton.mm; sourceTree = "<group>"; };
 		92EA46C7180950470022385F /* UIOutlineLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIOutlineLabel.h; sourceTree = "<group>"; };
@@ -1217,11 +1214,11 @@
 		92EBAA6517E83F7600C31B0B /* pu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pu.png; sourceTree = "<group>"; };
 		92EBAA6717E840DC00C31B0B /* mag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mag.png; sourceTree = "<group>"; };
 		92F14BA417481FCA00EB31E9 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
-		92F14BA517481FCA00EB31E9 /* Enemy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Enemy.mm; sourceTree = "<group>"; };
+		92F14BA517481FCA00EB31E9 /* Enemy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Enemy.m; sourceTree = "<group>"; };
 		92F2816717EED7D700B84693 /* DamageValueLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DamageValueLabel.h; sourceTree = "<group>"; };
 		92F2816817EED7D700B84693 /* DamageValueLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DamageValueLabel.m; sourceTree = "<group>"; };
 		92F6FD9B16EE2CA2008A55F9 /* Meishi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meishi.h; sourceTree = "<group>"; };
-		92F6FD9C16EE2CA2008A55F9 /* Meishi.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Meishi.mm; sourceTree = "<group>"; };
+		92F6FD9C16EE2CA2008A55F9 /* Meishi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meishi.m; sourceTree = "<group>"; };
 		92FD9CFA180BFCEE00A72B32 /* UIImage+fill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+fill.h"; sourceTree = "<group>"; };
 		92FD9CFB180BFCEE00A72B32 /* UIImage+fill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+fill.m"; sourceTree = "<group>"; };
 		92FD9CFC180BFCEE00A72B32 /* UIImageView+effects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+effects.h"; sourceTree = "<group>"; };
@@ -2050,13 +2047,13 @@
 			isa = PBXGroup;
 			children = (
 				92E73D5617181BC8002C2C92 /* Player.h */,
-				92E73D5717181BC8002C2C92 /* Player.mm */,
+				92E73D5717181BC8002C2C92 /* Player.m */,
 				92049A81175B459400558171 /* MBCharacter.h */,
-				92049A82175B459400558171 /* MBCharacter.mm */,
+				92049A82175B459400558171 /* MBCharacter.m */,
 				92F6FD9B16EE2CA2008A55F9 /* Meishi.h */,
-				92F6FD9C16EE2CA2008A55F9 /* Meishi.mm */,
+				92F6FD9C16EE2CA2008A55F9 /* Meishi.m */,
 				92F14BA417481FCA00EB31E9 /* Enemy.h */,
-				92F14BA517481FCA00EB31E9 /* Enemy.mm */,
+				92F14BA517481FCA00EB31E9 /* Enemy.m */,
 				922450671751DB5D0042CC5D /* Dungeon.h */,
 				922450681751DB5D0042CC5D /* Dungeon.mm */,
 				92D6F0E517E4B96800D187E2 /* button.png */,
@@ -2071,8 +2068,6 @@
 				920360D517B635C700EDB590 /* MBScrollView.mm */,
 				92D6F0D717E4AF9000D187E2 /* MBStartView.h */,
 				92D6F0D817E4AF9000D187E2 /* MBStartView.m */,
-				92E1A3FB17B7FA1300290216 /* MBSummonView.h */,
-				92E1A3FC17B7FA1300290216 /* MBSummonView.mm */,
 				920360DA17B63AAB00EDB590 /* MBCharacterView.h */,
 				920360DB17B63AAB00EDB590 /* MBCharacterView.mm */,
 				920360DD17B66C3000EDB590 /* MBStatusView.h */,
@@ -2740,14 +2735,14 @@
 				9225339216EAF73800495F98 /* AppDelegate.mm in Sources */,
 				92C68EFC17FD57D800113B7F /* MBAbilityCutin.m in Sources */,
 				9225339E16EAF73800495F98 /* ViewController.mm in Sources */,
-				92F6FD9D16EE2CA2008A55F9 /* Meishi.mm in Sources */,
-				92E73D5817181BC8002C2C92 /* Player.mm in Sources */,
+				92F6FD9D16EE2CA2008A55F9 /* Meishi.m in Sources */,
+				92E73D5817181BC8002C2C92 /* Player.m in Sources */,
 				92EA2507173EBCA10012AE3A /* BackButton.mm in Sources */,
 				92FD9CFF180BFCEE00A72B32 /* UIImageView+effects.m in Sources */,
-				92F14BA617481FCA00EB31E9 /* Enemy.mm in Sources */,
+				92F14BA617481FCA00EB31E9 /* Enemy.m in Sources */,
 				922450691751DB5D0042CC5D /* Dungeon.mm in Sources */,
 				9207017F1802522F000ACA58 /* FMDatabase.m in Sources */,
-				92049A83175B459400558171 /* MBCharacter.mm in Sources */,
+				92049A83175B459400558171 /* MBCharacter.m in Sources */,
 				92EA46C9180950470022385F /* UIOutlineLabel.m in Sources */,
 				92F2816917EED7D700B84693 /* DamageValueLabel.m in Sources */,
 				92049A86175B7AB000558171 /* MBViewController.mm in Sources */,
@@ -2765,7 +2760,6 @@
 				920701841802522F000ACA58 /* FMResultSet.m in Sources */,
 				920360E217B6799200EDB590 /* MBItemView.mm in Sources */,
 				92D4405617B7911A00FEB2A5 /* DungeonViewController.mm in Sources */,
-				92E1A3FD17B7FA1400290216 /* MBSummonView.mm in Sources */,
 				92E1A40017B804F100290216 /* MBOptionView.mm in Sources */,
 				92E1A40317B80E0C00290216 /* SummonViewController.mm in Sources */,
 				92641B3517B8FB79001AC271 /* Tesseract.mm in Sources */,

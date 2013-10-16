@@ -12,7 +12,6 @@
 #import "MBPartyView.h"
 #import "MBItemView.h"
 #import "DungeonViewController.h"
-#import "MBSummonView.h"
 #import "MBOptionView.h"
 #import "SummonViewController.h"
 #import "Tesseract.h"
@@ -348,8 +347,9 @@
     if(nowScrollView) [nowScrollView removeFromSuperview];
     NSLog(@"MBViewController: viewSummon");
     // ビューの準備
-    MBSummonView *summonView = [[MBSummonView alloc] initWithPlayer:player];
+    MBScrollView *summonView = [[MBScrollView alloc] initWithPlayer:player];
     [[self view] addSubview:summonView];
+    [summonView setTitle:@"名刺召喚"];
     nowScrollView = summonView;
     
     // カメラ起動ボタン

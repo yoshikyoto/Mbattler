@@ -44,6 +44,11 @@
     
     int turn;
     
+    // ポーズ関連
+    BOOL pause_flag;
+    UIScrollView *mask_view;
+    BOOL battle_continue_flag;
+    
     // アビリティキュー
     NSMutableArray *ability_meishi_queue;
     

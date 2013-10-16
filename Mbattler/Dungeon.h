@@ -61,6 +61,8 @@
 
 - (int)removeEnemy:(Enemy *)e;
 
+- (BOOL)isCleard;
+
 
 // データベースメソッド
 - (void)reset;
