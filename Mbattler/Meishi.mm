@@ -198,6 +198,9 @@
 - (NSString *)getHistory{ return history; }
 // レベルセッター
 - (void) setLv:(int)_lv{ lv = _lv; }
+- (void)setDateString:(NSString *)d{
+    _date_string = d;
+}
 
 // 画像セッター
 - (void) setImageNum:(int)num{
@@ -395,7 +398,7 @@
 }
 
 
-- (void)setHistory:(NSString *)his{
+- (void)overwriteHistory:(NSString *)his{
     history = his;
 }
 // 個体値決定 ----------------------------------------------------------------------
@@ -411,6 +414,11 @@
 - (void)setHistory{
     // c+dの値で、高校名、大学名を決定
     _date = [NSDate date];
+    // 転職日時（仮）
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateFormat  = @"yyyy年MM月dd日";
+    _date_string = [df stringFromDate:[NSDate date]];
+    
     NSString *c;
     int sum = i[3] + i[4];
     if(sum <= 12){
@@ -442,11 +450,6 @@
         y = sum / 3.0;
     }
     
-    // 転職日時（仮）
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    df.dateFormat  = @"yyyy年MM月dd日";
-    NSString *d = [df stringFromDate:[NSDate date]];
-    
     // y(year)によってキャリア決定
     NSString *z;
     if(y <= 5){
@@ -463,19 +466,19 @@
     sum = i[0] + i[5];
     if(sum <= 11){
         // 中卒    0  1  2  3  4  5  6  7  8  9 10 11
-        history = [NSString stringWithFormat:@"%@中学にて学生生活を過ごす。学生時代の特徴は%@。卒業後、%@になりたかったが、%@%@となる。就職%d年目の%@。", c, [self getFeature], [self getDream], [self getJReason], [self getJobString], y, z];
+        history = [NSString stringWithFormat:@"%@中学にて学生生活を過ごす。学生時代の特徴は%@。卒業後、%@になりたかったが、%@、%@、%@となる。就職%d年目の%@。", c, [self getFeature], [self getDream], [self getJReason], _date_string, [self getJobString], y, z];
     }else if(sum <= 24){
         // 高卒   12 13 14 15 16 17 18 19 20 21 22 23 24
-        history = [NSString stringWithFormat:@"%@高校にて学生生活を過ごす。学生時代の特徴は%@。卒業後、%@過ごすが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getFeature], [self getHLife], [self getHReason], d, [self getJobString], y, z];
+        history = [NSString stringWithFormat:@"%@高校にて学生生活を過ごす。学生時代の特徴は%@。卒業後、%@過ごすが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getFeature], [self getHLife], [self getHReason], _date_string, [self getJobString], y, z];
     }else if(sum <= 37){
         // 学士卒 25 26 27 28 29 30 31 32 33 34 35 36 37
-        history = [NSString stringWithFormat:@"%@大学にて学生生活を過ごす。学生の間は主に%@過ごし、%d年で卒業。その後株式会社「%@」に就職するが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getBLife], 4+(rand()%5), [self getCompany], [self getMBReason], d, [self getJobString], y, z];
+        history = [NSString stringWithFormat:@"%@大学にて学生生活を過ごす。学生の間は主に%@過ごし、%d年で卒業。その後株式会社「%@」に就職するが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getBLife], 4+(rand()%5), [self getCompany], [self getMBReason], _date_string, [self getJobString], y, z];
     }else if(sum <= 50){
         // 修士卒 38 39 40 41 42 43 44 45 46 47 48 49 50
-        history = [NSString stringWithFormat:@"%@大学院にて%@研究を行い、修士号を獲得。その後株式会社「%@」に就職するが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getPaper], [self getCompany], [self getMBReason], d, [self getJobString], y, z];
+        history = [NSString stringWithFormat:@"%@大学院にて%@研究を行い、修士号を獲得。その後株式会社「%@」に就職するが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getPaper], [self getCompany], [self getMBReason], _date_string, [self getJobString], y, z];
     }else{
         // 博士卒 51 52 53 54 55 56 57 58 59 60 61 62
-        history = [NSString stringWithFormat:@"%@大学にて%@論文を発表し、博士号を獲得。以後研究を続けるが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getPaper], [self getDReason], d, [self getJobString], y, z];
+        history = [NSString stringWithFormat:@"%@大学にて%@論文を発表し、博士号を獲得。以後研究を続けるが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getPaper], [self getDReason], _date_string, [self getJobString], y, z];
     }
 }
 // 論文内容
@@ -757,6 +760,7 @@
     // [UIView setAnimationDuration: 0.5];
     UIImageView *view = [self getBattleImage];
     view.transform = CGAffineTransformMakeTranslation(10, 0);
+
     
     // 種族によって、Aで攻撃するかCで攻撃するか分岐
     int damage = 0;
@@ -827,6 +831,10 @@
     // HPが0にならないようにマイナス
     damage = [super damage:damage];
     
+    if(nowh <= 0){
+        [self getBattleImage].transform = CGAffineTransformMakeRotation(-90);
+    }
+    
     // アビリティゲージ少し溜まる
     [self gainAbilityPow:4];
     // 体力ゲージ描写
@@ -862,10 +870,12 @@
         // 半分回復
         nowh = p[0] / 2.0;
         [self drawHpBar];
+        [self getBattleImage].transform = CGAffineTransformMakeRotation(0);
         return true;
     }else{
         return false;
     }
+    
 }
 
 // タップされた時
@@ -1312,6 +1322,7 @@
     p_mult[3] = 1.0;
     p_mult[4] = 1.0;
     p_mult[5] = 1.0;
+    [self getBattleImage].transform = CGAffineTransformMakeRotation(0);
     [self stopFlush];
 }
 

@@ -59,7 +59,8 @@
 
 // 名刺を保存するメソッド
 - (void)saveMeishi:(int)id :(Meishi *)meishi{
-    NSString *sql = [NSString stringWithFormat:@"INSERT INTO meishi VALUES (%d, '%@', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, '%@', '%@', '%@', '%@', %d, %d, %d);",
+    NSLog(@"%s, %@", __func__, meishi.date_string);
+    NSString *sql = [NSString stringWithFormat:@"INSERT INTO meishi VALUES (%d, '%@', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, '%@', '%@', '%@', '%@', %d, %d, %d, '%@');",
                      id,
                      [meishi getName],
                      [meishi getLv],
@@ -79,7 +80,8 @@
                      [meishi getMail2],
                      [meishi getZip1],
                      [meishi getZip2],
-                     [meishi getExp]];
+                     [meishi getExp],
+                     meishi.date_string];
     //@"insert into meishi values (0, 'sakamoto', 5, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 'hist', 'comname', 'mail1', 'mail2', 'zip1', 'zip2', 0);";
     [db open];
     NSString *delete_sql = [NSString stringWithFormat:@"DELETE FROM meishi WHERE meishiId = %d", id];
@@ -118,7 +120,9 @@
         [m calcParameter];
         [m setExp:[rs intForColumn:@"exp"]];
         [m setAbility:[rs intForColumn:@"abilityId"]];
+        [m setDateString:[rs stringForColumn:@"date"]];
         [return_result addObject:m];
+        NSLog(@"%s, %@", __func__, m.date_string);
     }
     [rs close];
     [db close];

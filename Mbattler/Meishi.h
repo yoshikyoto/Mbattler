@@ -55,6 +55,7 @@
 }
 
 @property(readonly) NSDate *date;
+@property(readonly) NSString *date_string;
 
 // 名刺に社名とかを入れて、キャラを生成するための関数
 - (id)initWithInformation:(NSString *)_name CompanyName:(NSString*)_company Mail1:(NSString *)_mail1 Mail2:(NSString *)_mail2 Zip1:(int)_zip1 Zip2:(int)_zip2 Sex:(int)_sex;
@@ -101,6 +102,7 @@
 - (void) setImageNum:(int)num;
 - (void) setSex:(int)s;
 - (void) setJob:(int)_job;
+- (void)setDateString:(NSString *)d;
 /* 職業セッター
  * 0:戦士
  * 1:格闘家
@@ -110,7 +112,7 @@
 - (void) setAbility:(int)abl;
 /* 特殊能力セッター
  */
-- (void)setHistory:(NSString *)his;
+- (void)overwriteHistory:(NSString *)his;
 
 - (void) setIndividual:(int *)_i;
 - (void) setNowH:(int)_h;

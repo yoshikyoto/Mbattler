@@ -85,11 +85,11 @@
         
         // 初期名刺
         Meishi *developer_meishi = [[Meishi alloc] initWithInformation:@"坂本祥之" CompanyName:@"京都大学大学院情報学研究科" Mail1:@"sakamoto" Mail2:@"db.soc.i.kyoto-u.ac.jp" Zip1:606 Zip2:8267 Sex:0];
-        [developer_meishi setAbility:0]; // ギガインパクト
-        [developer_meishi setHistory:[NSString stringWithFormat:@"京都の某大学にて大学生活を過ごす。学生の間は主にポケモンをして過ごし、4年で卒業。その後、大学院に行くが、研究に嫌気がさし、2013年4月1日、%@に転職する。転職1年目のかけだし。", [developer_meishi getJobString]]];
+        [developer_meishi setAbility:1]; // 破壊光線
+        [developer_meishi overwriteHistory:[NSString stringWithFormat:@"京都の某大学にて大学生活を過ごす。学生の間は主にポケモンをして過ごし、4年で卒業。その後、大学院に行き、名刺バトラーを開発する。しかし、自分が研究に向いていないことに気づき、%@、%@に転職。転職1年目のかけだし。",developer_meishi.date_string ,[developer_meishi getJobString]]];
         [self addMeishi:developer_meishi];
         
-        Meishi *meishi = [[Meishi alloc] initWithInformation:name CompanyName:@"名刺バトラー" Mail1:@"meishi" Mail2:@"battler" Zip1:000 Zip2:0000 Sex:0];
+        Meishi *meishi = [[Meishi alloc] initWithInformation:@"山田太郎" CompanyName:@"名刺バトラー" Mail1:@"meishi" Mail2:@"battler" Zip1:000 Zip2:0000 Sex:0];
         [meishi setAbility:1]; // 破壊光線
         [self addMeishi:meishi];
     }

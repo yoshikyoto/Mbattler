@@ -64,6 +64,8 @@
 - (int)attack:(Meishi *)target{
     int damage = 0;
     // とりあえずAで攻撃するようにしよう
+    
+    [self getBattleImage].transform = CGAffineTransformMakeTranslation(-10, 0);
     switch (attackBy) {
         case 1:
             // 魔法攻撃
@@ -117,7 +119,8 @@
         [self damage:samehada_damage];
     }
     
-    // 対象のHPをマイナスする
+    [self getBattleImage].transform = CGAffineTransformMakeTranslation(0, 0);
+    
     return damage;
 }
 
