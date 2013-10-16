@@ -77,9 +77,22 @@
 }
 
 - (UIImageView *)getHpBar:(int)x :(int)y{
-    hpbar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp1.png"]];
-    hpbar.frame = CGRectMake(x, y, 32, 5);
-    return hpbar;
+    hp_bar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp1.png"]];
+    hp_bar.frame = CGRectMake(x, y, 32, 5);
+    return hp_bar;
+}
+
+
+- (UIImageView *)getHPBarWithFrame:(CGRect)rect{
+    hp_background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp0.png"]];
+    hp_background.frame = rect;
+
+    hp_bar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp1.png"]];
+    rect.origin.x = 0;
+    rect.origin.y = 0;
+    hp_bar.frame = rect;
+    [hp_background addSubview:hp_bar];
+    return hp_background;
 }
 
 // ダメージ受ける関数
@@ -102,6 +115,8 @@
     }else{
         nowh = nowh - damage;
     }
+    // 体力ゲージ描写
+    [self drawHpBar];
     return damage;
 }
 
@@ -110,6 +125,7 @@
     [[self getBattleImage] removeFromSuperview];
     if(downView) [downView removeFromSuperview];
     if(upView) [upView removeFromSuperview];
+    if(hp_background) [hp_background removeFromSuperview];
 }
 
 // ステータス補正
@@ -180,15 +196,15 @@
 }
 
 - (void)drawHpBar{
-    if(hpbar){ // HPバーがインスタンスとして生成されてる場合だけ
-        int x = hpbar.frame.origin.x;
-        int y = hpbar.frame.origin.y;
+    if(hp_bar){ // HPバーがインスタンスとして生成されてる場合だけ
+        int x = hp_bar.frame.origin.x;
+        int y = hp_bar.frame.origin.y;
         int w = 32 * ((float)nowh / p[0]);
         NSLog(@"nowh/h = %d/%d", nowh, p[0]);
         NSLog(@"HpBar width %d", w);
         // 0じゃないときに長さ0にならないように
         if((w == 0)&&(nowh != 0)) w = 1;
-        hpbar.frame = CGRectMake(x, y, w, 5);
+        hp_bar.frame = CGRectMake(x, y, w, 5);
     }
 }
 
@@ -199,6 +215,7 @@
     damage = damage * (r/100.0);
     // ダメージは0にはならない
     if(damage <= 0) damage = 1;
+
     return damage;
 }
 

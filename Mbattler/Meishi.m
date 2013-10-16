@@ -832,7 +832,7 @@
     damage = [super damage:damage];
     
     if(nowh <= 0){
-        [self getBattleImage].transform = CGAffineTransformMakeRotation(-90);
+        [self getBattleImage].transform = CGAffineTransformMakeRotation(-90.0);
     }
     
     // アビリティゲージ少し溜まる

@@ -22,6 +22,7 @@
 #import "OcrViewController.h"
 #import "SVProgressHUD.h"
 #import "FMDatabase.h"
+#import "MBStartView.h"
 
 @interface MBViewController ()
 
@@ -177,6 +178,9 @@
     title.frame = CGRectMake(10, 60, 300, 32);
     title.textAlignment = NSTextAlignmentCenter;
     
+    // 最初のウィンドウ表示
+    nowScrollView = [[MBStartView alloc] init];
+    [[self view] addSubview:nowScrollView];
 }
 
 // キャラクター ------------------------------------------------------------

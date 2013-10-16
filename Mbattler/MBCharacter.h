@@ -21,7 +21,8 @@
     MBAnimationView *downView;  // 能力下がった時のエフェクト
     MBAnimationView *upView;    // 能力上がった時のエフェクト
     
-    UIImageView *hpbar;
+    UIImageView *hp_bar;
+    UIImageView *hp_background;
     
     // 名前のラベル
     UIOutlineLabel *name_label;
@@ -60,6 +61,7 @@
 - (Boolean)isDead;
 - (Boolean)isPlayer;
 - (UIImageView *)getHpBar:(int)x :(int)y;
+- (UIImageView *)getHPBarWithFrame:(CGRect)rect;
 - (void)drawHpBar;
 - (void)removeLeftImage;
 

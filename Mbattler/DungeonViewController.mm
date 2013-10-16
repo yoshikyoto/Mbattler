@@ -583,8 +583,8 @@
         UITapGestureRecognizer *etgr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(partyTapped:)];
         [view addGestureRecognizer:etgr]; // 狙い変更のための
 
-        UIImageView *hp0view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp0.png"]];
-        UIImageView *hp1view;
+        //UIImageView *hp0view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp0.png"]];
+        //UIImageView *hp1view;
         int x = 0;
         int y = 0;
         switch(i){
@@ -611,11 +611,13 @@
         }
         
         view.frame = CGRectMake(x, y, 32, 48);
-        hp0view.frame = CGRectMake(x, y+48, 32, 5);
-        hp1view = [m getHpBar:x :y+48];
+        //hp0view.frame = CGRectMake(x, y+48, 32, 5);
+        //hp1view = [m getHpBar:x :y+48];
+        UIImageView *hpbar = [m getHPBarWithFrame:CGRectMake(x, y+48, 32, 5)];
         [[self view] addSubview:view];
-        [[self view] addSubview:hp0view];
-        [[self view] addSubview:hp1view];
+        //[[self view] addSubview:hp0view];
+        //[[self view] addSubview:hp1view];
+        [[self view] addSubview:hpbar];
     }
 }
 
@@ -758,6 +760,9 @@
     // もろもろのために座標を記録
     enemypositions[i][0] = x;
     enemypositions[i][1] = y;
+    
+    UIImageView *hpbar = [e getHPBarWithFrame:CGRectMake(x, y+48, 32, 5)];
+    [[self view] addSubview:hpbar];
     
     view.frame = CGRectMake(x, y, 32, 48);
     [[self view] addSubview:view];
