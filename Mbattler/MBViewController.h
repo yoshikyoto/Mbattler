@@ -25,6 +25,7 @@
     int w;
     int h;
     int inside_h;
+    int yposition;
     
     MBScrollView *nowScrollView;
     // ダンジョンの confirm_view 

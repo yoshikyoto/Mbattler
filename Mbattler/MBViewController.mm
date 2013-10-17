@@ -23,6 +23,7 @@
 #import "SVProgressHUD.h"
 #import "FMDatabase.h"
 #import "MBStartView.h"
+#import "UIOutlineLabel.h"
 
 @interface MBViewController ()
 
@@ -62,10 +63,13 @@
     menutextcolor = [UIColor blackColor];
     subbgcolor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
     
+    
+    
     // 背景の設定
-    UIImage *backgroundImage = [UIImage imageNamed:@"bg.png"];
-    [self view].backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
+    // UIImage *backgroundImage = [UIImage imageNamed:@"bg.png"];
+    // [self view].backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
     // AppDelegate 初期化(グローバル変数的な使い方)
+    self.view.backgroundColor = [UIColor lightGrayColor];
     ad = [[UIApplication sharedApplication] delegate];
     
     mbdb = [[MBDatabase alloc] init];
@@ -84,31 +88,48 @@
     
     // 名前
     UILabel *name = [[UILabel alloc] init];
-    [name setBackgroundColor:subbgcolor];
-    name.frame = CGRectMake(10, 6, 120, 20);
+    [name setBackgroundColor:[UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.5]];
+    name.frame = CGRectMake(10, 18, 120, 20);
     name.text = [player getName];
+    name.font = [UIFont fontWithName:@"mikachan_o" size:16];
+    name.textColor = [UIColor colorWithRed:0.1 green:0.05 blue:0.01 alpha:1.0];
     [status addSubview:name];
     
     // スタミナ
     UILabel *stamina_label = [[UILabel alloc] init];
     // [stamina_label setBackgroundColor:subbgcolor];
-    stamina_label.backgroundColor = [UIColor lightGrayColor];
-    stamina_label.frame = CGRectMake(10, 33, 300, 14);
-    stamina_label.text = @"スタミナ";
-    stamina_label.font = [UIFont systemFontOfSize:10];
+    stamina_label.backgroundColor = [UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.2];
+    stamina_label.frame = CGRectMake(10, 40, 300, 14);
+    stamina_label.font = [UIFont fontWithName:@"mikachan_o" size:10];
+    stamina_label.textColor = [UIColor colorWithRed:0.1 green:0.05 blue:0.01 alpha:1.0];
+    stamina_label.text = @" スタミナ";
+    //stamina_label.font = [UIFont systemFontOfSize:10];
     [status addSubview:stamina_label];
+    
+    /*
+    UIOutlineLabel *stamina_index_label = [[UIOutlineLabel alloc] init];
+    [stamina_index_label setOutlineColor:[UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:1.0]];
+    [stamina_index_label setOutlineWidth:2];
+    stamina_index_label.text = @"スタミナ";
+    stamina_index_label.frame = CGRectMake(2, 0, 50, 14);
+    //name_label.textAlignment = NSTextAlignmentCenter;
+    stamina_index_label.font = [UIFont fontWithName:@"mikachan_o" size:10];
+    stamina_index_label.textColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:1.0];
+    stamina_index_label.backgroundColor = [UIColor clearColor];
+    [stamina_label addSubview:stamina_index_label];
+     */
     
     // スタミナバー
     UIImageView *stamina_base = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp0.png"]];
-    stamina_base.frame = CGRectMake(55, 35, 250, 10);
-    [status addSubview:stamina_base];
-    [status addSubview:[player getStaminaBar:55 :35]];
+    stamina_base.frame = CGRectMake(48, 2, 250, 10);
+    [stamina_label addSubview:stamina_base];
+    [stamina_base addSubview:[player getStaminaBar:0 :0]];
     
     // スタミナ数値
     UILabel *stamina_val = [player getStaminaLabel];
-    stamina_val.frame = CGRectMake(40, 29, 60, 20);
+    stamina_val.frame = CGRectMake(40, 0, 60, 15);
     stamina_val.textAlignment = NSTextAlignmentRight;
-    [status addSubview:stamina_val];
+    [stamina_label addSubview:stamina_val];
     
     
     MBScrollView *sv = [[MBScrollView alloc] init];
@@ -303,7 +324,7 @@
     stamina_label.font = [UIFont fontWithName:@"mikachan_o" size:14];
     stamina_label.textAlignment = NSTextAlignmentCenter;
     [confirm_view addSubview:stamina_label];
-    // 消費スタミナ
+    //
     UILabel *alert_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, 260, 20)];
     alert_label.font = [UIFont fontWithName:@"mikachan_o" size:14];
     alert_label.textAlignment = NSTextAlignmentCenter;
