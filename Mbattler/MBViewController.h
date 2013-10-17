@@ -27,6 +27,8 @@
     int inside_h;
     
     MBScrollView *nowScrollView;
+    // ダンジョンの confirm_view 
+    UIScrollView *confirm_view;
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info;

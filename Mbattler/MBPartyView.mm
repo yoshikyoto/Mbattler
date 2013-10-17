@@ -91,15 +91,19 @@
         
         // キャラの名前の表示
         UIOutlineLabel *name_label = [meishi getNameLabel];
-        name_label.frame = CGRectMake(12+58*(i%5), 34+38, 48, 10);
-        [party_view addSubview:name_label];
+        name_label.frame = CGRectMake(0, 38, 48, 10);
+        [button addSubview:name_label];
     }
     // パーティ不足の時の追加ボタン
     if(i < 5){
         UIButton *in_button = [UIButton buttonWithType:UIButtonTypeCustom];
         in_button.frame = CGRectMake(10+58*i, 34, 48, 48);
         // アイコンはとりあえず代用
-        [in_button setBackgroundImage:[UIImage imageNamed:@"outicon.PNG"] forState:UIControlStateNormal];
+        //[in_button setBackgroundImage:[UIImage imageNamed:@"outicon.PNG"] forState:UIControlStateNormal];
+        in_button.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
+        [in_button setTitle:@"追加" forState:UIControlStateNormal];
+        in_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
+        [in_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         in_button.tag = -1;
         [in_button addTarget:self action:@selector(touchedPartyMember:)forControlEvents:UIControlEventTouchUpInside];
         [party_view addSubview:in_button];
@@ -118,7 +122,12 @@
     // 「はずす」ボタンの描写
     UIButton *out_button = [UIButton buttonWithType:UIButtonTypeCustom];
     out_button.frame = CGRectMake(10, 10, 48, 48);
-    [out_button setBackgroundImage:[UIImage imageNamed:@"outicon.PNG"] forState:UIControlStateNormal]; //アイコン
+    // [out_button setBackgroundImage:[UIImage imageNamed:@"outicon.PNG"] forState:UIControlStateNormal]; //アイコン
+    out_button.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.8];
+    [out_button setTitle:@"外す" forState:UIControlStateNormal];
+    out_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
+    [out_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
     out_button.tag = -1;
     [out_button addTarget:self action:@selector(touchedReserveMember:)forControlEvents:UIControlEventTouchUpInside];
     [reserve_view addSubview:out_button];
@@ -144,8 +153,9 @@
         
         // キャラの名前を表示
         UIOutlineLabel *name_label = [meishi getNameLabel];
-        name_label.frame = CGRectMake(10+58*((i+1)%5), 10+58*((i+1)/5)+38, 48, 10);
-        [reserve_view addSubview:name_label];
+        //name_label.frame = CGRectMake(10+58*((i+1)%5), 10+58*((i+1)/5)+38, 48, 10);
+        name_label.frame = CGRectMake(0, 38, 48, 10);
+        [button addSubview:name_label];
     }
     // スクロールビュー内部のサイズ 縦はキャラ数に依存させる感じになる
     int h = 58*ceil((nonpartynum+1) / 5.0) + 10;
@@ -185,7 +195,7 @@
             // キャラクターが選択された場合
             meishi = [player getMeishi:sender.tag];
             // 名前も全面に持ってくる
-            [party_view bringSubviewToFront:[meishi getNameLabel]];
+            // [party_view bringSubviewToFront:[meishi getNameLabel]];
         }
         [confirm_window setPartyMember:meishi];
         
@@ -204,7 +214,7 @@
         selected_reserve_tag = -2;
     }else{
         // 「入れる」と「外す」は同時に選択できない
-        if((sender.tag == -1)&&(selected_reserve_tag == -1)) return;
+        if((sender.tag == -1)&&(selected_party_tag == -1)) return;
         
         // 新たに選択された場合、まずは画面を暗転させる。
         [reserve_view addSubview:reserve_black_mask];
@@ -220,7 +230,7 @@
             // キャラクターが選択された場合
             meishi = [player getMeishi:sender.tag];
             // 名前も全面に持ってくる
-            [reserve_view bringSubviewToFront:[meishi getNameLabel]];
+            //[reserve_view bringSubviewToFront:[meishi getNameLabel]];
         }
         [confirm_window setReserveMember:meishi];
         

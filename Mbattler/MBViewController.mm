@@ -242,15 +242,34 @@
     // ダンジョン名一覧を取得
     NSArray *dungeonNames = [dungeon getNames];
     dungeon_view.contentSize = CGSizeMake(300, 58 * [dungeonNames count] + 20);    // スクロール内部のサイズ
-    UIButton *button;
+
     for(int i = 0; i < [dungeonNames count]; i++){
-        button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        button.frame = CGRectMake(10, 5 + 58*i, 300, 55);
-        [button setBackgroundImage:[UIImage imageNamed:@"husen1.png"] forState:UIControlStateNormal];
-        button.tag = i;
-        [button setTitle:[dungeonNames objectAtIndex:i] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(dungeonTouched:)forControlEvents:UIControlEventTouchUpInside];
-        [dungeon_view addSubview:button];
+        UIButton *dungeon_button = [UIButton buttonWithType:UIButtonTypeCustom];
+        dungeon_button.frame = CGRectMake(10, 5 + 58*i, 300, 50);
+        //[button setBackgroundImage:[UIImage imageNamed:@"husen1.png"] forState:UIControlStateNormal];
+        dungeon_button.tag = i;
+        //[dungeon_button setTitle:[dungeonNames objectAtIndex:i] forState:UIControlStateNormal];
+        [dungeon_button addTarget:self action:@selector(dungeonTouched:)forControlEvents:UIControlEventTouchUpInside];
+        dungeon_button.backgroundColor = [UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.9];
+        [[dungeon_button layer] setBorderWidth:2.0];//[UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.8];
+        [[dungeon_button layer] setCornerRadius:6.0];
+        [[dungeon_button layer] setBorderColor:[[UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.8] CGColor]];
+        [dungeon_view addSubview:dungeon_button];
+        
+        UILabel *dungeon_name_label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 200, 50)];
+        dungeon_name_label.numberOfLines = 2;
+        dungeon_name_label.text = [dungeonNames objectAtIndex:i];
+        dungeon_name_label.font = [UIFont fontWithName:@"mikachan_o" size:16];
+        dungeon_name_label.textColor = [UIColor colorWithRed:0.1 green:0.05 blue:0.01 alpha:1.0];
+        dungeon_name_label.textAlignment = NSTextAlignmentCenter;
+        [dungeon_button addSubview:dungeon_name_label];
+        
+        [dungeon setDungeon:i];
+        UILabel *dungeon_stamina_label = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 100, 25)];
+        dungeon_stamina_label.text = [NSString stringWithFormat:@"消費スタミナ: %d", [dungeon getStamina]];
+        dungeon_stamina_label.font = [UIFont fontWithName:@"mikachan_o" size:12];
+        dungeon_stamina_label.textColor = [UIColor colorWithRed:0.1 green:0.05 blue:0.01 alpha:1.0];
+        [dungeon_button addSubview:dungeon_stamina_label];
     }
 
     [[self view] addSubview:dungeonView];
@@ -259,7 +278,8 @@
 
 // ダンジョンに入る時の確認ウィンドウ
 - (void)dungeonTouched:(UIButton *)sender{
-    UIScrollView *confirm_view = [[UIScrollView alloc] initWithFrame:CGRectMake(30, 80, 260, 160)];
+    if(confirm_view) [confirm_view removeFromSuperview];
+    confirm_view = [[UIScrollView alloc] initWithFrame:CGRectMake(30, 80, 260, 160)];
     confirm_view.layer.masksToBounds = NO;
     confirm_view.layer.shadowOffset = CGSizeMake(3.0f, 3.0f);  //影の方向
     confirm_view.layer.shadowOpacity = 0.7f; // 影の透明度
