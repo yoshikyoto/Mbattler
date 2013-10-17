@@ -114,7 +114,7 @@
         [m setExp:[rs intForColumn:@"exp"]];
         [m setAbility:[rs intForColumn:@"abilityId"]];
         [m setDateString:[rs stringForColumn:@"date"]];
-        [m overwriteHistory:@"history"];
+        [m overwriteHistory:[rs stringForColumn:@"history"]];
         [return_result addObject:m];
         NSLog(@"%s, %@", __func__, m.date_string);
     }

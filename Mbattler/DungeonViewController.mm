@@ -420,11 +420,11 @@
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
         
         // 結果画面のセット
-        if([dungeon isDead]){
+        if([dungeon isCleard]){
             // 勝利した場合
             exp = [dungeon getExp];
             break;
-        }else{
+        }else if([player isDead] || !battle_continue_flag){
             // 全滅した場合
             // 経験値0 →　敗北と判定される。
             exp = 0;

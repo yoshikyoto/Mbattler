@@ -433,8 +433,8 @@
     if(zipField.text&&companyField.text&&nameField.text&&mailField.text){
         UIAlertView *alert = [[UIAlertView alloc] init];
         alert.delegate = self;
-        alert.title = @"確認";
-        alert.message = @"よろしいですか？";
+        alert.title = @"決定したら変更できません";
+        alert.message = @"これでよろしいですか？";
         [alert addButtonWithTitle:@"はい"];
         [alert addButtonWithTitle:@"いいえ"];
         [alert show];
