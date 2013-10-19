@@ -19,6 +19,7 @@
 #import "MBAbilityCutin.h"
 #import "UIOutlineLabel.h"
 #import "UIOutlineLabel.h"
+#import "MBButton.h"
 
 @interface DungeonViewController ()
 
@@ -860,6 +861,7 @@
         UILabel *resultlabel = [[UILabel alloc] init];
         resultlabel.frame = CGRectMake(10, 160, 300, 32);
         resultlabel.text = @"撤退した…";
+        resultlabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
         resultlabel.backgroundColor = [UIColor clearColor];
         resultlabel.textAlignment = NSTextAlignmentCenter;
         [resultView addSubview:resultlabel];
@@ -893,20 +895,26 @@
             // 名前
             
             UIOutlineLabel *name_label = [[UIOutlineLabel alloc] init];
-            [name_label setOutlineColor:[UIColor grayColor]];
-            [name_label setOutlineWidth:5.f];
+            [name_label setOutlineColor:[UIColor whiteColor]];
+            [name_label setOutlineWidth:2];
             name_label.text = [meishi getName];
-            name_label.frame = CGRectMake(80, 100+(50*i), 80, 24);
+            name_label.frame = CGRectMake(30, 90+50*i, 52, 12);
+            name_label.font = [UIFont systemFontOfSize:12];
             name_label.backgroundColor = [UIColor clearColor];
+            name_label.textAlignment = NSTextAlignmentCenter;
             [resultView addSubview:name_label];
+            
+            
+            UILabel *attention = [[UILabel alloc] init];
+            attention.frame = CGRectMake(80, 124+(50*i), 200, 24);
+            attention.backgroundColor = [UIColor clearColor];
+            [resultView addSubview:attention];
             // レベルアップしたかどうか
             if(uplv > 0){
-                UILabel *attention = [[UILabel alloc] init];
-                attention.text = @"レベルアップ！";
-                attention.frame = CGRectMake(80, 124+(50*i), 200, 24);
-                attention.backgroundColor = [UIColor clearColor];
-                [resultView addSubview:attention];
+                attention.text = [NSString stringWithFormat:@"Lv %d　→　Lv %d", [meishi getLv] - uplv, [meishi getLv]];
                 lvup_flag = true;
+            }else{
+                attention.text = [NSString stringWithFormat:@"Lv %d", [meishi getLv]];
             }
         }
         // 画面をタップした時に次に行くように
@@ -936,7 +944,7 @@
     
     // 上にかぶせるビューの初期化
     UIScrollView *result2_view = [[UIScrollView alloc] init];
-    result2_view.frame = CGRectMake(0, 100, 320, 260);
+    result2_view.frame = CGRectMake(100, 100, 220, 260);
     UIImage *backgroundImage = [UIImage imageNamed:@"bg.png"];
     result2_view.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
     
@@ -945,6 +953,7 @@
         Meishi *meishi = [player getMeishi:i];
         
         // アイコン
+        /*
         UIImageView *view = [meishi getCenterImage];
         view.frame = CGRectMake(40, 50*i, 32, 48);
         [result2_view addSubview:view];
@@ -957,46 +966,48 @@
         name_label.frame = CGRectMake(20, 24+50*i, 80, 24);
         name_label.font = [UIFont systemFontOfSize:12];
         name_label.backgroundColor = [UIColor clearColor];
+        name_label.textAlignment = NSTextAlignmentCenter;
         [result2_view addSubview:name_label];
+         */
         
         // レベルアップしたかどうか
         NSLog(@"%d", [meishi getUpLvInt]);
         if([meishi getUpLvInt] > 0){
-            UILabel *upH_label  = [[UILabel alloc] initWithFrame:CGRectMake(100, 2+50*i, 80, 16)];
+            UILabel *upH_label  = [[UILabel alloc] initWithFrame:CGRectMake(0, 2+50*i, 80, 16)];
             upH_label.font = [UIFont systemFontOfSize:14];
             upH_label.text = [NSString stringWithFormat:@"HP +%d", [meishi getUpHInt]];
             upH_label.backgroundColor = [UIColor clearColor];
             [result2_view addSubview:upH_label];
             
             
-            UILabel *upA_label  = [[UILabel alloc] initWithFrame:CGRectMake(100, 17+50*i, 80, 16)];
+            UILabel *upA_label  = [[UILabel alloc] initWithFrame:CGRectMake(0, 17+50*i, 80, 16)];
             upA_label.font = [UIFont systemFontOfSize:14];
             upA_label.text = [NSString stringWithFormat:@"攻撃 +%d", [meishi getUpAInt]];
             upA_label.backgroundColor = [UIColor clearColor];
             [result2_view addSubview:upA_label];
             
             
-            UILabel *upB_label  = [[UILabel alloc] initWithFrame:CGRectMake(100, 32+50*i, 80, 16)];
+            UILabel *upB_label  = [[UILabel alloc] initWithFrame:CGRectMake(0, 32+50*i, 80, 16)];
             upB_label.font = [UIFont systemFontOfSize:14];
             upB_label.text = [NSString stringWithFormat:@"防御 +%d", [meishi getUpBInt]];
             upB_label.backgroundColor = [UIColor clearColor];
             [result2_view addSubview:upB_label];
             
-            UILabel *upC_label  = [[UILabel alloc] initWithFrame:CGRectMake(200, 2+50*i, 80, 16)];
+            UILabel *upC_label  = [[UILabel alloc] initWithFrame:CGRectMake(100, 2+50*i, 80, 16)];
             upC_label.font = [UIFont systemFontOfSize:14];
             upC_label.text = [NSString stringWithFormat:@"魔攻 +%d", [meishi getUpCInt]];
             upC_label.backgroundColor = [UIColor clearColor];
             [result2_view addSubview:upC_label];
             
             
-            UILabel *upD_label  = [[UILabel alloc] initWithFrame:CGRectMake(200, 17+50*i, 80, 16)];
+            UILabel *upD_label  = [[UILabel alloc] initWithFrame:CGRectMake(100, 17+50*i, 80, 16)];
             upD_label.font = [UIFont systemFontOfSize:14];
             upD_label.text = [NSString stringWithFormat:@"魔防 +%d", [meishi getUpDInt]];
             upD_label.backgroundColor = [UIColor clearColor];
             [result2_view addSubview:upD_label];
             
             
-            UILabel *upS_label  = [[UILabel alloc] initWithFrame:CGRectMake(200, 32+50*i, 80, 16)];
+            UILabel *upS_label  = [[UILabel alloc] initWithFrame:CGRectMake(100, 32+50*i, 80, 16)];
             upS_label.font = [UIFont systemFontOfSize:14];
             upS_label.text = [NSString stringWithFormat:@"素早さ +%d", [meishi getUpSInt]];
             upS_label.backgroundColor = [UIColor clearColor];

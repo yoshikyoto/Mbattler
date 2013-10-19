@@ -9,6 +9,7 @@
 #import "SummonViewController.h"
 #import "MBAnimationView.h"
 #import "MBStatusView.h"
+#import "MBButton.h"
 
 @interface SummonViewController ()
 
@@ -27,6 +28,12 @@
 
 - (void)setMeishi:(Meishi *)m{
     meishi = m;
+    // 閉じるボタンの設置
+    _close_button = [MBButton buttonWithType:UIButtonTypeRoundedRect];
+    [_close_button setColorType:0];
+    _close_button.frame = CGRectMake(100, 390, 120, 30);
+    [_close_button setTitle:@"× とじる" forState:UIControlStateNormal];
+
 }
 
 - (void)viewDidLoad
@@ -91,15 +98,13 @@
 - (void)viewStatus:(id)sender{
     [[self view] removeGestureRecognizer:tgr];
     MBStatusView *view = [[MBStatusView alloc] initWithMeishi:meishi];
+    view.frame = CGRectMake(0, 30, 320, 390);
     // 戻るボタンを消す
     [view removeBackButton];
     [[self view] addSubview:view];
     // 代わりに画面閉じるボタンを設置
-    UIButton *backbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    backbutton.frame = CGRectMake(135, 420, 50, 32);
-    [backbutton setTitle:@"閉じる" forState:UIControlStateNormal];
-    [backbutton addTarget:self action:@selector(close:)forControlEvents:UIControlEventTouchUpInside];
-    [[self view] addSubview:backbutton];
+    //[backbutton addTarget:self action:@selector(close:)forControlEvents:UIControlEventTouchUpInside];
+    [[self view] addSubview:_close_button];
 }
 
 - (void)close:(id)sender{

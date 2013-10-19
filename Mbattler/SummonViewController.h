@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Meishi.h"
-
+#import "MBButton.h"
 @interface SummonViewController : UIViewController{
     Meishi *meishi;
     MBAnimationView *effect1;
@@ -17,5 +17,7 @@
 }
 
 - (void)setMeishi:(Meishi *)m;
+
+@property(readwrite) MBButton *close_button;
 
 @end

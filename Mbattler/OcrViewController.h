@@ -10,6 +10,8 @@
 #import "Player.h"
 #import "Meishi.h"
 
+@class SummonViewController;
+
 @interface OcrViewController : UIViewController<UITextFieldDelegate>{
     Player *player;
     Meishi *meishi;
@@ -37,6 +39,8 @@
     UITextField *activeField;
     
     NSString *name_kanji;
+    
+    SummonViewController *svc;
 }
 
 - (id)initWithPlayer:(Player *)p OCRImage:(UIImage *)_img;

@@ -26,7 +26,7 @@
             int a = grayScaleImage->widthStep * y + x;
             uchar p = grayScaleImage->imageData[a];
             
-            if (p < 90) {
+            if (p < 80) {
                 // 黒
                 grayScaleImage->imageData[a] = 0;
             } else {
@@ -76,7 +76,7 @@
             num++;
             sum += p;
             
-            if (p < 90) {
+            if (p < 120) {
                 // 黒
                 grayScaleImage->imageData[a] = 0;
             } else {

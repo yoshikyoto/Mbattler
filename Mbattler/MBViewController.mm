@@ -69,7 +69,7 @@
     // UIImage *backgroundImage = [UIImage imageNamed:@"bg.png"];
     // [self view].backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
     // AppDelegate 初期化(グローバル変数的な使い方)
-    self.view.backgroundColor = [UIColor lightGrayColor];
+    self.view.backgroundColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1.0];
     ad = [[UIApplication sharedApplication] delegate];
     
     mbdb = [[MBDatabase alloc] init];
@@ -398,9 +398,10 @@
     nowScrollView = summonView;
     
     // カメラ起動ボタン
-    UIButton *camera_button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [camera_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    camera_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:20];
+    MBButton *camera_button = [MBButton buttonWithType:UIButtonTypeRoundedRect];
+    //[camera_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    //camera_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:20];
+    // [camera_button setColorType:0];
     camera_button.frame = CGRectMake(30, 80, 260, 40);
     
     // 注意書きラメル
@@ -416,17 +417,17 @@
          * みたいな */
         if([player isMeishiFull]){
             // 名刺が一杯の場合
-            camera_button.backgroundColor = [UIColor colorWithRed:1.0 green:0.6 blue:0.6 alpha:1.0];
+            [camera_button setColorType:2];
             [camera_button setTitle:@"名刺がいっぱいです" forState:UIControlStateNormal];
             alert_label.text = @"新たに名刺からバトラーを召喚したい場合は、Statusから、バトラーを解雇してください。";
         }else{
-            camera_button.backgroundColor = [UIColor colorWithRed:0.7 green:0.7 blue:1.0 alpha:1.0];
+            [camera_button setColorType:0];
             [camera_button setTitle:@"カメラ起動" forState:UIControlStateNormal];
             [camera_button addTarget:self action:@selector(launchCamera:)forControlEvents:UIControlEventTouchUpInside];
             alert_label.text = @"文字認識を行いますので、名刺をカメラと平行に持って、明るい場所で撮影してください。\n画像認識には少々時間がかかります。";
         }
     }else{
-        camera_button.backgroundColor = [UIColor colorWithRed:1.0 green:0.6 blue:0.6 alpha:1.0];
+        [camera_button setColorType:2];
         [camera_button setTitle:@"カメラ非対応なデバイスです" forState:UIControlStateNormal];
         alert_label.text = @"お使いのデバイスはカメラががついていません。\n申し訳ありませんが名刺の召喚は行えません。";
     }

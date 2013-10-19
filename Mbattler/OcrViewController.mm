@@ -12,6 +12,7 @@
 #import "SVProgressHUD.h"
 #import "Meishi.h"
 #import "SummonViewController.h"
+#import "MBButton.h"
 
 @interface OcrViewController ()
 
@@ -60,15 +61,17 @@
 
 - (void)meishi:(id)sender{
     // 画像を縮小
-    [self resizeHalf];
-    
-    [self viewTextFields];
-    UIImageView *view = [[UIImageView alloc] initWithImage:img];
-    view.frame = CGRectMake(40, 0, 240, 180);
-    [[self view] addSubview:view];
+    //[self resizeWithSize:1200];
+    [self resize];
     
     // 画像を二値化
     [self do2ValueFilter];
+    
+    // 二値化した画像を表示
+    [self viewTextFields];
+    UIImageView *view = [[UIImageView alloc] initWithImage:mono_img];
+    view.frame = CGRectMake(40, 0, 240, 180);
+    [[self view] addSubview:view];
     
     // OCRを実行
     [self ocr];
@@ -78,22 +81,24 @@
 }
 
 // 画像を縮小するやつ
-- (UIImage *)resize:(float)w{
-    // 横幅を640に合わせてリサイズ
-    // 縮小割合を求める
+- (UIImage *)resizeWithSize:(int)resize_width{
     CGImageRef image_ref = img.CGImage;
     size_t image_w = CGImageGetWidth(image_ref);
     size_t image_h = CGImageGetHeight(image_ref);
-    double mult;
-    NSLog(@"OCR image size %ld * %ld", image_w, image_h);
-    mult = w / image_w;
+    NSLog(@"%s original %ld * %ld",__func__, image_w, image_h);
     
-    image_w = image_w * mult;
-    image_h = image_h * mult;
-    NSLog(@"mult: %f, w: %ld, h: %ld", mult, image_w, image_h);
+    if(image_w >= image_h){
+        image_h = (int)(image_h * ((float)resize_width / image_w));
+        image_w = resize_width;
+    }else{
+        image_w = (int)(image_w * ((float)resize_width / image_h));
+        image_h = resize_width;
+    }
     
-    UIGraphicsBeginImageContext(CGSizeMake(image_w, image_h));
-    [img drawInRect:CGRectMake(0, 0, image_w, image_h)];
+    NSLog(@"%s resized %ld * %ld",__func__, image_w, image_h);
+    
+    UIGraphicsBeginImageContext(CGSizeMake(image_w/2, image_h/2));
+    [img drawInRect:CGRectMake(0, 0, image_w/2, image_h/2)];
     img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
@@ -101,12 +106,17 @@
 }
 
 // 画像を縮小するやつ
-- (UIImage *)resizeHalf{
+- (UIImage *)resize{
     // 画像の縦横を半分に
     CGImageRef image_ref = img.CGImage;
     size_t image_w = CGImageGetWidth(image_ref);
     size_t image_h = CGImageGetHeight(image_ref);
-    NSLog(@"OCR image size %ld * %ld", image_w, image_h);
+    NSLog(@"%s original %ld * %ld",__func__, image_w, image_h);
+    
+    image_h = (int)(image_h / 3.0);
+    image_w = (int)(image_w / 3.0);
+    
+    NSLog(@"%s resized %ld * %ld",__func__, image_w, image_h);
     
     UIGraphicsBeginImageContext(CGSizeMake(image_w/2, image_h/2));
     [img drawInRect:CGRectMake(0, 0, image_w/2, image_h/2)];
@@ -132,10 +142,10 @@
     Tesseract *tesseract_en = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"];
     [tesseract_en setImage:mono_img];
     //[tesseract_en setVariableValue:@"〒" forKey:@"user_words_suffix"];
-    //[tesseract_en setVariableValue:@"0123456789〒-" forKey:@"tessedit_char_whitelist"]; // ホワイトリスト
-    //[tesseract_en setVariableValue:@":(){},'+%?!~&<*|/\\$" forKey:@"tessedit_char_blacklist"]; //　ブラックリスト
+    [tesseract_en setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-:@.!#$%&*+/=?^_" forKey:@"tessedit_char_whitelist"]; // ホワイトリスト
+    [tesseract_en setVariableValue:@":(){},'~\\" forKey:@"tessedit_char_blacklist"]; //　ブラックリスト
     // 指定した文字以外にはペナルティを課す
-    [tesseract_en setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-:@." forKey:@"freq_dawg"];
+    [tesseract_en setVariableValue:@"0123456789-@" forKey:@"freq_dawg"];
     [tesseract_en setVariableValue:@"0.5" forKey:@"language_model_penalty_non_freq_dict_word"];
     [tesseract_en recognize];
     // スペースを除去
@@ -395,15 +405,18 @@
     mailField.delegate = self;
     [correctView addSubview:mailField];
     
-    UIButton *submit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    MBButton *submit = [MBButton buttonWithType:UIButtonTypeRoundedRect];
+    [submit setColorType:1];
     submit.frame = CGRectMake(60, 300, 200, 40);
     [submit setTitle:@"召喚！" forState:UIControlStateNormal];
     [submit addTarget:self action:@selector(summon:) forControlEvents:UIControlEventTouchDown];
     [correctView addSubview:submit];
+     
     
-    UIButton *cancel = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    MBButton *cancel = [MBButton buttonWithType:UIButtonTypeRoundedRect];
     cancel.frame = CGRectMake(60, 360, 200, 40);
     [cancel setTitle:@"キャンセル" forState:UIControlStateNormal];
+    [cancel setColorType:2];
     [cancel addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchDown];
     [correctView addSubview:cancel];
     
@@ -430,24 +443,35 @@
 // 召喚ボタンが押されたとき
 - (void)summon:(UIButton *)sender{
     NSLog(@"召喚！ pushed");
-    if(zipField.text&&companyField.text&&nameField.text&&mailField.text){
-        UIAlertView *alert = [[UIAlertView alloc] init];
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    if(nameField.text.length == 0){ // 名前
+        alert.title = @"名前";
+        alert.message = @"を入力してください";
+        [alert addButtonWithTitle:@"もどる"];
+    }else if(zipField.text.length < 7){    // 郵便番号
+        alert.title = @"郵便番号";
+        alert.message = @"を正しく入力してください";
+        [alert addButtonWithTitle:@"もどる"];
+    }else if(companyField.text.length == 0){    // 会社名
+        alert.title = @"会社名";
+        alert.message = @"を入力してください";
+        [alert addButtonWithTitle:@"もどる"];
+    }else if([mailField.text rangeOfString:@".*@.*" options:NSRegularExpressionSearch].location == NSNotFound){
+        // メールアドレス
+        alert.title = @"メールアドレス";
+        alert.message = @"を正しく入力してください";
+        [alert addButtonWithTitle:@"もどる"];
+    }else{
         alert.delegate = self;
         alert.title = @"決定したら変更できません";
         alert.message = @"これでよろしいですか？";
         [alert addButtonWithTitle:@"はい"];
         [alert addButtonWithTitle:@"いいえ"];
-        [alert show];
-    }else{
-        // 複数行で書くタイプ（１ボタンタイプ）
-        UIAlertView *alert = [[UIAlertView alloc] init];
-        alert.title = @"エラー";
-        alert.message = @"入力されていないフィールドがあります";
-        [alert addButtonWithTitle:@"確認"];
-        [alert show];
     }
+    [alert show];
 }
 
+// 召喚
 -(void)alertView:(UIAlertView*)alertView
 clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 0){
@@ -479,8 +503,10 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         NSLog(@"名刺生成");
         meishi = [[Meishi alloc] initWithInformation:name CompanyName:company Mail1:mail1 Mail2:mail2 Zip1:zip1 Zip2:zip2 Sex:0];
         
-        SummonViewController *svc = [[SummonViewController alloc] init];
+        svc = [[SummonViewController alloc] init];
         [svc setMeishi:meishi];
+        [svc.close_button addTarget:self action:@selector(closeAll:)forControlEvents:UIControlEventTouchUpInside];
+
         [self presentViewController:svc animated:NO completion:nil];
         
         [player addMeishi:meishi];
@@ -491,6 +517,13 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 
 - (void)cancel:(id)sender{
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)closeAll:(UIButton *)sender{
+    NSLog(@"%s", __func__);
+    [svc dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 

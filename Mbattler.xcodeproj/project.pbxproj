@@ -35,6 +35,7 @@
 		9207018718026C99000ACA58 /* MBDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9207018618026C99000ACA58 /* MBDatabase.m */; };
 		92070188180283AB000ACA58 /* MBDatabase.db in Resources */ = {isa = PBXBuildFile; fileRef = 9207017218024B93000ACA58 /* MBDatabase.db */; };
 		9210A46317CE7C9300BD2FB3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9210A46217CE7C9300BD2FB3 /* StoreKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		9210C90E181132F30038BCC0 /* MBButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9210C90D181132F30038BCC0 /* MBButton.m */; };
 		922450691751DB5D0042CC5D /* Dungeon.mm in Sources */ = {isa = PBXBuildFile; fileRef = 922450681751DB5D0042CC5D /* Dungeon.mm */; };
 		9225338216EAF73800495F98 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338116EAF73800495F98 /* UIKit.framework */; };
 		9225338416EAF73800495F98 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338316EAF73800495F98 /* Foundation.framework */; };
@@ -616,6 +617,8 @@
 		9207018618026C99000ACA58 /* MBDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBDatabase.m; path = database/MBDatabase.m; sourceTree = "<group>"; };
 		920C741A17102A94006E519B /* DungeonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DungeonViewController.h; sourceTree = "<group>"; };
 		9210A46217CE7C9300BD2FB3 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		9210C90C181132F30038BCC0 /* MBButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBButton.h; sourceTree = "<group>"; };
+		9210C90D181132F30038BCC0 /* MBButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBButton.m; sourceTree = "<group>"; };
 		922450671751DB5D0042CC5D /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
 		922450681751DB5D0042CC5D /* Dungeon.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Dungeon.mm; sourceTree = "<group>"; };
 		9225337E16EAF73800495F98 /* Mbattler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mbattler.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1381,6 +1384,8 @@
 				92D7A3031769E0E8006E4A90 /* MiniStatusView.mm */,
 				92C68F0B1800067000113B7F /* MBConbatantView.h */,
 				92C68F0C1800067000113B7F /* MBConbatantView.m */,
+				9210C90C181132F30038BCC0 /* MBButton.h */,
+				9210C90D181132F30038BCC0 /* MBButton.m */,
 				92D6F0B317E48BA300D187E2 /* Character */,
 				92D6F0B617E48C0D00D187E2 /* lib */,
 				9298595D17C25CD600DD9942 /* SVProgressHUD */,
@@ -2116,10 +2121,10 @@
 				92049A85175B7AB000558171 /* MBViewController.mm */,
 				920C741A17102A94006E519B /* DungeonViewController.h */,
 				92D4405517B7911A00FEB2A5 /* DungeonViewController.mm */,
-				92E1A40117B80E0C00290216 /* SummonViewController.h */,
-				92E1A40217B80E0C00290216 /* SummonViewController.mm */,
 				9298595617C24E5000DD9942 /* OcrViewController.h */,
 				9298595717C24E5000DD9942 /* OcrViewController.mm */,
+				92E1A40117B80E0C00290216 /* SummonViewController.h */,
+				92E1A40217B80E0C00290216 /* SummonViewController.mm */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -2755,6 +2760,7 @@
 				920360D917B636F000EDB590 /* MBPartyView.mm in Sources */,
 				920360DC17B63AAC00EDB590 /* MBCharacterView.mm in Sources */,
 				920360DF17B66C3200EDB590 /* MBStatusView.mm in Sources */,
+				9210C90E181132F30038BCC0 /* MBButton.m in Sources */,
 				920701801802522F000ACA58 /* FMDatabaseAdditions.m in Sources */,
 				92FD9CFE180BFCEE00A72B32 /* UIImage+fill.m in Sources */,
 				920701841802522F000ACA58 /* FMResultSet.m in Sources */,
