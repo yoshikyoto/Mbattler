@@ -898,7 +898,7 @@
             [name_label setOutlineColor:[UIColor whiteColor]];
             [name_label setOutlineWidth:2];
             name_label.text = [meishi getName];
-            name_label.frame = CGRectMake(30, 90+50*i, 52, 12);
+            name_label.frame = CGRectMake(25, 136+50*i, 62, 12);
             name_label.font = [UIFont systemFontOfSize:12];
             name_label.backgroundColor = [UIColor clearColor];
             name_label.textAlignment = NSTextAlignmentCenter;

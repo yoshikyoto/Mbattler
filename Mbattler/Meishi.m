@@ -193,7 +193,7 @@
 // 現在の経験値
 - (int)getExp{ return exp; }
 // 次の経験値
-- (int)getNextExp{ return lv*20; }
+- (int)getNextExp{ return lv*lv*10; }
 // 経歴ゲッター
 - (NSString *)getHistory{ return history; }
 // レベルセッター
