@@ -23,6 +23,28 @@
     
     self.view.backgroundColor = [UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.9];
     
+    // ↓ここをtrueにするとデバッグモード
+    if(true){
+        player = [[Player alloc] initWithTestdata];
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(start:)];
+        [[self view] addGestureRecognizer:tgr];
+        
+        UILabel *title = [[UILabel alloc] init];
+        title.frame = CGRectMake(60, 30, 200, 50);
+        title.font = [UIFont systemFontOfSize:24];
+        title.text = @"デバッグモード";
+        title.textAlignment = NSTextAlignmentCenter;
+        [[self view] addSubview:title];
+        
+        UILabel *touchstart = [[UILabel alloc] init];
+        touchstart.frame = CGRectMake(60, 160, 200, 50);
+        touchstart.text = @"TOUCH START";
+        touchstart.textAlignment = NSTextAlignmentCenter;
+        [[self view] addSubview:touchstart];
+        
+        return;
+    }
+    
     // プレイヤーオブジェクトの初期化
     // セーブデータがあるかどうかで分岐させる
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
