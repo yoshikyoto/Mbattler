@@ -20,6 +20,7 @@
 #import "UIOutlineLabel.h"
 #import "UIOutlineLabel.h"
 #import "MBButton.h"
+#import "MBButton.h"
 
 @interface DungeonViewController ()
 
@@ -1056,9 +1057,10 @@
 
 - (void)viewBackButton{
     // 画面閉じるボタン設置
-    UIButton *backbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    MBButton *backbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     backbutton.frame = CGRectMake(100, 360, 120, 32);
-    [backbutton setTitle:@"戻る" forState:UIControlStateNormal];
+    [backbutton setColorType:1];
+    [backbutton setText:@"戻る"];
     [backbutton addTarget:self action:@selector(close:)forControlEvents:UIControlEventTouchUpInside];
     [resultView addSubview:backbutton];
 }
