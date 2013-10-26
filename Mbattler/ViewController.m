@@ -28,7 +28,7 @@
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     if([ud stringForKey:@"PLAYER_NAME"]){
         NSLog(@"%s セーブデータをロードします", __func__);
-        player = [[Player alloc] initWithTestdata];
+        player = [[Player alloc] initWithLoad];
         
         UILabel *title = [[UILabel alloc] init];
         title.frame = CGRectMake(60, 30, 200, 50);

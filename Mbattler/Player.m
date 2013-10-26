@@ -72,6 +72,11 @@
         }
         [self reflesh];
         name = @"TestData";
+        for(int i = 0; i < 42; i++){
+            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+            NSString *key = [NSString stringWithFormat:@"CLEARCOUNT_DUNGEON_%d", i];
+            [ud setInteger:1 forKey:key];
+        }
     }
     return self;
 }
@@ -88,6 +93,11 @@
         [developer_meishi setAbility:1]; // 破壊光線
         [developer_meishi overwriteHistory:[NSString stringWithFormat:@"京都の某大学にて大学生活を過ごす。学生の間は主にポケモンをして過ごし、4年で卒業。その後、大学院に行き、名刺バトラーを開発する。しかし、自分が研究に向いていないことに気づき、%@、%@に転職。転職1年目のかけだし。",developer_meishi.date_string ,[developer_meishi getJobString]]];
         [self addMeishi:developer_meishi];
+        
+        Meishi *developer_meishi_akino = [[Meishi alloc] initWithInformation:@"秋乃雨弓" CompanyName:@"京都大学法学部" Mail1:@"akino" Mail2:@"amaki" Zip1:599 Zip2:0224 Sex:0];
+        [developer_meishi_akino setAbility:0];
+        [developer_meishi_akino overwriteHistory:[NSString stringWithFormat:@"京都の某大学にて大学生活を過ごす。学生の間は主に本を読んで過ごし、4年で卒業。その後、名刺バトラーを企画し、開発する。そして、%@、%@に転職。転職1年目のかけだし。", developer_meishi_akino.date_string, [developer_meishi_akino getJobString]]];
+        [self addMeishi:developer_meishi_akino];
         
         Meishi *meishi = [[Meishi alloc] initWithInformation:@"山田太郎" CompanyName:@"名刺バトラー" Mail1:@"meishi" Mail2:@"battler" Zip1:000 Zip2:0000 Sex:0];
         [meishi setAbility:1]; // 破壊光線

@@ -31,6 +31,9 @@
     NSString *mail1;
     NSString *mail2;
     
+    int sex_int;
+    NSString *sex_string;
+    
     UIScrollView *correctView;
     UITextField *zipField;
     UITextField *companyField;

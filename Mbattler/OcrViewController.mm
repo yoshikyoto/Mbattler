@@ -529,10 +529,17 @@
         [alert addButtonWithTitle:@"もどる"];
     }else{
         alert.delegate = self;
+        alert.tag = 1;
+        alert.title = @"性別";
+        alert.message = @"性別を選択してください";
+        [alert addButtonWithTitle:@"男"];
+        [alert addButtonWithTitle:@"女"];
+        /*
         alert.title = @"決定したら変更できません";
         alert.message = @"これでよろしいですか？";
         [alert addButtonWithTitle:@"はい"];
         [alert addButtonWithTitle:@"いいえ"];
+         */
     }
     [alert show];
 }
@@ -540,45 +547,70 @@
 // 召喚
 -(void)alertView:(UIAlertView*)alertView
 clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 0){
-        NSLog(@"OKボタン");
-        // メールアドレスを分ける
-        NSLog(@"メールアドレス処理");
-        NSString *pattern = @"(.+)@(.+)";
-        mail = mailField.text;
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
-        NSTextCheckingResult *match = [regex firstMatchInString:mail options:0 range:NSMakeRange(0, mail.length)];
-        if(match.numberOfRanges){
-            mail1 = [mail substringWithRange:[match rangeAtIndex:1]];
-            mail2 = [mail substringWithRange:[match rangeAtIndex:2]];
-            NSLog(@"%@, %@", mail1, mail2);
+    NSLog(@"%s %d", __func__, alertView.tag);
+    switch (alertView.tag) {
+        case 1:{
+            sex_int = buttonIndex;
+            // 性別が選ばれたとき
+            UIAlertView *alert = [[UIAlertView alloc] init];
+            alert.title = @"決定したら変更できません";
+            alert.delegate = self;
+            if(sex_int == 0){
+                alert.message = @"キャラクターを生成します\n性別: 男";
+            }else{
+                alert.message = @"キャラクターを生成します\n性別: 女";
+            }
+            [alert addButtonWithTitle:@"はい"];
+            [alert addButtonWithTitle:@"いいえ"];
+            [alert show];
+            break;
         }
-        
-        // 郵便番号を分ける
-        zip = zipField.text;
-        NSLog(@"郵便番号処理 %d", zip.length);
-        zip1 = [[zip substringWithRange:NSMakeRange(0,3)] intValue];
-        NSLog(@"郵便番号処理 %@ %d", zip, zip1);
-        zip2 = [[zip substringWithRange:NSMakeRange(3,4)] intValue];
-        NSLog(@"郵便番号処理");
-        
-        company = companyField.text;
-        name = nameField.text;
-        
-        // 名刺生成
-        NSLog(@"名刺生成");
-        meishi = [[Meishi alloc] initWithInformation:name CompanyName:company Mail1:mail1 Mail2:mail2 Zip1:zip1 Zip2:zip2 Sex:0];
-        
-        svc = [[SummonViewController alloc] init];
-        [svc setMeishi:meishi];
-        [svc.close_button addTarget:self action:@selector(closeAll:)forControlEvents:UIControlEventTouchUpInside];
-
-        [self presentViewController:svc animated:NO completion:nil];
-        
-        [player addMeishi:meishi];
-        
-        //[self dismissViewControllerAnimated:YES completion:nil];
+            
+        default:{
+            // 決定ボタンが押されたとき
+            if(buttonIndex == 0){
+                NSLog(@"OKボタン");
+                // メールアドレスを分ける
+                NSLog(@"メールアドレス処理");
+                NSString *pattern = @"(.+)@(.+)";
+                mail = mailField.text;
+                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
+                NSTextCheckingResult *match = [regex firstMatchInString:mail options:0 range:NSMakeRange(0, mail.length)];
+                if(match.numberOfRanges){
+                    mail1 = [mail substringWithRange:[match rangeAtIndex:1]];
+                    mail2 = [mail substringWithRange:[match rangeAtIndex:2]];
+                    NSLog(@"%@, %@", mail1, mail2);
+                }
+                
+                // 郵便番号を分ける
+                zip = zipField.text;
+                NSLog(@"郵便番号処理 %d", zip.length);
+                zip1 = [[zip substringWithRange:NSMakeRange(0,3)] intValue];
+                NSLog(@"郵便番号処理 %@ %d", zip, zip1);
+                zip2 = [[zip substringWithRange:NSMakeRange(3,4)] intValue];
+                NSLog(@"郵便番号処理");
+                
+                company = companyField.text;
+                name = nameField.text;
+                
+                // 名刺生成
+                NSLog(@"名刺生成");
+                meishi = [[Meishi alloc] initWithInformation:name CompanyName:company Mail1:mail1 Mail2:mail2 Zip1:zip1 Zip2:zip2 Sex:sex_int];
+                
+                svc = [[SummonViewController alloc] init];
+                [svc setMeishi:meishi];
+                [svc.close_button addTarget:self action:@selector(closeAll:)forControlEvents:UIControlEventTouchUpInside];
+                
+                [self presentViewController:svc animated:NO completion:nil];
+                
+                [player addMeishi:meishi];
+                
+                //[self dismissViewControllerAnimated:YES completion:nil];
+            }
+            break;
+        }
     }
+
 }
 
 - (void)cancel:(id)sender{

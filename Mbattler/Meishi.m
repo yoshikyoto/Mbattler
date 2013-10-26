@@ -193,7 +193,7 @@
 // 現在の経験値
 - (int)getExp{ return exp; }
 // 次の経験値
-- (int)getNextExp{ return lv*lv*10; }
+- (int)getNextExp{ return lv*lv*20; }
 // 経歴ゲッター
 - (NSString *)getHistory{ return history; }
 // レベルセッター
@@ -1331,7 +1331,7 @@
     for(int k = 0; k < 6; k++){
         past_p[k] = p[k];
     }
-    int next = 10 * lv * lv;
+    int next = 20 * lv * lv;
     // 経験値を取得
     exp += e;
     // レベルアップの判定

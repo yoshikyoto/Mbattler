@@ -1057,7 +1057,7 @@
 
 - (void)viewBackButton{
     // 画面閉じるボタン設置
-    MBButton *backbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    MBButton *backbutton = [MBButton buttonWithType:UIButtonTypeRoundedRect];
     backbutton.frame = CGRectMake(100, 360, 120, 32);
     [backbutton setColorType:1];
     [backbutton setText:@"戻る"];
