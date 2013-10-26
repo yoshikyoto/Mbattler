@@ -260,7 +260,7 @@
     [dungeonView setTitle:@"ダンジョン選択"];
     
     // ダンジョン一覧を表示するスクロールエリア
-    UIScrollView *dungeon_view = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 320, 300)];
+    UIScrollView *dungeon_view = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 320, h-50-56-54)];
     dungeon_view.backgroundColor = [UIColor clearColor];
     [dungeonView addSubview:dungeon_view];
     

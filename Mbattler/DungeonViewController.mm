@@ -467,6 +467,11 @@
     // アイテム使用不可に
     item_flag = -1;
     if(battle_continue_flag){
+        if(dungeon.id == 0){
+            UIImageView *tap_to_result_image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tap_to_result.png"]];
+            tap_to_result_image.frame = CGRectMake(35, 100, 250, 100);
+            [[self view] addSubview:tap_to_result_image];
+        }
         // タッチイベントリスナー
         tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewResult:)];
         [[self view] addGestureRecognizer:tgr];
