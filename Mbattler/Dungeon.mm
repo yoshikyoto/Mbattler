@@ -65,6 +65,11 @@
     }
     return result_array;
 }
+
+- (NSArray *)getAllNames{
+    return names;
+}
+
 - (NSString *)getName{ return name; }
 
 - (void)reset{

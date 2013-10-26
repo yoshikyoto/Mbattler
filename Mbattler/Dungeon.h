@@ -34,6 +34,7 @@
 // ゲッター
 // ダンジョンの名前一覧を取得
 - (NSArray *)getNames;
+- (NSArray *)getAllNames;
 
 // ダンジョンの名前を取得
 - (NSString *)getName;

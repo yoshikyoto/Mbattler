@@ -67,24 +67,41 @@
     // 画面の縦横所取得
     CGRect screen_rect = [UIScreen mainScreen].applicationFrame;
     int h = screen_rect.size.height;
-    
-    // 背景イメージの設定
-    UIImageView *bg = [dungeon getBackground];
-    bg.frame = CGRectMake(0, 39, 320, 240);
-    [[self view] addSubview:bg];
+    int position_y = 15;
     
     // ダンジョン名の背景部分表示
     navImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dungeonNav.png"]];
-    navImage.frame = CGRectMake(-119, -46, 558, 100);
+    navImage.frame = CGRectMake(-119, -40, 558, 100);
     [[self view] addSubview:navImage];
     
+    // ポーズボタン
+    UIButton *pause_button = [UIButton buttonWithType:UIButtonTypeCustom];
+    pause_button.frame = CGRectMake(280, 5, 40, 40);
+    pause_button.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
+    [pause_button setTitle:@"止" forState:UIControlStateNormal];
+    pause_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
+    [pause_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [pause_button addTarget:self action:@selector(pauseButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [[self view] addSubview:pause_button];
+    pause_flag = false;
+    battle_continue_flag = true;
+    
     // ダンジョン名を取得して表示
-    title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    title = [[UILabel alloc] initWithFrame:CGRectMake(0, position_y, 320, 30)];
     title.text = [dungeon getName];
-    title.font = [UIFont systemFontOfSize:18];
+    title.font = [UIFont fontWithName:@"mikachan_o" size:16]; //[UIFont systemFontOfSize:18];
     title.textAlignment = NSTextAlignmentCenter;
     title.backgroundColor = [UIColor clearColor];
     [[self view] addSubview:title];
+    position_y += 30;
+    
+    
+    // 背景イメージの設定
+    UIImageView *bg = [dungeon getBackground];
+    bg.frame = CGRectMake(0, position_y, 320, 240);
+    [[self view] addSubview:bg];
+    position_y += 240;
+    
 
     // パーティを取得し、戦闘参加者配列に突っ込む
     party = [player getParty];
@@ -101,12 +118,12 @@
     // アイテム説明ラベルの初期化
     item_desc = [[UILabel alloc] init];
     item_desc.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.6];
-    item_desc.frame = CGRectMake(80, 259, 240, 20);
+    item_desc.frame = CGRectMake(80, position_y-20, 240, 20);
     
     // アイテム　薬草
     item1_button = [UIButton buttonWithType:UIButtonTypeCustom];
     [item1_button setBackgroundImage:[UIImage imageNamed:@"yakusou.png"] forState:UIControlStateNormal];
-    item1_button.frame = CGRectMake(232, 279, 44, 44);
+    item1_button.frame = CGRectMake(232, position_y, 44, 44);
     item1_button.backgroundColor = [UIColor lightGrayColor];
     item1_button.tag = 1;
     [item1_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -118,7 +135,7 @@
     // アイテム　果実
     item2_button = [UIButton buttonWithType:UIButtonTypeCustom];
     [item2_button setBackgroundImage:[UIImage imageNamed:@"ringo.png"] forState:UIControlStateNormal];
-    item2_button.frame = CGRectMake(276, 279, 44, 44);
+    item2_button.frame = CGRectMake(276, position_y, 44, 44);
     item2_button.backgroundColor = [UIColor lightGrayColor];
     item2_button.tag = 2;
     [item2_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -128,21 +145,13 @@
     [[self view] addSubview:item2_button];
     
     // conbatant表示部分
-    combatant_view = [[MBConbatantView alloc] initWithFrame:CGRectMake(0, 279, 232, 44)];
+    combatant_view = [[MBConbatantView alloc] initWithFrame:CGRectMake(0, position_y, 232, 44)];
     [[self view] addSubview:combatant_view];
     
-    // ポーズボタン
-    UIButton *pause_button = [UIButton buttonWithType:UIButtonTypeCustom];
-    pause_button.frame = CGRectMake(281, 0, 39, 39);
-    pause_button.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
-    [pause_button setTitle:@"止" forState:UIControlStateNormal];
-    pause_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
-    [pause_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [pause_button addTarget:self action:@selector(pauseButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    position_y += 44;
     
-    [[self view] addSubview:pause_button];
-    pause_flag = false;
-    battle_continue_flag = true;
+    
+
     
     // ポーズマスク
     mask_view = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 600)];
@@ -192,12 +201,14 @@
 
 
     // メッセージウィンドウ
-    messege_window = [[UITextView alloc] initWithFrame:CGRectMake(0, 323, 320, h-323)];
+    messege_window = [[UITextView alloc] initWithFrame:CGRectMake(0, position_y, 320, h-position_y)];
     messege_window.editable = NO;
     messege_window.font = [UIFont systemFontOfSize:16];
     messege_window.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
     messege_window.text = @"タップで戦闘を開始します";
     [[self view] addSubview:messege_window];
+    
+    self.view.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
     
     // ability queue の初期化
     ability_meishi_queue = [[NSMutableArray alloc] init];
@@ -929,11 +940,14 @@
     [[self view] addSubview:resultView];
     
     // タイトルとかを全面に持ってくる
-    [[self view] bringSubviewToFront:navImage];
-    [[self view] bringSubviewToFront:title];
+    //[[self view] bringSubviewToFront:navImage];
+    //[[self view] bringSubviewToFront:title];
     
     // セーブ
     [player save];
+    // ここでnotificationcenter に通知
+    NSNotification *n = [NSNotification notificationWithName:@"DungeonFinished" object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:n];
 }
 
 

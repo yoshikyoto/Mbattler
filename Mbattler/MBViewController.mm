@@ -202,6 +202,10 @@
     // 最初のウィンドウ表示
     nowScrollView = [[MBStartView alloc] init];
     [[self view] addSubview:nowScrollView];
+    
+    // ダンジョン更新用のnotification center
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(viewDungeon:) name:@"DungeonFinished" object:nil];
 }
 
 // キャラクター ------------------------------------------------------------
