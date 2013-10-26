@@ -97,6 +97,7 @@
     // ダンジョンの名前をセット
     name = [names objectAtIndex:i];
     dungeon_id = i;
+    _id = i;
     switch (i) {
         case 0:
             [self dungeon0];

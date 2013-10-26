@@ -46,11 +46,11 @@
         
         // 戻るボタン
         backbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-        backbutton.frame = CGRectMake(0, 6, 70, 36);
+        backbutton.frame = CGRectMake(-6, 6, 70, 36);
         backbutton.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
         backbutton.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:1.0 alpha:0.8];
         [backbutton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [backbutton setTitle:@"〈 戻る" forState:UIControlStateNormal];
+        [backbutton setTitle:@"〈戻る" forState:UIControlStateNormal];
         [backbutton addTarget:self action:@selector(close:)forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:backbutton];
         

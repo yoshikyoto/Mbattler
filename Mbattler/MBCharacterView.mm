@@ -88,6 +88,7 @@
         button.tag = i;
         // ボタンに画像をセット
         [button setBackgroundImage:[meishi getIcon] forState:UIControlStateNormal];
+        [button setBackgroundColor:[UIColor colorWithRed:0.9 green:0.75 blue:0.55 alpha:1.0]];
         [button addTarget:self action:@selector(viewStatus:)forControlEvents:UIControlEventTouchUpInside];
         // ボタンを画面に表示
         [characterScrollView addSubview:button];

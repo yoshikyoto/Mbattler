@@ -36,6 +36,8 @@
 		92070188180283AB000ACA58 /* MBDatabase.db in Resources */ = {isa = PBXBuildFile; fileRef = 9207017218024B93000ACA58 /* MBDatabase.db */; };
 		9210A46317CE7C9300BD2FB3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9210A46217CE7C9300BD2FB3 /* StoreKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		9210C90E181132F30038BCC0 /* MBButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9210C90D181132F30038BCC0 /* MBButton.m */; };
+		921F268B181BD7BD009F0DEC /* enemy_tap_baloon.png in Resources */ = {isa = PBXBuildFile; fileRef = 921F2689181BD7BD009F0DEC /* enemy_tap_baloon.png */; };
+		921F268C181BD7BD009F0DEC /* tap_to_start.png in Resources */ = {isa = PBXBuildFile; fileRef = 921F268A181BD7BD009F0DEC /* tap_to_start.png */; };
 		922450691751DB5D0042CC5D /* Dungeon.mm in Sources */ = {isa = PBXBuildFile; fileRef = 922450681751DB5D0042CC5D /* Dungeon.mm */; };
 		9225338216EAF73800495F98 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338116EAF73800495F98 /* UIKit.framework */; };
 		9225338416EAF73800495F98 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338316EAF73800495F98 /* Foundation.framework */; };
@@ -619,6 +621,8 @@
 		9210A46217CE7C9300BD2FB3 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		9210C90C181132F30038BCC0 /* MBButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBButton.h; sourceTree = "<group>"; };
 		9210C90D181132F30038BCC0 /* MBButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBButton.m; sourceTree = "<group>"; };
+		921F2689181BD7BD009F0DEC /* enemy_tap_baloon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy_tap_baloon.png; sourceTree = "<group>"; };
+		921F268A181BD7BD009F0DEC /* tap_to_start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tap_to_start.png; sourceTree = "<group>"; };
 		922450671751DB5D0042CC5D /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
 		922450681751DB5D0042CC5D /* Dungeon.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Dungeon.mm; sourceTree = "<group>"; };
 		9225337E16EAF73800495F98 /* Mbattler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mbattler.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1969,6 +1973,8 @@
 		927DCBD1173C2956002F5AA0 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				921F2689181BD7BD009F0DEC /* enemy_tap_baloon.png */,
+				921F268A181BD7BD009F0DEC /* tap_to_start.png */,
 				92EA46CE180A88890022385F /* waku.png */,
 				92EA46CC18098B530022385F /* fire.png */,
 				92EA46CA18098B4E0022385F /* back.png */,
@@ -2627,6 +2633,7 @@
 				923B6ACA1808B5C800CE6066 /* animal23.png in Resources */,
 				923B6AFB1808B5C800CE6066 /* monster47_l.png in Resources */,
 				923B6A171808B5C100CE6066 /* monster107.png in Resources */,
+				921F268C181BD7BD009F0DEC /* tap_to_start.png in Resources */,
 				923B6B651808B5CC00CE6066 /* monster41.png in Resources */,
 				923B69261808B5BB00CE6066 /* monster65.png in Resources */,
 				923B6A2C1808B5C100CE6066 /* monster64.png in Resources */,
@@ -2644,6 +2651,7 @@
 				92D6F0C317E49B3C00D187E2 /* blueTape.png in Resources */,
 				923B6A1D1808B5C100CE6066 /* monster133.png in Resources */,
 				92D6F0C517E49C7800D187E2 /* partyImage.png in Resources */,
+				921F268B181BD7BD009F0DEC /* enemy_tap_baloon.png in Resources */,
 				92D6F0C717E49D7600D187E2 /* c_tape.png in Resources */,
 				923B6A4F1808B5C100CE6066 /* spirit69.png in Resources */,
 				923B6AD81808B5C800CE6066 /* dh23.png in Resources */,

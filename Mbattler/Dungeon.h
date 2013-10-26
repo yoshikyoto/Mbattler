@@ -23,6 +23,8 @@
     int dungeon_id;
 }
 
+@property(readonly) int id;
+
 // セッター
 // 指定された番号のダンジョンを選択
 - (void)setDungeon:(int)i;

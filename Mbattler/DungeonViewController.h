@@ -49,6 +49,9 @@
     UIScrollView *mask_view;
     BOOL battle_continue_flag;
     
+    // アラートとか
+    UIImageView *tap_alert_image;
+    
     // アビリティキュー
     NSMutableArray *ability_meishi_queue;
     

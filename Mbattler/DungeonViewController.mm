@@ -119,6 +119,11 @@
     item_desc = [[UILabel alloc] init];
     item_desc.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.6];
     item_desc.frame = CGRectMake(80, position_y-20, 240, 20);
+    if(dungeon.id == 0){
+        // チュートリアルなので
+        item_desc.text = @"アイテムで体力回復ができます";
+        [[self view] addSubview:item_desc];
+    }
     
     // アイテム　薬草
     item1_button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -214,6 +219,10 @@
     ability_meishi_queue = [[NSMutableArray alloc] init];
     
     // 画面をタップした時に戦闘が始まるようにする
+    tap_alert_image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tap_to_start.png"]];
+    tap_alert_image.frame = CGRectMake(35, 200, 250, 65);
+    [[self view] addSubview:tap_alert_image];
+    
     tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(battle:)];
     [[self view] addGestureRecognizer:tgr];
 }
@@ -239,10 +248,19 @@
     // NSLog(@"戦闘開始");
     // スクリーンタップイベンターを除去
     [[self view] removeGestureRecognizer:tgr];
+    [tap_alert_image removeFromSuperview];
     // アイテム使えるようにフラグたてる
     item_flag = 0;
     
+    // チュートリアルの説明
+    if(dungeon.id == 0){
+        UIImageView *baloon_image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"enemy_tap_baloon.png"]];
+        baloon_image.frame = CGRectMake(60, 40, 200, 60);
+        [[self view] addSubview:baloon_image];
+    }
+    
     // 戦闘開始前のアビリティ for 味方
+    
     [self startupAblityForParty];
     
     NSLog(@"%s 敵の長さ %d", __func__, [dungeon getLength]);
