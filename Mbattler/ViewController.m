@@ -10,6 +10,7 @@
 #import "Meishi.h"
 #import "Player.h"
 #import "MBViewController.h"
+#import "UIOutlineLabel.h"
 
 @interface ViewController ()
 
@@ -30,16 +31,25 @@
         NSLog(@"%s セーブデータをロードします", __func__);
         player = [[Player alloc] initWithLoad];
         
+        /*
         UILabel *title = [[UILabel alloc] init];
         title.frame = CGRectMake(60, 30, 200, 50);
         title.font = [UIFont systemFontOfSize:24];
         title.text = @"名刺バトラー";
         title.textAlignment = NSTextAlignmentCenter;
         [[self view] addSubview:title];
+         */
         
-        UILabel *touchstart = [[UILabel alloc] init];
-        touchstart.frame = CGRectMake(60, 160, 200, 50);
-        touchstart.text = @"TOUCH START";
+        UIImageView *title_image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default-568h@2x.png"]];
+        title_image.frame = CGRectMake(0, 0, 320, 568);
+        [[self view] addSubview:title_image];
+        
+        UIOutlineLabel *touchstart = [[UIOutlineLabel alloc] init];
+        
+        [touchstart setCharacterName:@"TAP to START"];
+        touchstart.frame = CGRectMake(60, 300, 200, 50);
+        //touchstart.text = @"TOUCH START";
+        touchstart.font = [UIFont fontWithName:@"mikachan_o" size:20];
         touchstart.textAlignment = NSTextAlignmentCenter;
         [[self view] addSubview:touchstart];
         
