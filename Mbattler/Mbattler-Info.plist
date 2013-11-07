@@ -41,6 +41,7 @@
 	<array>
 		<string>mikachan.otf</string>
 		<string>uzura.ttf</string>
+		<string>azukiL.ttf</string>
 	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard</string>

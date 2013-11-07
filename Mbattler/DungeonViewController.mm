@@ -218,9 +218,12 @@
     self.view.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
     
     // メッセージウインドウ（新）
-    massage = [[MBMassageLabel alloc] initWithFrame:CGRectMake(0, position_y, 320, 80)];
-    massage.text = @"タップで戦闘を開始します";
-    [[self view] addSubview:massage];
+    message = [[MBMassageLabel alloc] initWithFrame:CGRectMake(0, position_y, 320, 80)];
+    message.text = @"タップで戦闘を開始します";
+    [message setNumberOfLines:3];
+    [message setText:@"タップして戦闘を開始します"];
+    [message showNextButton];
+    [[self view] addSubview:message];
     
     // ability queue の初期化
     ability_meishi_queue = [[NSMutableArray alloc] init];

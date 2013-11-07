@@ -45,6 +45,8 @@
 		921F268B181BD7BD009F0DEC /* enemy_tap_baloon.png in Resources */ = {isa = PBXBuildFile; fileRef = 921F2689181BD7BD009F0DEC /* enemy_tap_baloon.png */; };
 		921F268C181BD7BD009F0DEC /* tap_to_start.png in Resources */ = {isa = PBXBuildFile; fileRef = 921F268A181BD7BD009F0DEC /* tap_to_start.png */; };
 		921F268E181BDCFB009F0DEC /* tap_to_result.png in Resources */ = {isa = PBXBuildFile; fileRef = 921F268D181BDCFB009F0DEC /* tap_to_result.png */; };
+		92216B5B182B744500C4F62F /* azukiL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92216B5A182B744500C4F62F /* azukiL.ttf */; };
+		92216B5D182B747B00C4F62F /* uzura.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92216B5C182B747B00C4F62F /* uzura.ttf */; };
 		922450691751DB5D0042CC5D /* Dungeon.mm in Sources */ = {isa = PBXBuildFile; fileRef = 922450681751DB5D0042CC5D /* Dungeon.mm */; };
 		9225338216EAF73800495F98 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338116EAF73800495F98 /* UIKit.framework */; };
 		9225338416EAF73800495F98 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338316EAF73800495F98 /* Foundation.framework */; };
@@ -642,6 +644,8 @@
 		921F2689181BD7BD009F0DEC /* enemy_tap_baloon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy_tap_baloon.png; sourceTree = "<group>"; };
 		921F268A181BD7BD009F0DEC /* tap_to_start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tap_to_start.png; sourceTree = "<group>"; };
 		921F268D181BDCFB009F0DEC /* tap_to_result.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tap_to_result.png; sourceTree = "<group>"; };
+		92216B5A182B744500C4F62F /* azukiL.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = azukiL.ttf; sourceTree = "<group>"; };
+		92216B5C182B747B00C4F62F /* uzura.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = uzura.ttf; sourceTree = "<group>"; };
 		922450671751DB5D0042CC5D /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
 		922450681751DB5D0042CC5D /* Dungeon.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Dungeon.mm; sourceTree = "<group>"; };
 		9225337E16EAF73800495F98 /* YoshikiAkino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoshikiAkino.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -662,7 +666,6 @@
 		9225339D16EAF73800495F98 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		922E82E6182B5F4300BAA9E5 /* MBMassageLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBMassageLabel.h; sourceTree = "<group>"; };
 		922E82E7182B5F4300BAA9E5 /* MBMassageLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBMassageLabel.m; sourceTree = "<group>"; };
-		922E82E9182B6AFA00BAA9E5 /* uzura.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = uzura.ttf; sourceTree = "<group>"; };
 		923B687A1808B5BB00CE6066 /* animal01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animal01.png; sourceTree = "<group>"; };
 		923B687B1808B5BB00CE6066 /* animal02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animal02.png; sourceTree = "<group>"; };
 		923B687C1808B5BB00CE6066 /* animal04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animal04.png; sourceTree = "<group>"; };
@@ -1444,7 +1447,8 @@
 				92D3681C181CAAB200ADE506 /* iPhone_29x29@2x.png */,
 				92D3681F181CAACA00ADE506 /* iPhone_80x80.png */,
 				92FD9D00180C69B400A72B32 /* mikachan.otf */,
-				922E82E9182B6AFA00BAA9E5 /* uzura.ttf */,
+				92216B5C182B747B00C4F62F /* uzura.ttf */,
+				92216B5A182B744500C4F62F /* azukiL.ttf */,
 				9207017218024B93000ACA58 /* MBDatabase.db */,
 				927DCBD1173C2956002F5AA0 /* img */,
 				9225338916EAF73800495F98 /* Mbattler-Info.plist */,
@@ -2525,6 +2529,7 @@
 				923B692A1808B5BB00CE6066 /* monster78.png in Resources */,
 				923B68EC1808B5BB00CE6066 /* animal01.png in Resources */,
 				920360D117B631F100EDB590 /* party2.png in Resources */,
+				92216B5B182B744500C4F62F /* azukiL.ttf in Resources */,
 				923B6A2A1808B5C100CE6066 /* monster57.png in Resources */,
 				923B6A571808B5C100CE6066 /* undead07.png in Resources */,
 				923B6AF41808B5C800CE6066 /* monster120.png in Resources */,
@@ -2736,6 +2741,7 @@
 				923B690B1808B5BB00CE6066 /* dh10.png in Resources */,
 				92D6F0E617E4B96800D187E2 /* button.png in Resources */,
 				923B69E91808B5C100CE6066 /* aquatic18a.png in Resources */,
+				92216B5D182B747B00C4F62F /* uzura.ttf in Resources */,
 				923B6A141808B5C100CE6066 /* monster09.png in Resources */,
 				923B6B641808B5CC00CE6066 /* monster39.png in Resources */,
 				923B6A321808B5C100CE6066 /* monster99.png in Resources */,

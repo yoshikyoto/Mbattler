@@ -7,9 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIOutlineLabel.h"
 
 @interface MBMassageLabel : UILabel{
     UILabel *inner_label;
+    NSMutableArray *text_array;
+    int maxnum_of_lines;
+    UIOutlineLabel *next_label;
 }
+
+- (void)setText:(NSString *)text;
+- (void)addText:(NSString *)text;
+- (void)clearText;
+- (void)showNextButton;
+- (void)removeNextButton;
 
 @end

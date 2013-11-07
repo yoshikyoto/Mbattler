@@ -26,7 +26,7 @@
     int enemypositions[5][3];
     int meishipositions[5][3];
     
-    MBMassageLabel *massage;
+    MBMassageLabel *message;
     
     // アイテム関係
     UIButton *item1_button;
