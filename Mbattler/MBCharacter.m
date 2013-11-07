@@ -29,16 +29,17 @@
         p_mult[5] = 1.0;
         
         // 名前ラベル初期化
-        
-        name_label = [[UIOutlineLabel alloc] init];
+        // name_label = [[UIOutlineLabel alloc] init];
     }
     return self;
 }
 
 // ゲッター
+/*
 - (NSString *) getName{
     return name;
 }
+ */
 - (int) getH{ return p[0] * p_mult[0]; }
 - (int) getA{ return p[1] * p_mult[1]; }
 - (int) getB{ return p[2] * p_mult[2]; }
@@ -53,11 +54,6 @@
 - (int) getDMult{ return p_mult[4]; }
 - (int) getSMult{ return p_mult[5]; }
 
-- (UIOutlineLabel *)getNameLabel{
-    [name_label setCharacterName:name];
-    return name_label;
-}
-
 - (MBAnimationView *)getEffect{
     return effect;
 }
@@ -65,6 +61,8 @@
 // セッター
 - (void)setName:(NSString *)n{
     name = n;
+    _nameLabel = [[UIOutlineLabel alloc] init];
+    [_nameLabel setCharacterName:name];
 }
 
 

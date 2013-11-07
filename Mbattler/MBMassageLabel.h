@@ -21,5 +21,6 @@
 - (void)clearText;
 - (void)showNextButton;
 - (void)removeNextButton;
+- (void)setInnerBackgroundColor:(UIColor *)color;
 
 @end

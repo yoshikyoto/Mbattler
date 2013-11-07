@@ -279,7 +279,7 @@
         UILabel *hislabel = [[UILabel alloc] initWithFrame:CGRectMake(25, yposition, 270, 100)];
         hislabel.numberOfLines = 6;
         hislabel.font = [UIFont systemFontOfSize:13];
-        hislabel.text = [meishi getHistory];
+        hislabel.text = meishi.history;
         [self addSubview:hislabel];
 
     }

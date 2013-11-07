@@ -91,9 +91,9 @@
         [party_view addSubview:button];
         
         // キャラの名前の表示
-        UIOutlineLabel *name_label = [meishi getNameLabel];
-        name_label.frame = CGRectMake(0, 38, 48, 10);
-        [button addSubview:name_label];
+        //UIOutlineLabel *name_label = [meishi getNameLabel];
+        meishi.nameLabel.frame = CGRectMake(0, 38, 48, 10);
+        [button addSubview:meishi.nameLabel];
     }
     // パーティ不足の時の追加ボタン
     if(i < 5){
@@ -154,10 +154,10 @@
         [reserve_view addSubview:button];
         
         // キャラの名前を表示
-        UIOutlineLabel *name_label = [meishi getNameLabel];
+        // UIOutlineLabel *name_label = [meishi getNameLabel];
         //name_label.frame = CGRectMake(10+58*((i+1)%5), 10+58*((i+1)/5)+38, 48, 10);
-        name_label.frame = CGRectMake(0, 38, 48, 10);
-        [button addSubview:name_label];
+        meishi.nameLabel.frame = CGRectMake(0, 38, 48, 10);
+        [button addSubview:meishi.nameLabel];
     }
     // スクロールビュー内部のサイズ 縦はキャラ数に依存させる感じになる
     int h = 58*ceil((nonpartynum+1) / 5.0) + 10;

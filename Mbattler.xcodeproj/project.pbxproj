@@ -39,7 +39,6 @@
 		920A7DD3181C09BC00E15CFA /* iPhone_57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 920A7DCF181C09BC00E15CFA /* iPhone_57x57.png */; };
 		920A7DD4181C09BC00E15CFA /* iPhone_57x57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 920A7DD0181C09BC00E15CFA /* iPhone_57x57@2x.png */; };
 		920A7DD6181C108C00E15CFA /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = 920A7DD5181C108C00E15CFA /* title.png */; };
-		920A7DD8181C12DF00E15CFA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 920A7DD7181C12DF00E15CFA /* Default-568h@2x.png */; };
 		9210A46317CE7C9300BD2FB3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9210A46217CE7C9300BD2FB3 /* StoreKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		9210C90E181132F30038BCC0 /* MBButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9210C90D181132F30038BCC0 /* MBButton.m */; };
 		921F268B181BD7BD009F0DEC /* enemy_tap_baloon.png in Resources */ = {isa = PBXBuildFile; fileRef = 921F2689181BD7BD009F0DEC /* enemy_tap_baloon.png */; };
@@ -2253,7 +2252,7 @@
 		9225337616EAF73800495F98 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = Mbattler;
 				TargetAttributes = {
 					9225337D16EAF73800495F98 = {
@@ -2516,7 +2515,6 @@
 				923B690F1808B5BB00CE6066 /* human27.png in Resources */,
 				923B690A1808B5BB00CE6066 /* dh08.png in Resources */,
 				923B6AD51808B5C800CE6066 /* dh11.png in Resources */,
-				920A7DD8181C12DF00E15CFA /* Default-568h@2x.png in Resources */,
 				920360D017B631F100EDB590 /* party.png in Resources */,
 				923B6AE11808B5C800CE6066 /* human107.png in Resources */,
 				923B6AF71808B5C800CE6066 /* monster127.png in Resources */,

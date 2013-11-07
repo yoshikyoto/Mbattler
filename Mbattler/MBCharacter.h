@@ -23,12 +23,11 @@
     
     UIImageView *hp_bar;
     UIImageView *hp_background;
-    
-    // 名前のラベル
-    UIOutlineLabel *name_label;
 }
 
-//@property(readonly) NSString *nameString;
+//@property(readwrite) NSString *name;
+@property(readwrite) UIOutlineLabel *nameLabel;
+@property(readwrite) UILabel *nowhpLabel;
 
 
 // 各種ゲッター
@@ -47,7 +46,6 @@
 - (int) getDMult;
 - (int) getSMult;
 - (UIImageView *) getBattleImage;
-- (UIOutlineLabel *)getNameLabel;
 
 
 // 各種セッター

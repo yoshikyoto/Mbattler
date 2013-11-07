@@ -67,7 +67,7 @@
                      [meishi getIndividualDInt],
                      [meishi getIndividualSInt],
                      [meishi getSex],
-                     [meishi getHistory],
+                     meishi.history,
                      [meishi getCompany],
                      [meishi getMail1],
                      [meishi getMail2],
@@ -114,7 +114,7 @@
         [m setExp:[rs intForColumn:@"exp"]];
         [m setAbility:[rs intForColumn:@"abilityId"]];
         [m setDateString:[rs stringForColumn:@"date"]];
-        [m overwriteHistory:[rs stringForColumn:@"history"]];
+        m.history = [rs stringForColumn:@"history"];
         [return_result addObject:m];
         NSLog(@"%s, %@", __func__, m.date_string);
     }

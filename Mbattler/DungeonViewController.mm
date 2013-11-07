@@ -205,6 +205,20 @@
     [mask_view addSubview:retire_button];
 
     
+    // キャラクターアイコン部分
+    MBMassageLabel *party_view = [[MBMassageLabel alloc] initWithFrame:CGRectMake(0, position_y, 320, 48)];
+    [party_view setInnerBackgroundColor:[UIColor orangeColor]];
+    [[self view] addSubview:party_view];
+    for(int i = 0; i < [party count]; i++){
+        Meishi *meishi = [party objectAtIndex:i];
+        meishi.battleIcon.frame = CGRectMake(i*64+2, position_y+12, 32, 32);
+        [[self view] addSubview:meishi.battleIcon];
+        
+        UILabel *border_label = [[UILabel alloc] initWithFrame:CGRectMake(i*64+62, position_y+5, 1, 38)];
+        border_label.backgroundColor = [UIColor whiteColor];
+        [[self view] addSubview:border_label];
+    }
+    position_y += 48;
 
 
     // メッセージウィンドウ

@@ -11,6 +11,7 @@
 #import "DamageValueLabel.h"
 #import "UIImageView+effects.h"
 
+
 // 名刺から生成されたキャラクター
 @implementation Meishi
 - (id)init{
@@ -23,10 +24,10 @@
     return self;
 }
 
-- (id)initWithInformation:(NSString *)_name CompanyName:(NSString*)_company Mail1:(NSString *)_mail1 Mail2:(NSString *)_mail2 Zip1:(int)_zip1 Zip2:(int)_zip2 Sex:(int)_sex{
+- (id)initWithInformation:(NSString *)inputName CompanyName:(NSString*)_company Mail1:(NSString *)_mail1 Mail2:(NSString *)_mail2 Zip1:(int)_zip1 Zip2:(int)_zip2 Sex:(int)_sex{
     self = [super init];
     if(self){
-        name = _name;
+        name = inputName;
         company = _company;
         mail1 = _mail1;
         mail2 = _mail2;
@@ -194,8 +195,6 @@
 - (int)getExp{ return exp; }
 // 次の経験値
 - (int)getNextExp{ return lv*lv*20; }
-// 経歴ゲッター
-- (NSString *)getHistory{ return history; }
 // レベルセッター
 - (void) setLv:(int)_lv{ lv = _lv; }
 - (void)setDateString:(NSString *)d{
@@ -211,7 +210,7 @@
     UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"c%dr.PNG", imagenum]];
     battle_image = [[UIImageView alloc] initWithImage:img];
     // 戦闘アイコン
-    battle_icon = [[UIImageView alloc] initWithImage:icon];
+    _battleIcon = [[UIImageView alloc] initWithImage:icon];
     // 正面画像
     img = [UIImage imageNamed:[NSString stringWithFormat:@"c%dc.PNG", imagenum]];
     center_image = [[UIImageView alloc] initWithImage:img];
@@ -399,10 +398,6 @@
     }
 }
 
-
-- (void)overwriteHistory:(NSString *)his{
-    history = his;
-}
 // 個体値決定 ----------------------------------------------------------------------
 - (void) setIndividual:(int *)_i{
     for(int k = 0; k < 6; k++){
@@ -468,19 +463,19 @@
     sum = i[0] + i[5];
     if(sum <= 11){
         // 中卒    0  1  2  3  4  5  6  7  8  9 10 11
-        history = [NSString stringWithFormat:@"%@中学にて学生生活を過ごす。学生時代の特徴は%@。卒業後、%@になりたかったが、%@、%@、%@となる。就職%d年目の%@。", c, [self getFeature], [self getDream], [self getJReason], _date_string, [self getJobString], y, z];
+        _history = [NSString stringWithFormat:@"%@中学にて学生生活を過ごす。学生時代の特徴は%@。卒業後、%@になりたかったが、%@、%@、%@となる。就職%d年目の%@。", c, [self getFeature], [self getDream], [self getJReason], _date_string, [self getJobString], y, z];
     }else if(sum <= 24){
         // 高卒   12 13 14 15 16 17 18 19 20 21 22 23 24
-        history = [NSString stringWithFormat:@"%@高校にて学生生活を過ごす。学生時代の特徴は%@。卒業後、%@過ごすが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getFeature], [self getHLife], [self getHReason], _date_string, [self getJobString], y, z];
+        _history = [NSString stringWithFormat:@"%@高校にて学生生活を過ごす。学生時代の特徴は%@。卒業後、%@過ごすが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getFeature], [self getHLife], [self getHReason], _date_string, [self getJobString], y, z];
     }else if(sum <= 37){
         // 学士卒 25 26 27 28 29 30 31 32 33 34 35 36 37
-        history = [NSString stringWithFormat:@"%@大学にて学生生活を過ごす。学生の間は主に%@過ごし、%d年で卒業。その後株式会社「%@」に就職するが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getBLife], 4+(rand()%5), [self getCompany], [self getMBReason], _date_string, [self getJobString], y, z];
+        _history = [NSString stringWithFormat:@"%@大学にて学生生活を過ごす。学生の間は主に%@過ごし、%d年で卒業。その後株式会社「%@」に就職するが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getBLife], 4+(rand()%5), [self getCompany], [self getMBReason], _date_string, [self getJobString], y, z];
     }else if(sum <= 50){
         // 修士卒 38 39 40 41 42 43 44 45 46 47 48 49 50
-        history = [NSString stringWithFormat:@"%@大学院にて%@研究を行い、修士号を獲得。その後株式会社「%@」に就職するが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getPaper], [self getCompany], [self getMBReason], _date_string, [self getJobString], y, z];
+        _history = [NSString stringWithFormat:@"%@大学院にて%@研究を行い、修士号を獲得。その後株式会社「%@」に就職するが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getPaper], [self getCompany], [self getMBReason], _date_string, [self getJobString], y, z];
     }else{
         // 博士卒 51 52 53 54 55 56 57 58 59 60 61 62
-        history = [NSString stringWithFormat:@"%@大学にて%@論文を発表し、博士号を獲得。以後研究を続けるが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getPaper], [self getDReason], _date_string, [self getJobString], y, z];
+        _history = [NSString stringWithFormat:@"%@大学にて%@論文を発表し、博士号を獲得。以後研究を続けるが、%@、%@、%@に転職する。転職%d年目の%@。", c, [self getPaper], [self getDReason], _date_string, [self getJobString], y, z];
     }
 }
 // 論文内容

@@ -30,9 +30,7 @@
     // 点滅させるためのタイマー
     NSTimer *flush_timer;
     
-    
     int sex;        // 性別
-    NSString *history; // 経歴
     
     NSString *company;  // 会社名
     NSString *mail1;    // メールアドレス @より前
@@ -42,7 +40,7 @@
 
     UIImageView *center_image; //正面向きのアイコン
     UIImageView *battle_image;  // 右向きのImage
-    UIImageView *battle_icon; // 戦闘時に表示されるアイコン
+    //UIImageView *battle_icon; // 戦闘時に表示されるアイコン
     UIImage *icon;  // アイコン
     
     int past_p[6];  // レベルアップ前のパラメータ
@@ -58,6 +56,11 @@
 @property(readonly) NSDate *date;
 @property(readonly) NSString *date_string;
 
+@property(readwrite) UIImageView *battleIcon;
+@property(readwrite) UILabel *hpValueLabel;
+
+@property(readwrite) NSString *history;
+
 // 名刺に社名とかを入れて、キャラを生成するための関数
 - (id)initWithInformation:(NSString *)_name CompanyName:(NSString*)_company Mail1:(NSString *)_mail1 Mail2:(NSString *)_mail2 Zip1:(int)_zip1 Zip2:(int)_zip2 Sex:(int)_sex;
 
@@ -70,7 +73,6 @@
 - (int) getAbilityID;
 - (int)getExp;
 - (int)getNextExp;
-- (NSString *)getHistory;
 // ステータスゲッター(戻り値NSString)
 - (NSString *) getHString;
 - (NSString *) getAString;
@@ -95,8 +97,8 @@
 - (int)getIndividualSInt;
 
 // 画像オブジェクト関係のゲッターとか
-- (UIImageView *) getBattleImage;
-- (UIImageView *) getCenterImage;
+- (UIImageView *)getBattleImage;
+- (UIImageView *)getCenterImage;
 - (UIImage *) getIcon;
 // セッター(セッターの意味が分からなければスルーでおk)
 - (void) setLv:(int)_lv;
@@ -113,7 +115,6 @@
 - (void) setAbility:(int)abl;
 /* 特殊能力セッター
  */
-- (void)overwriteHistory:(NSString *)his;
 
 - (void) setIndividual:(int *)_i;
 - (void) setNowH:(int)_h;
