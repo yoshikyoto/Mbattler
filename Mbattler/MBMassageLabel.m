@@ -35,6 +35,14 @@
         //[inner_label drawTextInRect:CGRectMake(5, 5, frame.size.width - 10, frame.size.height - 10)];
         [self addSubview:inner_label];
         
+        // 次へボタンの初期化
+        next_label = [[UIOutlineLabel alloc] init];
+        [next_label setTitle:@"tap▼"];
+        CGRect frame = self.frame;
+        next_label.frame = CGRectMake(frame.size.width - 50, frame.size.height - 14, 50, 14);
+        next_label.textAlignment = NSTextAlignmentRight;
+        next_label.font = [UIFont fontWithName:@"uzura_font" size:14];
+        
         text_array = [[NSMutableArray alloc] init];
     }
     return self;
@@ -70,13 +78,11 @@
 }
 
 - (void)showNextButton{
-    next_label = [[UIOutlineLabel alloc] init];
-    [next_label setTitle:@"tap▼"];
-    CGRect frame = self.frame;
-    next_label.frame = CGRectMake(frame.size.width - 50, frame.size.height - 14, 50, 14);
-    next_label.textAlignment = NSTextAlignmentRight;
-    next_label.font = [UIFont fontWithName:@"uzura_font" size:14];
     [self addSubview:next_label];
+}
+
+- (void)removeNextButton{
+    [next_label removeFromSuperview];
 }
 
 /*

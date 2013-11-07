@@ -28,6 +28,9 @@
     UIOutlineLabel *name_label;
 }
 
+//@property(readonly) NSString *nameString;
+
+
 // 各種ゲッター
 - (NSString *) getName;
 - (int) getH;
@@ -45,6 +48,7 @@
 - (int) getSMult;
 - (UIImageView *) getBattleImage;
 - (UIOutlineLabel *)getNameLabel;
+
 
 // 各種セッター
 - (void)setName:(NSString *)n;

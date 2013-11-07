@@ -348,9 +348,9 @@
     subarr = [NSArray arrayWithObjects:
               [[Enemy alloc] initWithName:@"汚いネズミ１" H:65 	A:30 	B:0 	C:30 	D:0 	S:35
                                  attackBy:0 ImageString:@"animal19.png"],
-              [[Enemy alloc] initWithName:@"汚いネズミ１" H:65 	A:30 	B:0 	C:30 	D:0 	S:35
+              [[Enemy alloc] initWithName:@"汚いネズミ２" H:65 	A:30 	B:0 	C:30 	D:0 	S:35
                                  attackBy:0 ImageString:@"animal19.png"],
-              [[Enemy alloc] initWithName:@"汚いネズミ１" H:65 	A:30 	B:0 	C:30 	D:0 	S:35
+              [[Enemy alloc] initWithName:@"汚いネズミ３" H:65 	A:30 	B:0 	C:30 	D:0 	S:35
                                  attackBy:0 ImageString:@"animal19.png"],
               nil];
     [arr addObject:subarr];

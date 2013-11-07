@@ -258,6 +258,7 @@
     // NSLog(@"戦闘開始");
     // スクリーンタップイベンターを除去
     [[self view] removeGestureRecognizer:tgr];
+    [message removeNextButton];
     [tap_alert_image removeFromSuperview];
     // アイテム使えるようにフラグたてる
     item_flag = 0;
@@ -285,7 +286,15 @@
         [self addCombatants:enemy];
         // 敵を描写
         [self appear];
-        [self addMessege:@"敵が出現!"];
+        //[self addMessege:@"敵が出現!"];
+        if([enemy_const count] ==1){
+            Enemy *representative_enemy = [enemy_const objectAtIndex:0];
+            [message setText:[NSString stringWithFormat:@"%@ が あらわれた！", [representative_enemy getName]]];
+        }else{
+            Enemy *representative_enemy = [enemy_const objectAtIndex:0];
+            [message setText:[NSString stringWithFormat:@"%@たち が あらわれた！", [representative_enemy getName]]];
+        }
+        //[message setText:@"敵が出現！"]:
         // 敵が出現した時に発動するスタートアップアビリティ
         [self startupAbilityToEnemy];
         
@@ -318,7 +327,7 @@
                             // 決まってなかったら0の奴に攻撃
                             defender = [enemy objectAtIndex:0];
                         }
-                        [self addMessege:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
+                        [message setText:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
                         // カットイン
                         MBAbilityCutin *cutin = [[MBAbilityCutin alloc] initWithMeishi:attacker];
                         [[self view] addSubview:cutin];
@@ -328,7 +337,7 @@
                         int damage = [attacker abilityAttack:defender];
                         // ダメージ数値描写
                         // [self viewDamage:[defender getBattleImage] :damage];
-                        [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
+                        [message addText:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
 
                         // デバッグ用
                         NSLog(@"%s %@ -> %@ %d",__func__ , [attacker getName], [defender getName], damage);
@@ -340,7 +349,7 @@
                     case 2:
                     {   // 自己再生---------------------------------------------
                         // 攻撃対象の情報は必要ない
-                        [self addMessege:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
+                        [message setText:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
                         // カットイン
                         MBAbilityCutin *cutin = [[MBAbilityCutin alloc] initWithMeishi:attacker];
                         [[self view] addSubview:cutin];
@@ -358,7 +367,7 @@
                         dl.textColor = [UIColor yellowColor];
                         [[self view] addSubview:dl];
                         [dl startAnimation];
-                        [self addMessege:[NSString stringWithFormat:@"HPを%d回復した！", recover]];
+                        [message addText:[NSString stringWithFormat:@"HPを%d回復した！", recover]];
                         break;
                     }
                     case 10: // 鳴き声
@@ -369,7 +378,7 @@
                     case 21: // 波乗り
                     {   // 全体攻撃の場合----------------------------------------
                         // 必殺技名表示
-                        [self addMessege:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
+                        [message setText:[NSString stringWithFormat:@"%@ の %@！", [attacker getName], [attacker getAbilityString]]];
                         // カットイン
                         MBAbilityCutin *cutin = [[MBAbilityCutin alloc] initWithMeishi:attacker];
                         [[self view] addSubview:cutin];
@@ -388,7 +397,7 @@
                 // 通常攻撃の場合---------------------------------------------------------------------------------------
                 // 攻撃キャラを決める
                 MBCharacter *attacker = [combatant objectAtIndex:(turn % [combatant count])];
-                [self addMessege:[NSString stringWithFormat:@"%@ の攻撃！", [attacker getName]]];
+                [message setText:[NSString stringWithFormat:@"%@ の攻撃！", [attacker getName]]];
 
                 if([attacker isPlayer]){
                     // プレイヤーの攻撃→ターゲットは敵
@@ -404,7 +413,7 @@
                     // defender に攻撃
                     int damage = [(Meishi *)attacker attack:defender];
                     // メッセージ表示
-                    [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
+                    [message addText:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
                     // デバッグ用
                     NSLog(@"%s %@(%d) -> %@(%d) %d",__func__ , [attacker getName], [attacker getA], [defender getName], [defender getB], damage);
                     // 倒した
@@ -425,11 +434,11 @@
                     // とりあえず物理に攻撃
                     int damage = [(Enemy *)attacker attack:defender];
                     // メッセージを表示
-                    [self addMessege:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
+                    [message addText:[NSString stringWithFormat:@"%@ に %d のダメージ！",[defender getName], damage]];
                     // デバッグ用
                     NSLog(@"%s %@(%d) -> %@(%d) %d",__func__ , [attacker getName], [attacker getA], [defender getName], [defender getB], damage);
                     if([defender isDead]){  // 倒した場合
-                        [self addMessege:[NSString stringWithFormat:@"%@ は倒れた！", [defender getName]]];
+                        [message addText:[NSString stringWithFormat:@"%@ は倒れた！", [defender getName]]];
                         // conbatantから除去
                         [self removeCombatant:defender];
                         [party removeObject:defender];
@@ -538,7 +547,7 @@
     // ここで間を置く
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
     // メッセージを表示
-    [self addMessege:[NSString stringWithFormat:@"%@ は倒れた！", [e getName]]];
+    [message addText:[NSString stringWithFormat:@"%@ を 倒した！", [e getName]]];
     // combatantから除去
     [self removeCombatant:e];
     // リストからも除去してしまおう
