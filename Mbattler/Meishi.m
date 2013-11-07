@@ -171,8 +171,8 @@
 }
 
 // 画像オブジェクト関係のゲッター
-- (UIImageView *)getBattleImage{ return rightimg; }
-- (UIImageView *)getCenterImage{ return centerimg; }
+- (UIImageView *)getBattleImage{ return battle_image; }
+- (UIImageView *)getCenterImage{ return center_image; }
 - (UIImage *)getIcon{ return icon; }
 
 // 職業名ゲッター
@@ -205,14 +205,16 @@
 // 画像セッター
 - (void) setImageNum:(int)num{
     imagenum = num;
-    // 右向き画像
+    // アイコンの UIImage
+    icon = [UIImage imageNamed:[NSString stringWithFormat:@"c%dicon.PNG", imagenum]];
+    // 戦闘画像
     UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"c%dr.PNG", imagenum]];
-    rightimg = [[UIImageView alloc] initWithImage:img];
+    battle_image = [[UIImageView alloc] initWithImage:img];
+    // 戦闘アイコン
+    battle_icon = [[UIImageView alloc] initWithImage:icon];
     // 正面画像
     img = [UIImage imageNamed:[NSString stringWithFormat:@"c%dc.PNG", imagenum]];
-    centerimg = [[UIImageView alloc] initWithImage:img];
-    // アイコン
-    icon = [UIImage imageNamed:[NSString stringWithFormat:@"c%dicon.PNG", imagenum]];
+    center_image = [[UIImageView alloc] initWithImage:img];
 }
 // 現在の体力
 - (void) setNowH:(int)_h{ nowh = _h; }

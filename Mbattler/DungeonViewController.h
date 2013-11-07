@@ -11,6 +11,7 @@
 #import "Dungeon.h"
 #import "MBConbatantView.h"
 #import "MBScrollView.h"
+#import "MBMassageLabel.h"
 
 
 @interface DungeonViewController : UIViewController{
@@ -24,6 +25,8 @@
     NSMutableArray *combatant; // 戦闘参加者を素早さ順に並び替えた配列
     int enemypositions[5][3];
     int meishipositions[5][3];
+    
+    MBMassageLabel *massage;
     
     // アイテム関係
     UIButton *item1_button;

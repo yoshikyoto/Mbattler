@@ -40,8 +40,9 @@
     int zip1;     // 郵便番号ハイフンより前
     int zip2;     // 後g
 
-    UIImageView *centerimg; //正面向きのアイコン
-    UIImageView *rightimg;  // 右向きのImage
+    UIImageView *center_image; //正面向きのアイコン
+    UIImageView *battle_image;  // 右向きのImage
+    UIImageView *battle_icon; // 戦闘時に表示されるアイコン
     UIImage *icon;  // アイコン
     
     int past_p[6];  // レベルアップ前のパラメータ

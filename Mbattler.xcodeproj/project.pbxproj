@@ -57,6 +57,7 @@
 		9225339816EAF73800495F98 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9225339716EAF73800495F98 /* Default-568h@2x.png */; };
 		9225339B16EAF73800495F98 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9225339916EAF73800495F98 /* MainStoryboard.storyboard */; };
 		9225339E16EAF73800495F98 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9225339D16EAF73800495F98 /* ViewController.m */; };
+		922E82E8182B5F4300BAA9E5 /* MBMassageLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 922E82E7182B5F4300BAA9E5 /* MBMassageLabel.m */; };
 		923B68EC1808B5BB00CE6066 /* animal01.png in Resources */ = {isa = PBXBuildFile; fileRef = 923B687A1808B5BB00CE6066 /* animal01.png */; };
 		923B68ED1808B5BB00CE6066 /* animal02.png in Resources */ = {isa = PBXBuildFile; fileRef = 923B687B1808B5BB00CE6066 /* animal02.png */; };
 		923B68EE1808B5BB00CE6066 /* animal04.png in Resources */ = {isa = PBXBuildFile; fileRef = 923B687C1808B5BB00CE6066 /* animal04.png */; };
@@ -659,6 +660,9 @@
 		9225339A16EAF73800495F98 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		9225339C16EAF73800495F98 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		9225339D16EAF73800495F98 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		922E82E6182B5F4300BAA9E5 /* MBMassageLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBMassageLabel.h; sourceTree = "<group>"; };
+		922E82E7182B5F4300BAA9E5 /* MBMassageLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBMassageLabel.m; sourceTree = "<group>"; };
+		922E82E9182B6AFA00BAA9E5 /* uzura.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = uzura.ttf; sourceTree = "<group>"; };
 		923B687A1808B5BB00CE6066 /* animal01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animal01.png; sourceTree = "<group>"; };
 		923B687B1808B5BB00CE6066 /* animal02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animal02.png; sourceTree = "<group>"; };
 		923B687C1808B5BB00CE6066 /* animal04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animal04.png; sourceTree = "<group>"; };
@@ -1412,6 +1416,8 @@
 				92C68F0C1800067000113B7F /* MBConbatantView.m */,
 				9210C90C181132F30038BCC0 /* MBButton.h */,
 				9210C90D181132F30038BCC0 /* MBButton.m */,
+				922E82E6182B5F4300BAA9E5 /* MBMassageLabel.h */,
+				922E82E7182B5F4300BAA9E5 /* MBMassageLabel.m */,
 				92D6F0B317E48BA300D187E2 /* Character */,
 				92D6F0B617E48C0D00D187E2 /* lib */,
 				9298595D17C25CD600DD9942 /* SVProgressHUD */,
@@ -1438,6 +1444,7 @@
 				92D3681C181CAAB200ADE506 /* iPhone_29x29@2x.png */,
 				92D3681F181CAACA00ADE506 /* iPhone_80x80.png */,
 				92FD9D00180C69B400A72B32 /* mikachan.otf */,
+				922E82E9182B6AFA00BAA9E5 /* uzura.ttf */,
 				9207017218024B93000ACA58 /* MBDatabase.db */,
 				927DCBD1173C2956002F5AA0 /* img */,
 				9225338916EAF73800495F98 /* Mbattler-Info.plist */,
@@ -2794,6 +2801,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9225338E16EAF73800495F98 /* main.mm in Sources */,
+				922E82E8182B5F4300BAA9E5 /* MBMassageLabel.m in Sources */,
 				9225339216EAF73800495F98 /* AppDelegate.m in Sources */,
 				92C68EFC17FD57D800113B7F /* MBAbilityCutin.m in Sources */,
 				9225339E16EAF73800495F98 /* ViewController.m in Sources */,

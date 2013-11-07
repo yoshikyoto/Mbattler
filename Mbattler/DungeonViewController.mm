@@ -119,10 +119,11 @@
     // アイテム説明ラベルの初期化
     item_desc = [[UILabel alloc] init];
     item_desc.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.6];
-    item_desc.frame = CGRectMake(80, position_y-20, 240, 20);
+    item_desc.frame = CGRectMake(00, position_y-20, 320, 20);
+    item_desc.textAlignment = NSTextAlignmentRight;
     if(dungeon.id == 0){
         // チュートリアルなので
-        item_desc.text = @"アイテムで体力回復ができます";
+        item_desc.text = @"アイテムで体力回復ができます↓";
         [[self view] addSubview:item_desc];
     }
     
@@ -215,6 +216,11 @@
     [[self view] addSubview:messege_window];
     
     self.view.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
+    
+    // メッセージウインドウ（新）
+    massage = [[MBMassageLabel alloc] initWithFrame:CGRectMake(0, position_y, 320, 80)];
+    massage.text = @"タップで戦闘を開始します";
+    [[self view] addSubview:massage];
     
     // ability queue の初期化
     ability_meishi_queue = [[NSMutableArray alloc] init];

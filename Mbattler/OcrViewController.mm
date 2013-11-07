@@ -373,11 +373,7 @@
         //結果をNSDataで受け取る
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse: nil error: nil];
         //NSStringに変換
-        NSString *http_result_string = [[NSString alloc] initWithBytes: [data bytes] length:[data length] encoding: NSUTF8StringEncoding];
-        //NSLog(@"%@", http_result_string);
-        
-        // 会社名を抽出する<dt>事業者名:<strong><
-        // <dt>事業者名：<strong><a href="numberinfo_06_6202_3376.html" class="result">東邦金属株式会社</a></strong></dt>
+        NSString *http_result_string = [[NSString alloc] initWithBytes: [data bytes] length:[data length] encoding: NSUTF8Stringa href="numberinfo_06_6202_3376.html" class="result">東邦金属株式会社</a></strong></dt>
         NSString *com_regex_string = @"<dt>事業者名：<strong><a href=\"numberinfo.+?\" class=\"result\">(.+?)</a></strong></dt>";
         NSLog(@"com_regex %@", com_regex_string);
         NSRegularExpression *com_regex = [NSRegularExpression regularExpressionWithPattern:com_regex_string options:0 error:nil];

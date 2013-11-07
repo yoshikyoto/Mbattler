@@ -333,6 +333,13 @@
     return true;
 }
 
+// スタミナ回復薬を使う関数
+- (void)useStaminaItem{
+    stamina = 50;
+    [self reCalcStamina];
+    [self useItem:0];
+}
+
 - (int)getNumOfItem:(int)n{
     return item[n];
 }

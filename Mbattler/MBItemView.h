@@ -10,8 +10,10 @@
 #import "UIOutlineLabel.h"
 
 @interface MBItemView : MBScrollView{
-    UIButton *item1_button, *item2_button;
-    UIOutlineLabel *item1_label, *item2_label;
+    UIButton *item0_button ,*item1_button, *item2_button;
+    UIOutlineLabel *item0_label, *item1_label, *item2_label;
+    
+    UIScrollView *myitem_view;
     
     // アイテム説明文
     UIScrollView *now_item_desc_view;

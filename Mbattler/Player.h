@@ -94,6 +94,7 @@
  * スタミナが足りない場合はfalseが返される
  */
 
+- (void)useStaminaItem;
 - (Boolean)recoverStamina:(int)r;
 /* スタミナを(全)回復する関数
  * 既にスタミナが全回復している場合は false を返す
