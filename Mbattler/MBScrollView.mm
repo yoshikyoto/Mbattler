@@ -40,11 +40,11 @@
         
         // タイトル初期化
         title = [[UILabel alloc] init];
-        title.font = [UIFont fontWithName:@"mikachan_o" size:20];//[UIFont systemFontOfSize:20];
+        title.font = [UIFont fontWithName:@"uzura_font" size:20];//[UIFont systemFontOfSize:20];
         //[title setBackgroundColor:[UIColor whiteColor]];
         title.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:1.0];
         title.textColor = [UIColor whiteColor];
-        title.frame = CGRectMake(-5, 4, 310, 40);
+        title.frame = CGRectMake(-320, 4, 310, 40);
         title.textAlignment = NSTextAlignmentCenter;
         // title.textColor = [UIColor whiteColor];
         [self addSubview:title];
@@ -85,6 +85,27 @@
 
 - (void)close:(id)sender{
     [self removeFromSuperview];
+}
+
+- (void)startAnimation{
+    //アニメーションの対象となるコンテキスト
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [UIView beginAnimations:nil context:context];
+    //アニメーションを実行する時間
+    [UIView setAnimationDuration:0.2];
+    //アニメーションイベントを受け取るview
+    [UIView setAnimationDelegate:self];
+    //アニメーション終了後に実行される
+    [UIView setAnimationDidStopSelector:@selector(endAnimation)];
+    
+    title.frame = CGRectMake(-5, 4, 310, 40);
+    
+    // アニメーション開始
+    [UIView commitAnimations];
+}
+
+- (void)endAnimation{
+    NSLog(@"%s", __func__);
 }
 
 /*

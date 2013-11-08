@@ -829,13 +829,14 @@
     damage = [super damage:damage];
     
     if(nowh <= 0){
-        [self getBattleImage].transform = CGAffineTransformMakeRotation(-90.0);
+        [self getBattleImage].transform = CGAffineTransformMakeRotation(-75.0);
     }
     
     // アビリティゲージ少し溜まる
     [self gainAbilityPow:4];
     // 体力ゲージ描写
     [self drawHpBar];
+    _hpValueLabel.text = [NSString stringWithFormat:@"%d", nowh];
     return damage;
 }
 
@@ -1308,7 +1309,7 @@
 }
 
 // その他外部メソッド
-// HPとか、ダンジョン入る前にリセットしておきたいこと
+// HPとか、ダンジョン入る前後ろにリセットしておきたいこと
 - (void) reflesh{
     nowh = p[0];
     ability_pow = 0;
@@ -1321,6 +1322,11 @@
     p_mult[5] = 1.0;
     [self getBattleImage].transform = CGAffineTransformMakeRotation(0);
     [self stopFlush];
+}
+
+- (void)prepareForDungeon{
+    _hpValueLabel = [[UIOutlineLabel alloc] init];
+    [_hpValueLabel setCharacterName:[NSString stringWithFormat:@"%d", nowh]];
 }
 
 - (int)exp:(int)e{

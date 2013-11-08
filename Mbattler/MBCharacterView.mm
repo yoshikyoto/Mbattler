@@ -22,8 +22,10 @@
         title.text = @"キャラクター";
         [self addSubview:title];
         
-        characters_scrollView = [self getCharactersScrollView];
-        [self addSubview:characters_scrollView];
+        [self drawCharactersScrollView];
+        
+        // characters_scrollView = [self getCharactersScrollView];
+        // [self addSubview:characters_scrollView];
         
         // スクロールビューを作成
         /*
@@ -61,9 +63,10 @@
     return self;
 }
 
-- (UIScrollView *)getCharactersScrollView{
+- (void)drawCharactersScrollView{
+    if(characterScrollView) [characterScrollView removeFromSuperview];
     // スクロールビューを作成
-    UIScrollView *characterScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, 320, height - 40)];
+    characterScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 500, 320, height - 40)];
     characterScrollView.backgroundColor = [UIColor clearColor]; // 背景透明
     // スクロールビュー内部のサイズ 縦はキャラ数に依存させる感じになる
     int h = 58*ceil([player getNumOfMeishi] / 5.0) + 10;
@@ -104,13 +107,7 @@
         name_label.backgroundColor = [UIColor clearColor];
         [characterScrollView addSubview:name_label];
     }
-    return characterScrollView;
-}
-
-- (void)rewriteCharactersScrollView{
-    [characters_scrollView removeFromSuperview];
-    characters_scrollView = [self getCharactersScrollView];
-    [self addSubview:characters_scrollView];
+    [self addSubview:characterScrollView];
 }
 
 // キャラが押された時 ------------------------------------------------------------
@@ -157,7 +154,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                 if(tag < [player getPartynum]) [player setPartyNum:[player getPartynum] - 1];
                 [status_view removeFromSuperview];
                 [player save];
-                [self rewriteCharactersScrollView];
+                [self drawCharactersScrollView];
                 break;
             case 1:
                 break;
@@ -166,6 +163,24 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 }
 
 - (void)fire:(id)sender{
+}
+
+- (void)startAnimation{
+    //アニメーションの対象となるコンテキスト
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [UIView beginAnimations:nil context:context];
+    //アニメーションを実行する時間
+    [UIView setAnimationDuration:0.2];
+    //アニメーションイベントを受け取るview
+    [UIView setAnimationDelegate:self];
+    //アニメーション終了後に実行される
+    //[UIView setAnimationDidStopSelector:@selector(endAnimation)];
+    
+    title.frame = CGRectMake(-5, 4, 310, 40);
+    characterScrollView.frame = CGRectMake(0, 40, 320, height - 40);
+    
+    // アニメーション開始
+    [UIView commitAnimations];
 }
 
 /*

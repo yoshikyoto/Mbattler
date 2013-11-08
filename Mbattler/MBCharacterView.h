@@ -12,7 +12,7 @@
 @interface MBCharacterView : MBScrollView{
     int tag;
     MBStatusView *status_view;
-    UIScrollView *characters_scrollView;
+    UIScrollView *characterScrollView;
 }
 
 @end

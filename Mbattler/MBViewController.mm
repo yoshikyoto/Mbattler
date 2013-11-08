@@ -24,6 +24,7 @@
 #import "FMDatabase.h"
 #import "MBStartView.h"
 #import "UIOutlineLabel.h"
+#import "MBSummonView.h"
 
 @interface MBViewController ()
 
@@ -214,6 +215,7 @@
     if(nowScrollView) [nowScrollView removeFromSuperview];
     MBCharacterView *view = [[MBCharacterView alloc] initWithPlayer:player];
     [[self view] addSubview:view];
+    [view startAnimation];
     nowScrollView = view;
 }
 
@@ -222,6 +224,7 @@
     if(nowScrollView) [nowScrollView removeFromSuperview];
     MBPartyView *view = [[MBPartyView alloc] initWithPlayer:player];
     [[self view] addSubview:view];
+    [view startAnimation];
     nowScrollView = view;
 }
 
@@ -231,6 +234,7 @@
     if(nowScrollView) [nowScrollView removeFromSuperview];
     MBItemView *view = [[MBItemView alloc] initWithPlayer:player];
     [[self view] addSubview:view];
+    [view startAnimation];
     nowScrollView = view;
 }
 
@@ -240,6 +244,7 @@
     if(nowScrollView) [nowScrollView removeFromSuperview];
     MBOptionView *view = [[MBOptionView alloc] initWithPlayer:player];
     [[self view] addSubview:view];
+    [view startAnimation];
     nowScrollView = view;
 }
 
@@ -298,6 +303,7 @@
     }
 
     [[self view] addSubview:dungeonView];
+    [dungeonView startAnimation];
     nowScrollView = dungeonView;
 }
 
@@ -395,7 +401,17 @@
     // 今映ってるのを除去
     if(nowScrollView) [nowScrollView removeFromSuperview];
     NSLog(@"MBViewController: viewSummon");
+    
+    MBSummonView *summon_view = [[MBSummonView alloc] initWithPlayer:player];
+    [[self view] addSubview:summon_view];
+    [summon_view startAnimation];
+    nowScrollView = summon_view;
+    
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+        [summon_view.cameraButton addTarget:self action:@selector(launchCamera:)forControlEvents:UIControlEventTouchUpInside];
+    }
     // ビューの準備
+    /*
     MBScrollView *summonView = [[MBScrollView alloc] initWithPlayer:player];
     [[self view] addSubview:summonView];
     [summonView setTitle:@"名刺召喚"];
@@ -408,17 +424,17 @@
     // [camera_button setColorType:0];
     camera_button.frame = CGRectMake(30, 80, 260, 40);
     
-    // 注意書きラメル
+    // 注意書きラベル
     UILabel *alert_label = [[UILabel alloc] initWithFrame:CGRectMake(15, 140, 300, 100)];
     alert_label.numberOfLines = 5;
     [summonView addSubview:alert_label];
     // ここでカメラが起動できるか確認
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-        /* キャラクターがいっぱいかどうか確認が必要
-         * 「すでにあるキャラと入れ替える必要がありますがよろしいですか？
-         * 　はい　いいえ
-         * 　キャラ上限増加（有料）」
-         * みたいな */
+        // キャラクターがいっぱいかどうか確認が必要
+        //「すでにあるキャラと入れ替える必要がありますがよろしいですか？
+        // はい　いいえ
+        // キャラ上限増加（有料）」
+        // みたいな
         if([player isMeishiFull]){
             // 名刺が一杯の場合
             [camera_button setColorType:2];
@@ -436,6 +452,7 @@
         alert_label.text = @"お使いのデバイスはカメラががついていません。\n申し訳ありませんが名刺の召喚は行えません。";
     }
     [summonView addSubview:camera_button];
+    */
     
     // デバッグ用
     /*

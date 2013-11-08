@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "Player.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface ViewController : UIViewController<UITextFieldDelegate>{
     Player *player;
     UITextField *name_textfield;
+    AVAudioPlayer *audio_player;
 }
 
 @end

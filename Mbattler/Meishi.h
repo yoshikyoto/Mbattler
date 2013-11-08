@@ -57,7 +57,7 @@
 @property(readonly) NSString *date_string;
 
 @property(readwrite) UIImageView *battleIcon;
-@property(readwrite) UILabel *hpValueLabel;
+@property(readwrite) UIOutlineLabel *hpValueLabel;
 
 @property(readwrite) NSString *history;
 
@@ -120,6 +120,7 @@
 - (void) setNowH:(int)_h;
 - (void) setExp:(int)e;
 
+- (void)prepareForDungeon;
 - (void)reflesh;
 // 経験値を与える関数
 - (int)exp:(int)e;

@@ -24,6 +24,15 @@
     
     self.view.backgroundColor = [UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.9];
     
+    // BGMの再生
+    
+    NSString *bgm_path = [[NSBundle mainBundle] pathForResource:@"game_maoudamashii_5_castle06" ofType:@"mp3"];
+    NSURL *bgm_url = [[NSURL alloc] initFileURLWithPath:bgm_path];
+    audio_player = [[AVAudioPlayer alloc] initWithContentsOfURL:bgm_url error:nil];
+    audio_player.numberOfLoops = -1;
+    [audio_player prepareToPlay];
+    [audio_player play];
+    
     // プレイヤーオブジェクトの初期化
     // セーブデータがあるかどうかで分岐させる
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];

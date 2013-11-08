@@ -29,7 +29,8 @@
         inner_label = [[UILabel alloc] init];
         inner_label.frame = CGRectMake(2, 2, frame.size.width - 4, frame.size.height - 4);
         inner_label.backgroundColor = [UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.9];
-        inner_label.numberOfLines = 0;
+        inner_label.numberOfLines = 3;
+        maxnum_of_lines = 3;
         inner_label.font = [UIFont fontWithName:@"azukifontL" size:16];
         // テキストの描写範囲
         //[inner_label drawTextInRect:CGRectMake(5, 5, frame.size.width - 10, frame.size.height - 10)];
@@ -48,19 +49,27 @@
     return self;
 }
 
-- (void)setNumberOfLines:(int)numberOfLines{
-    inner_label.numberOfLines = numberOfLines;
-    maxnum_of_lines = numberOfLines;
+- (void)setMaxNumOfLines:(int)num{
+    inner_label.numberOfLines = num;
+    maxnum_of_lines = num;
 }
 
 - (void)drawText{
-    NSString *labeltext = [text_array objectAtIndex:0];
-    for(int i = 1; i < maxnum_of_lines; i++){
+    NSLog(@"%s", __func__);
+    NSString *labeltext = @"";
+    for(int i = 0; i < maxnum_of_lines-1; i++){
         if(i < [text_array count]){
-            labeltext = [NSString stringWithFormat:@"%@\n%@", labeltext, [text_array objectAtIndex:i]];
+            labeltext = [NSString stringWithFormat:@"%@%@\n", labeltext, [text_array objectAtIndex:i]];
+            NSLog(@"%@", [text_array objectAtIndex:i]);
         }else{
-            labeltext = [NSString stringWithFormat:@"%@\n", labeltext];
+            labeltext = [NSString stringWithFormat:@"%@　\n", labeltext];
+            NSLog(@"改行");
         }
+    }
+    if([text_array count] >= maxnum_of_lines){
+        labeltext = [NSString stringWithFormat:@"%@%@", labeltext, [text_array objectAtIndex:maxnum_of_lines-1]];
+    }else{
+        labeltext = [NSString stringWithFormat:@"%@　", labeltext];
     }
     inner_label.text = labeltext;
 }

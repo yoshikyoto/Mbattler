@@ -46,6 +46,11 @@
 		921F268E181BDCFB009F0DEC /* tap_to_result.png in Resources */ = {isa = PBXBuildFile; fileRef = 921F268D181BDCFB009F0DEC /* tap_to_result.png */; };
 		92216B5B182B744500C4F62F /* azukiL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92216B5A182B744500C4F62F /* azukiL.ttf */; };
 		92216B5D182B747B00C4F62F /* uzura.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92216B5C182B747B00C4F62F /* uzura.ttf */; };
+		92216B60182CD13100C4F62F /* MBSummonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92216B5F182CD13100C4F62F /* MBSummonView.m */; };
+		92216B63182D253000C4F62F /* game_maoudamashii_5_castle06.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 92216B62182D253000C4F62F /* game_maoudamashii_5_castle06.mp3 */; };
+		92216B65182D256700C4F62F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92216B64182D256700C4F62F /* AudioToolbox.framework */; };
+		92216B67182D265D00C4F62F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92216B66182D265D00C4F62F /* AVFoundation.framework */; };
+		92216B6A182D4E2F00C4F62F /* MBDungeonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92216B69182D4E2F00C4F62F /* MBDungeonView.m */; };
 		922450691751DB5D0042CC5D /* Dungeon.mm in Sources */ = {isa = PBXBuildFile; fileRef = 922450681751DB5D0042CC5D /* Dungeon.mm */; };
 		9225338216EAF73800495F98 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338116EAF73800495F98 /* UIKit.framework */; };
 		9225338416EAF73800495F98 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338316EAF73800495F98 /* Foundation.framework */; };
@@ -645,6 +650,13 @@
 		921F268D181BDCFB009F0DEC /* tap_to_result.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tap_to_result.png; sourceTree = "<group>"; };
 		92216B5A182B744500C4F62F /* azukiL.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = azukiL.ttf; sourceTree = "<group>"; };
 		92216B5C182B747B00C4F62F /* uzura.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = uzura.ttf; sourceTree = "<group>"; };
+		92216B5E182CD13100C4F62F /* MBSummonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBSummonView.h; sourceTree = "<group>"; };
+		92216B5F182CD13100C4F62F /* MBSummonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBSummonView.m; sourceTree = "<group>"; };
+		92216B62182D253000C4F62F /* game_maoudamashii_5_castle06.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = game_maoudamashii_5_castle06.mp3; sourceTree = "<group>"; };
+		92216B64182D256700C4F62F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		92216B66182D265D00C4F62F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		92216B68182D4E2F00C4F62F /* MBDungeonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBDungeonView.h; sourceTree = "<group>"; };
+		92216B69182D4E2F00C4F62F /* MBDungeonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBDungeonView.m; sourceTree = "<group>"; };
 		922450671751DB5D0042CC5D /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
 		922450681751DB5D0042CC5D /* Dungeon.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Dungeon.mm; sourceTree = "<group>"; };
 		9225337E16EAF73800495F98 /* YoshikiAkino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoshikiAkino.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1266,6 +1278,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92216B67182D265D00C4F62F /* AVFoundation.framework in Frameworks */,
+				92216B65182D256700C4F62F /* AudioToolbox.framework in Frameworks */,
 				9207017118024958000ACA58 /* libsqlite3.0.dylib in Frameworks */,
 				9210A46317CE7C9300BD2FB3 /* StoreKit.framework in Frameworks */,
 				9298596417C25D7500DD9942 /* QuartzCore.framework in Frameworks */,
@@ -1370,6 +1384,14 @@
 			path = database;
 			sourceTree = "<group>";
 		};
+		92216B61182D252200C4F62F /* bgm */ = {
+			isa = PBXGroup;
+			children = (
+				92216B62182D253000C4F62F /* game_maoudamashii_5_castle06.mp3 */,
+			);
+			name = bgm;
+			sourceTree = "<group>";
+		};
 		9225337516EAF73800495F98 = {
 			isa = PBXGroup;
 			children = (
@@ -1390,6 +1412,8 @@
 		9225338016EAF73800495F98 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				92216B66182D265D00C4F62F /* AVFoundation.framework */,
+				92216B64182D256700C4F62F /* AudioToolbox.framework */,
 				9207017018024958000ACA58 /* libsqlite3.0.dylib */,
 				92641B9617BA5A90001AC271 /* libc++.dylib */,
 				9210A46217CE7C9300BD2FB3 /* StoreKit.framework */,
@@ -1435,6 +1459,7 @@
 		9225338816EAF73800495F98 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				92216B61182D252200C4F62F /* bgm */,
 				920A7DD7181C12DF00E15CFA /* Default-568h@2x.png */,
 				920A7DD5181C108C00E15CFA /* title.png */,
 				920A7DCD181C09BB00E15CFA /* iPad_72x72.png */,
@@ -2120,10 +2145,14 @@
 			children = (
 				920360D417B635C700EDB590 /* MBScrollView.h */,
 				920360D517B635C700EDB590 /* MBScrollView.mm */,
+				92216B5E182CD13100C4F62F /* MBSummonView.h */,
+				92216B5F182CD13100C4F62F /* MBSummonView.m */,
 				92D6F0D717E4AF9000D187E2 /* MBStartView.h */,
 				92D6F0D817E4AF9000D187E2 /* MBStartView.m */,
 				920360DA17B63AAB00EDB590 /* MBCharacterView.h */,
 				920360DB17B63AAB00EDB590 /* MBCharacterView.mm */,
+				92216B68182D4E2F00C4F62F /* MBDungeonView.h */,
+				92216B69182D4E2F00C4F62F /* MBDungeonView.m */,
 				920360DD17B66C3000EDB590 /* MBStatusView.h */,
 				920360DE17B66C3100EDB590 /* MBStatusView.mm */,
 				920360D717B636EF00EDB590 /* MBPartyView.h */,
@@ -2233,8 +2262,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 922533A116EAF73800495F98 /* Build configuration list for PBXNativeTarget "YoshikiAkino" */;
 			buildPhases = (
-				9225337A16EAF73800495F98 /* Sources */,
 				9225337B16EAF73800495F98 /* Frameworks */,
+				9225337A16EAF73800495F98 /* Sources */,
 				9225337C16EAF73800495F98 /* Resources */,
 			);
 			buildRules = (
@@ -2350,6 +2379,7 @@
 				923B694E1808B5BB00CE6066 /* spirit83_2.png in Resources */,
 				923B6A461808B5C100CE6066 /* spirit27.png in Resources */,
 				927DCBE9173C2956002F5AA0 /* c0c.PNG in Resources */,
+				92216B63182D253000C4F62F /* game_maoudamashii_5_castle06.mp3 in Resources */,
 				923B6AE61808B5C800CE6066 /* human203.png in Resources */,
 				927DCBEA173C2956002F5AA0 /* c0r.PNG in Resources */,
 				923B6B0D1808B5C800CE6066 /* solid62.png in Resources */,
@@ -2810,6 +2840,7 @@
 				92C68EFC17FD57D800113B7F /* MBAbilityCutin.m in Sources */,
 				9225339E16EAF73800495F98 /* ViewController.m in Sources */,
 				92F6FD9D16EE2CA2008A55F9 /* Meishi.m in Sources */,
+				92216B6A182D4E2F00C4F62F /* MBDungeonView.m in Sources */,
 				92E73D5817181BC8002C2C92 /* Player.m in Sources */,
 				92EA2507173EBCA10012AE3A /* BackButton.mm in Sources */,
 				92FD9CFF180BFCEE00A72B32 /* UIImageView+effects.m in Sources */,
@@ -2838,6 +2869,7 @@
 				92E1A40017B804F100290216 /* MBOptionView.mm in Sources */,
 				92E1A40317B80E0C00290216 /* SummonViewController.mm in Sources */,
 				92641B3517B8FB79001AC271 /* Tesseract.mm in Sources */,
+				92216B60182CD13100C4F62F /* MBSummonView.m in Sources */,
 				92641B9A17BA5E40001AC271 /* FilterBase.mm in Sources */,
 				92641B9D17BA7046001AC271 /* MonochromeFilter.mm in Sources */,
 				9207018718026C99000ACA58 /* MBDatabase.m in Sources */,

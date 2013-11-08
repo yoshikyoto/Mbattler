@@ -27,4 +27,6 @@
 - (void)setTitle:(NSString *)t;
 - (void)setTitle;
 - (void)setBackButton;
+- (void)startAnimation;
+- (void)endAnimation;
 @end

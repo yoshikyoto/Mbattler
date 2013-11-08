@@ -42,6 +42,7 @@
         
         // タイトルバー(名前)
         title.text = [meishi getName];
+        title.frame = CGRectMake(-5, 4, 310, 40);
         [self addSubview:title];
         
         // 戻るボタン

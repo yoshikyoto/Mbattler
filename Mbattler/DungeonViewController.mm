@@ -18,7 +18,6 @@
 #import "DamageValueLabel.h"
 #import "MBAbilityCutin.h"
 #import "UIOutlineLabel.h"
-#import "UIOutlineLabel.h"
 #import "MBButton.h"
 #import "MBButton.h"
 
@@ -65,6 +64,17 @@
 	// Do any additional setup after loading the view.
     NSLog(@"%s", __func__);
     
+    // パーティを取得し、戦闘参加者配列に突っ込む
+    party = [player getParty];
+    // 味方を初期化
+    [player reflesh];
+    for(int i = 0; i < [party count]; i++){
+        Meishi *meishi = [party objectAtIndex:i];
+        [meishi prepareForDungeon];
+    }
+    combatant = [[NSMutableArray alloc] init];
+    [self addCombatants:party];
+    
     // 画面の縦横所取得
     CGRect screen_rect = [UIScreen mainScreen].applicationFrame;
     int h = screen_rect.size.height;
@@ -102,30 +112,6 @@
     bg.frame = CGRectMake(0, position_y, 320, 240);
     [[self view] addSubview:bg];
     position_y += 240;
-    
-
-    // パーティを取得し、戦闘参加者配列に突っ込む
-    party = [player getParty];
-    combatant = [[NSMutableArray alloc] init];
-    [self addCombatants:party];
-    // 味方を一応初期化
-    [player reflesh];
-    // 味方を描写
-    [self drawParty];
-    
-    // アイテムフラグの初期化
-    item_flag = -1;
-    
-    // アイテム説明ラベルの初期化
-    item_desc = [[UILabel alloc] init];
-    item_desc.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.6];
-    item_desc.frame = CGRectMake(00, position_y-20, 320, 20);
-    item_desc.textAlignment = NSTextAlignmentRight;
-    if(dungeon.id == 0){
-        // チュートリアルなので
-        item_desc.text = @"アイテムで体力回復ができます↓";
-        [[self view] addSubview:item_desc];
-    }
     
     // アイテム　薬草
     item1_button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -203,6 +189,21 @@
     [retire_button setTitle:@"リタイアする" forState:UIControlStateNormal];
     [retire_button addTarget:self action:@selector(ritireButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [mask_view addSubview:retire_button];
+    
+    
+    // アイテムフラグの初期化
+    item_flag = -1;
+    // アイテム説明ラベルの初期化
+    item_desc = [[UILabel alloc] init];
+    item_desc.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.6];
+    item_desc.frame = CGRectMake(0, position_y, 320, 20);
+    item_desc.textAlignment = NSTextAlignmentRight;
+    if(dungeon.id == 0){
+        // チュートリアルなので
+        item_desc.text = @"アイテムで体力回復ができます↓";
+        [[self view] addSubview:item_desc];
+    }
+    position_y += 20;
 
     
     // キャラクターアイコン部分
@@ -211,36 +212,57 @@
     [[self view] addSubview:party_view];
     for(int i = 0; i < [party count]; i++){
         Meishi *meishi = [party objectAtIndex:i];
+        // 名前
+        meishi.nameLabel.frame = CGRectMake(i*64+2, position_y+5, 60, 12);
+        meishi.nameLabel.textAlignment = NSTextAlignmentLeft;
+        [[self view] addSubview:meishi.nameLabel];
+        
+        // アイコン
         meishi.battleIcon.frame = CGRectMake(i*64+2, position_y+12, 32, 32);
         [[self view] addSubview:meishi.battleIcon];
         
-        UILabel *border_label = [[UILabel alloc] initWithFrame:CGRectMake(i*64+62, position_y+5, 1, 38)];
+        // HP
+        UIOutlineLabel *hp_label = [[UIOutlineLabel alloc] init];
+        hp_label.frame = CGRectMake(i*64+30, position_y+20, 34, 12);
+        [hp_label setCharacterName:@"HP"];
+        hp_label.textAlignment = NSTextAlignmentLeft;  
+        [[self view] addSubview:hp_label];
+        meishi.hpValueLabel.frame = CGRectMake(i*64+30, position_y+32, 34, 12);
+        meishi.hpValueLabel.textAlignment = NSTextAlignmentRight;
+        [[self view] addSubview:meishi.hpValueLabel];
+        
+        UILabel *border_label = [[UILabel alloc] initWithFrame:CGRectMake(i*64+64, position_y+5, 1, 38)];
         border_label.backgroundColor = [UIColor whiteColor];
         [[self view] addSubview:border_label];
     }
     position_y += 48;
 
 
-    // メッセージウィンドウ
+    // メッセージウィンドウ(旧)
+    /*
     messege_window = [[UITextView alloc] initWithFrame:CGRectMake(0, position_y, 320, h-position_y)];
     messege_window.editable = NO;
     messege_window.font = [UIFont systemFontOfSize:16];
     messege_window.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
     messege_window.text = @"タップで戦闘を開始します";
     [[self view] addSubview:messege_window];
+     */
     
     self.view.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
     
     // メッセージウインドウ（新）
     message = [[MBMassageLabel alloc] initWithFrame:CGRectMake(0, position_y, 320, 80)];
-    message.text = @"タップで戦闘を開始します";
     [message setNumberOfLines:3];
     [message setText:@"タップして戦闘を開始します"];
+    [message addText:@"戦闘はオートで進みます"];
     [message showNextButton];
     [[self view] addSubview:message];
     
     // ability queue の初期化
     ability_meishi_queue = [[NSMutableArray alloc] init];
+    
+    // 味方を描写
+    [self drawParty];
     
     // 画面をタップした時に戦闘が始まるようにする
     tap_alert_image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tap_to_start.png"]];

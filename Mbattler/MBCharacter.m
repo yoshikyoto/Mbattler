@@ -35,11 +35,9 @@
 }
 
 // ゲッター
-/*
 - (NSString *) getName{
     return name;
 }
- */
 - (int) getH{ return p[0] * p_mult[0]; }
 - (int) getA{ return p[1] * p_mult[1]; }
 - (int) getB{ return p[2] * p_mult[2]; }
