@@ -11,7 +11,7 @@
 #import "PartyChangeView.h"
 
 @interface MBPartyView : MBScrollView{
-    UIScrollView *party_view;
+    UIScrollView *party_view; //CGRectMake(10, 50, 300, 90)
     UIScrollView *reserve_view;
     UILabel *party_black_mask, *reserve_black_mask;
     Boolean latest_view;

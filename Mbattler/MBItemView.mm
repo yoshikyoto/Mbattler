@@ -32,22 +32,12 @@
 }
 
 - (void)drawMyitem{
-    // パーティ部分のビュー
+    NSLog(@"%s", __func__);
+    // 所持アイテム部分のビュー
     if(myitem_view) [myitem_view removeFromSuperview];
     
-    myitem_view = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 52, 300, 90)];
-    myitem_view.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.2];
-    [self addSubview:myitem_view];
-    
-    UILabel *myitem_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 26)];
-    myitem_label.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
-    [myitem_label setTextColor:[UIColor whiteColor]];
-    myitem_label.textAlignment = NSTextAlignmentCenter;
-    myitem_label.font = [UIFont fontWithName:@"mikachan_o" size:16];
-    myitem_label.text = @"所持アイテム";
-    [myitem_view addSubview:myitem_label];
-    
-    
+    myitem_view = [[MBSubScrollView alloc] initWithFrame:CGRectMake(320, 50, 300, 90)];
+    [myitem_view setTitle:@"所持アイテム"];    [self addSubview:myitem_view];
     int item_position_x = 10;
     
     // アイテム　スタミナ回復剤
@@ -106,12 +96,9 @@
 }
 
 - (void)drawShop{
-    /*
-    UIScrollView *shop_view = [[UIScrollView alloc] init];
-    shop_view.frame = CGRectMake(10, 105, 300, 300);
-    shop_view.backgroundColor = sub_bg;
-    [self addSubview:shop_view];
-     */
+    itemShop_view = [[MBSubScrollView alloc] initWithFrame:CGRectMake(10, 145, 300, self.frame.size.height - 150)];
+    [itemShop_view setTitle:@"ショップ"];
+    [self addSubview:itemShop_view];
 }
 
 - (void)itemTapped:(UIButton *)sender{
@@ -213,6 +200,24 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     }
 }
 
+- (void)startAnimation{
+    //アニメーションの対象となるコンテキスト
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [UIView beginAnimations:nil context:context];
+    //アニメーションを実行する時間
+    [UIView setAnimationDuration:0.2];
+    //アニメーションイベントを受け取るview
+    [UIView setAnimationDelegate:self];
+    //アニメーション終了後に実行される
+    [UIView setAnimationDidStopSelector:@selector(endAnimation)];
+    
+    title.frame = CGRectMake(-5, 4, 310, 40);
+    myitem_view.frame = CGRectMake(10, 50, 300, 90);
+    // reserve_view.frame = CGRectMake(10, 142, 300, height - 142);
+    
+    // アニメーション開始
+    [UIView commitAnimations];
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

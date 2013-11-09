@@ -10,4 +10,6 @@
 
 @interface MBDungeonView : MBScrollView
 
+@property(readwrite) UIScrollView *dungeonListView;
+
 @end

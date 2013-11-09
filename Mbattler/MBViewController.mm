@@ -25,6 +25,7 @@
 #import "MBStartView.h"
 #import "UIOutlineLabel.h"
 #import "MBSummonView.h"
+#import "MBDungeonView.h"
 
 @interface MBViewController ()
 
@@ -261,17 +262,17 @@
     Dungeon *dungeon = [[Dungeon alloc] init];
     
     // ビューの準備
-    MBScrollView *dungeonView = [[MBScrollView alloc] initWithPlayer:player];
-    [dungeonView setTitle:@"ダンジョン選択"];
+    MBDungeonView *dungeonView = [[MBDungeonView alloc] initWithPlayer:player];
+    //[dungeonView setTitle:@"ダンジョン選択"];
     
     // ダンジョン一覧を表示するスクロールエリア
-    UIScrollView *dungeon_view = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 320, h-50-56-54)];
-    dungeon_view.backgroundColor = [UIColor clearColor];
-    [dungeonView addSubview:dungeon_view];
+    // dungeonView.dungeonListView = [[UIScrollView alloc] initWithFrame:CGRectMake(320, 50, 320, h-50-56-54)];
+    //.backgroundColor = [UIColor clearColor];
+    // [dungeonView addSubview:dungeonView.dungeonListView];
     
     // ダンジョン名一覧を取得
     NSArray *dungeonNames = [dungeon getNames];
-    dungeon_view.contentSize = CGSizeMake(300, 58 * [dungeonNames count] + 20);    // スクロール内部のサイズ
+    dungeonView.dungeonListView.contentSize = CGSizeMake(300, 58 * [dungeonNames count] + 20);    // スクロール内部のサイズ
 
     for(int i = 0; i < [dungeonNames count]; i++){
         UIButton *dungeon_button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -284,7 +285,7 @@
         [[dungeon_button layer] setBorderWidth:2.0];//[UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.8];
         [[dungeon_button layer] setCornerRadius:6.0];
         [[dungeon_button layer] setBorderColor:[[UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.8] CGColor]];
-        [dungeon_view addSubview:dungeon_button];
+        [dungeonView.dungeonListView addSubview:dungeon_button];
         
         UILabel *dungeon_name_label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 200, 50)];
         dungeon_name_label.numberOfLines = 2;

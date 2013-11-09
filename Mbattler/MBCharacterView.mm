@@ -122,6 +122,7 @@
     status_view = [[MBStatusView alloc] initWithMeishi:[player getMeishi:tag] Player:player];
     [status_view.fire_button addTarget:self action:@selector(fireAlert:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:status_view];
+    [status_view startAnimation];
 }
 
 // 解雇

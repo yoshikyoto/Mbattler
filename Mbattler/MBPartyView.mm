@@ -63,14 +63,14 @@
 // パーティ部分描写 ------------------------------------------------------------------------------------------
 - (void)drawPartyView{
     // パーティ部分のビュー
-    party_view = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 50, 300, 90)];
+    party_view = [[UIScrollView alloc] initWithFrame:CGRectMake(320, 50, 300, 90)];
     party_view.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.2];
     [self addSubview:party_view];
     UILabel *party_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 26)];
     party_label.backgroundColor = [UIColor grayColor];
     [party_label setTextColor:[UIColor whiteColor]];
     party_label.textAlignment = NSTextAlignmentCenter;
-    party_label.font = [UIFont fontWithName:@"mikachan_o" size:16];
+    party_label.font = [UIFont fontWithName:@"uzura_font" size:16];
     party_label.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
     party_label.text = @"パーティ";
     [party_view addSubview:party_label];
@@ -117,7 +117,7 @@
 // ノンパーティ部分再描写 ------------------------------------------------------------------------------------------
 - (void)drawReserveView{
     // キャラクタービューの作成（パーティじゃないキャラクターの描写）
-    reserve_view = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 142, 300, height - 142)];
+    reserve_view = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 500, 300, height - 142)];
     reserve_view.backgroundColor = [UIColor clearColor]; //sub_bg; // 背景
     
     // 「はずす」ボタンの描写
@@ -298,88 +298,22 @@
     [self drawReserveView];
 }
 
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
-
-/*
-- (void)characterTouched:(id)sender{
-    // それ(target)がパーティかそれ以外かを判断
-    UIButton *target = (UIButton *)sender;
+- (void)startAnimation{
+    //アニメーションの対象となるコンテキスト
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [UIView beginAnimations:nil context:context];
+    //アニメーションを実行する時間
+    [UIView setAnimationDuration:0.2];
+    //アニメーションイベントを受け取るview
+    [UIView setAnimationDelegate:self];
+    //アニメーション終了後に実行される
+    [UIView setAnimationDidStopSelector:@selector(endAnimation)];
     
-    if((-1 <= target.tag)&&(target.tag < [player getPartynum])){
-        // パーティメンバーだった時の処理
-        // 暗転させる
-        [party_view addSubview:party_black_mask];
-        [party_view bringSubviewToFront:target];
-        // 同じキャラがタップされたら外す
-        if(party_select_flag&&(p_id == target.tag)){
-            [self removeP];
-            return;
-        }
-        // p_id にタグをセット
-        p_id = target.tag;
-        
-        if(target.tag == -1){
-            // キャラ追加の時　入れるのは選べない
-            if(party_select_flag&&(p_id == -2)) return;
-            NSLog(@"はずす");
-            // 確認ウィンドウにはnilをセット
-            [confirm_window set_p: nil];
-        }else{
-            // それ以外の時　入れ替えのとき
-            NSLog(@"パーティメンバー選択");
-            // 押された名刺の情報を確認ウインドウにセット
-            [confirm_window set_p: [player getMeishi:p_id]];
-            [party_view bringSubviewToFront:[[player getMeishi:p_id] getNameLabel]];
-        }
-        
-        //[[self view] addSubview:p_cancelbutton];    //取り消しボタンを表示
-        party_select_flag = true;  //選ばれたことを表す
-        latest_view = true; //最後に選ばれたのはパーティメンバーである
-        
-    }else{
-        // パーティメンバーじゃなかったとき
-        
-        // まず暗転させる
-        [reserve_view addSubview:reserve_black_mask];
-        // 画像だけ前に出す
-        [party_view bringSubviewToFront:target];
-        if(reserve_select_flag&&(n_id == target.tag)){
-            [self removeN];
-            return;
-        }
-        // 押された名刺の情報をセット
-        n_id = target.tag;
-        if(target.tag == -2){
-            // 外すとき、入れるのは選べない
-            if(party_select_flag&&(p_id == -1)) return;
-            NSLog(@"%s はずす", __func__);
-            [confirm_window set_n:nil];
-        }else{
-            // 普通にいれかえ
-            NSLog(@"パーティメンバー以外選択");
-            [confirm_window set_n: [player getMeishi:n_id]];
-            [reserve_view bringSubviewToFront:[[player getMeishi:n_id] getNameLabel]];
-        }
-        
-        //[self addSubview:nministatus];   // ステータスを表示
-        //[[self view] addSubview:n_cancelbutton];    //取り消しボタンを表示
-        reserve_select_flag = true;  //選ばれたことを表す
-        latest_view = false;    //最後に選ばれたのはノンパーティメンバーである
-    }
+    title.frame = CGRectMake(-5, 4, 310, 40);
+    party_view.frame = CGRectMake(10, 50, 300, 90);
+    reserve_view.frame = CGRectMake(10, 142, 300, height - 142);
     
-    if(party_select_flag&&reserve_select_flag){
-        NSLog(@"両方選ばれた");
-        [self viewConfirmMessege];
-    }
+    // アニメーション開始
+    [UIView commitAnimations];
 }
-*/
-
 @end

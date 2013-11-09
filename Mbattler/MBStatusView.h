@@ -13,6 +13,15 @@
 @interface MBStatusView : MBScrollView{
     UIButton *backbutton;
     Meishi *meishi;
+    
+    UILabel *lv_gauge;
+    UILabel *exp_gauge;
+    UILabel *h_gauge;
+    UILabel *a_gauge;
+    UILabel *b_gauge;
+    UILabel *c_gauge;
+    UILabel *d_gauge;
+    UILabel *s_gauge;
 }
 
 @property(readwrite) UIButton *fire_button;
@@ -22,3 +31,6 @@
 - (void)removeBackButton;
 
 @end
+
+
+// (int)(([meishi getExp]/(float)[meishi getNextExp])*dark_bg_rect.size.width)
