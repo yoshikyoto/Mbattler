@@ -12,9 +12,12 @@
 #import "MBConbatantView.h"
 #import "MBScrollView.h"
 #import "MBMassageLabel.h"
+#import <AVFoundation/AVFoundation.h>
 
 
 @interface DungeonViewController : UIViewController{
+    AVAudioPlayer *audio_player;
+    
     UILabel *messege;
     UITextView *messege_window;
     UITapGestureRecognizer *tgr;    // タップレコグナイザー

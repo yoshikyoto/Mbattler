@@ -26,15 +26,15 @@
         self.backgroundColor = [UIColor whiteColor];
         
         // 内部を作ります
-        inner_label = [[UILabel alloc] init];
-        inner_label.frame = CGRectMake(2, 2, frame.size.width - 4, frame.size.height - 4);
-        inner_label.backgroundColor = [UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.9];
-        inner_label.numberOfLines = 3;
+        _innerLabel = [[UILabel alloc] init];
+        _innerLabel.frame = CGRectMake(2, 2, frame.size.width - 4, frame.size.height - 4);
+        _innerLabel.backgroundColor = [UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.9];
+        _innerLabel.numberOfLines = 3;
         maxnum_of_lines = 3;
-        inner_label.font = [UIFont fontWithName:@"azukifontL" size:16];
+        _innerLabel.font = [UIFont fontWithName:@"azukifontL" size:16];
         // テキストの描写範囲
         //[inner_label drawTextInRect:CGRectMake(5, 5, frame.size.width - 10, frame.size.height - 10)];
-        [self addSubview:inner_label];
+        [self addSubview:_innerLabel];
         
         // 次へボタンの初期化
         next_label = [[UIOutlineLabel alloc] init];
@@ -50,7 +50,7 @@
 }
 
 - (void)setMaxNumOfLines:(int)num{
-    inner_label.numberOfLines = num;
+    _innerLabel.numberOfLines = num;
     maxnum_of_lines = num;
 }
 
@@ -71,7 +71,7 @@
     }else{
         labeltext = [NSString stringWithFormat:@"%@　", labeltext];
     }
-    inner_label.text = labeltext;
+    _innerLabel.text = labeltext;
 }
 
 - (void)setText:(NSString *)text{
@@ -95,7 +95,7 @@
 }
 
 - (void)setInnerBackgroundColor:(UIColor *)color{
-    inner_label.backgroundColor = color;
+    _innerLabel.backgroundColor = color;
 }
 
 /*

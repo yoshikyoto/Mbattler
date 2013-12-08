@@ -33,6 +33,11 @@
     [audio_player prepareToPlay];
     [audio_player play];
     
+    
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(pauseMuseic) name:@"DungeonStarted" object:nil];
+    [nc addObserver:self selector:@selector(playMusic) name:@"DungeonFinished" object:nil];
+    
     // プレイヤーオブジェクトの初期化
     // セーブデータがあるかどうかで分岐させる
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
@@ -116,6 +121,14 @@
         [alert addButtonWithTitle:@"もどる"];
         [alert show];
     }
+}
+
+-(void)pauseMuseic{
+    [audio_player pause];
+}
+
+-(void)playMusic{
+    [audio_player play];
 }
 
 -(void)alertView:(UIAlertView*)alertView

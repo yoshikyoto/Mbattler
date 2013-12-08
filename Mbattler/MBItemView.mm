@@ -8,6 +8,7 @@
 
 #import "MBItemView.h"
 #import "MBButton.h"
+#import "MBMassageLabel.h"
 
 @implementation MBItemView
 
@@ -25,7 +26,7 @@
         [self drawMyitem];
         [self drawShop];
         
-        now_item_desc_view = [[UIScrollView alloc] init];
+        now_item_desc_view = [[MBMassageLabel alloc] init];
         now_item_desc_view.tag = -1;
     }
     return self;
@@ -41,43 +42,27 @@
     int item_position_x = 10;
     
     // アイテム　スタミナ回復剤
-    item0_button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [item0_button setBackgroundImage:[UIImage imageNamed:@"stamina.png"] forState:UIControlStateNormal];
+    item0_button = [MBItemButton buttonWithType:UIButtonTypeCustom];
+    [item0_button setItem:0];
     item0_button.frame = CGRectMake(item_position_x, 36, 44, 44);
-    item0_button.tag = 0;
     [item0_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
     [myitem_view addSubview:item0_button];
-    
-    item0_label = [[UIOutlineLabel alloc] init];
-    [item0_label setTitle:[NSString stringWithFormat:@"x%d",[player getNumOfItem:0]]];
-    item0_label.frame = CGRectMake(item_position_x, 66, 44, 14);
-    item0_label.textAlignment = NSTextAlignmentRight;
-    item0_label.font = [UIFont systemFontOfSize:14];
-    [myitem_view addSubview:item0_label];
     
     item_position_x += 54;
     
     
     // アイテム　薬草
-    item1_button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [item1_button setBackgroundImage:[UIImage imageNamed:@"yakusou.png"] forState:UIControlStateNormal];
+    item1_button = [MBItemButton buttonWithType:UIButtonTypeCustom];
+    [item1_button setItem:1];
     item1_button.frame = CGRectMake(item_position_x, 36, 44, 44);
-    item1_button.tag = 1;
     [item1_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
     [myitem_view addSubview:item1_button];
-    
-    item1_label = [[UIOutlineLabel alloc] init];
-    [item1_label setTitle:[NSString stringWithFormat:@"x%d",[player getNumOfItem:1]]];
-    item1_label.frame = CGRectMake(item_position_x, 66, 44, 14);
-    item1_label.textAlignment = NSTextAlignmentRight;
-    item1_label.font = [UIFont systemFontOfSize:14];
-    [myitem_view addSubview:item1_label];
     
     item_position_x += 54;
     
     
-    
     // アイテム　果実
+    /*
     item2_button = [UIButton buttonWithType:UIButtonTypeCustom];
     [item2_button setBackgroundImage:[UIImage imageNamed:@"ringo.png"] forState:UIControlStateNormal];
     item2_button.frame = CGRectMake(item_position_x, 36, 44, 44);
@@ -91,14 +76,120 @@
     item2_label.textAlignment = NSTextAlignmentRight;
     item2_label.font = [UIFont systemFontOfSize:14];
     [myitem_view addSubview:item2_label];
+     */
+    
+    item2_button = [MBItemButton buttonWithType:UIButtonTypeCustom];
+    [item2_button setItem:2];
+    item2_button.frame = CGRectMake(item_position_x, 36, 44, 44);
+    [item2_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [myitem_view addSubview:item2_button];
+    
     
     item_position_x += 54;
 }
 
 - (void)drawShop{
-    itemShop_view = [[MBSubScrollView alloc] initWithFrame:CGRectMake(10, 145, 300, self.frame.size.height - 150)];
-    [itemShop_view setTitle:@"ショップ"];
-    [self addSubview:itemShop_view];
+    NSLog(@"%s", __func__);
+    shop_view = [[MBSubScrollView alloc] initWithFrame:CGRectMake(10, 500, 300, self.frame.size.height - 150)];
+    [shop_view setTitle:@"ショップ"];
+    [self addSubview:shop_view];
+    
+    NSSet *item_set = [NSSet setWithObjects:
+                       @"MbattlerStamina1x",
+                       @"MbattlerStamina6x",
+                       @"MbattlerStamina15x",
+                       @"MbattlerYakusou10x",
+                       @"MbattlerRingo1x",
+                       @"MbattlerRingo6x",
+                       @"MbattlerRingo15x",
+                       @"MbattlerMeishi10x",
+                       @"MbattlerMeishi20x",
+                       nil];
+    SKProductsRequest *products_request = [[SKProductsRequest alloc] initWithProductIdentifiers:item_set];
+    products_request.delegate = self;
+    [products_request start];
+}
+
+- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
+    products = response.products;
+    NSLog(@"%s アイテム数: %d", __func__, [products count]);
+    if([response.invalidProductIdentifiers count] > 0){
+        NSLog(@"%s アイテムがうまく取得できませんでした", __func__);
+    }else{
+        // これが上の余白になる。
+        int position_y = 30;
+        
+        /*
+        NSArray *item_name_array = [[NSMutableArray alloc] initWithObjects:
+                                    @"スタミナ回復剤1個",
+                                    @"スタミナ回復剤5+1個セット",
+                                    @"スタミナ回復剤10+5個セット",
+                                    @"薬草10個セット",
+                                    @"復活の果実1個",
+                                    @"復活の果実5+1個セット",
+                                    @"復活の果実10+5個セット",
+                                    @"名刺所持上限+10",
+                                    @"名刺所持上限+20",
+                                    nil];
+        */
+        
+        for(int i = 0; i < [products count]; i++){
+            SKProduct *product = [products objectAtIndex:i];
+            NSString *item_name = product.localizedTitle; //[item_name_array objectAtIndex:i];
+            MBButton *shop_button = [MBButton buttonWithType:UIButtonTypeCustom];
+            shop_button.frame = CGRectMake(5, position_y, 290, 50);
+            [shop_button setShopName:item_name];
+            //[shop_button setItemImage:@"stamina.png" num:1];
+            shop_button.tag = i;
+            [shop_button addTarget:self action:@selector(shopButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [shop_view addSubview:shop_button];
+            position_y += 60;
+        }
+        
+        position_y += 20;
+        shop_view.contentSize = CGSizeMake(300, position_y);
+    }
+    
+
+}
+
+- (void)shopButtonTapped:(UIButton *)sender{
+    NSLog(@"%s, 購入処理 %d番のアイテム", __func__, sender.tag);
+    buying_item_int = sender.tag;
+    SKProduct *product = [products objectAtIndex:sender.tag];
+    SKPayment *payment = [SKPayment paymentWithProduct:product];
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    [[SKPaymentQueue defaultQueue] addPayment:payment];
+    NSLog(@"%@", product.localizedTitle);
+}
+
+
+- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{
+    for(SKPaymentTransaction *transaction in transactions){
+        if(transaction.transactionState == SKPaymentTransactionStatePurchasing){
+            NSLog(@"%s 購入処理中", __func__);
+        }else if(transaction.transactionState == SKPaymentTransactionStatePurchased){
+            NSLog(@"%s 購入処理完了", __func__);
+            [self buyItem];
+            [queue finishTransaction:transaction];
+        }else if(transaction.transactionState == SKPaymentTransactionStateFailed){
+            NSLog(@"%s 購入処理失敗", __func__);
+            [queue finishTransaction:transaction];
+        }else{
+            NSLog(@"%s リストア処理完了", __func__);
+            [queue finishTransaction:transaction];
+        }
+    }
+}
+
+- (void)buyItem{
+    NSLog(@"%s アイテム購入完了処理", __func__);
+    
+}
+
+- (MBMassageLabel *)makeShopLabel:(NSString *)itemName :(NSString *)itemDesc :(CGRect)frame{
+    MBMassageLabel *shop_item_label = [[MBMassageLabel alloc] initWithFrame:frame];
+    return shop_item_label;
 }
 
 - (void)itemTapped:(UIButton *)sender{
@@ -110,9 +201,9 @@
     }
 
     // アイテム説明表示部分
-    now_item_desc_view = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 150, 300, 180)];
+    now_item_desc_view = [[MBMassageLabel alloc] initWithFrame:CGRectMake(10, 150, 300, 180)];
     now_item_desc_view.tag = sender.tag;
-    now_item_desc_view.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.2];
+    now_item_desc_view.backgroundColor = [UIColor colorWithRed:1.0 green:0.9 blue:0.8 alpha:1.0];
     [self addSubview:now_item_desc_view];
     
     UIImageView *item_image = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 44, 44)];
@@ -124,14 +215,7 @@
     item_desc_label.font = [UIFont systemFontOfSize:14]; // [UIFont fontWithName:@"mikachan_o" size:16];
     item_desc_label.numberOfLines = 5;
     
-    /*
-    close_button.frame = CGRectMake(100, 145, 100, 30);
-    close_button.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.5];
-    [close_button setTitle:@"× とじる" forState:UIControlStateNormal];
-    close_button.titleLabel.font = [UIFont fontWithName:@"mikachan_o" size:16];
-    [close_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [close_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
-     */
+    
     MBButton *close_button = [MBButton buttonWithType:UIButtonTypeCustom];
     close_button.frame = CGRectMake(75, 140, 150, 40);
     [close_button setColorType:0];
@@ -213,10 +297,13 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     title.frame = CGRectMake(-5, 4, 310, 40);
     myitem_view.frame = CGRectMake(10, 50, 300, 90);
-    // reserve_view.frame = CGRectMake(10, 142, 300, height - 142);
+    shop_view.frame = CGRectMake(10, 145, 300, self.frame.size.height - 150);
     
     // アニメーション開始
     [UIView commitAnimations];
+}
+
+- (void)endAnimation{
 }
 
 /*

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBItemButton.h"
 
 @interface MBButton : UIButton
 
@@ -14,5 +15,8 @@
 -(void)setText:(NSString *)text;
 -(void)setColorType:(int)type;
 
+
+- (void)setShopName:(NSString *)desc;
+- (void)setItemImage:(NSString *)name num:(int)num;
 
 @end

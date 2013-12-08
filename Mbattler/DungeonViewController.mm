@@ -64,6 +64,9 @@
 	// Do any additional setup after loading the view.
     NSLog(@"%s", __func__);
     
+    NSNotification *n = [NSNotification notificationWithName:@"DungeonStarted" object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:n];
+    
     // パーティを取得し、戦闘参加者配列に突っ込む
     party = [player getParty];
     // 味方を初期化
@@ -296,6 +299,14 @@
     [[self view] removeGestureRecognizer:tgr];
     [message removeNextButton];
     [tap_alert_image removeFromSuperview];
+    
+    NSString *bgm_path = [[NSBundle mainBundle] pathForResource:@"game_maoudamashii_1_battle37" ofType:@"mp3"];
+    NSURL *bgm_url = [[NSURL alloc] initFileURLWithPath:bgm_path];
+    audio_player = [[AVAudioPlayer alloc] initWithContentsOfURL:bgm_url error:nil];
+    audio_player.numberOfLoops = -1;
+    [audio_player prepareToPlay];
+    [audio_player play];
+    
     // アイテム使えるようにフラグたてる
     item_flag = 0;
     
@@ -1026,6 +1037,7 @@
     // ここでnotificationcenter に通知
     NSNotification *n = [NSNotification notificationWithName:@"DungeonFinished" object:self];
     [[NSNotificationCenter defaultCenter] postNotification:n];
+    [audio_player stop];
 }
 
 

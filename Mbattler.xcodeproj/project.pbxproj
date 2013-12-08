@@ -51,6 +51,9 @@
 		92216B65182D256700C4F62F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92216B64182D256700C4F62F /* AudioToolbox.framework */; };
 		92216B67182D265D00C4F62F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92216B66182D265D00C4F62F /* AVFoundation.framework */; };
 		92216B6A182D4E2F00C4F62F /* MBDungeonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92216B69182D4E2F00C4F62F /* MBDungeonView.m */; };
+		92216B70182D57D800C4F62F /* MBSubScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92216B6F182D57D800C4F62F /* MBSubScrollView.m */; };
+		92216B74182DD1A400C4F62F /* game_maoudamashii_1_battle37.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 92216B73182DD1A400C4F62F /* game_maoudamashii_1_battle37.mp3 */; };
+		92216B77182DE1BE00C4F62F /* MBItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 92216B76182DE1BE00C4F62F /* MBItemButton.m */; };
 		922450691751DB5D0042CC5D /* Dungeon.mm in Sources */ = {isa = PBXBuildFile; fileRef = 922450681751DB5D0042CC5D /* Dungeon.mm */; };
 		9225338216EAF73800495F98 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338116EAF73800495F98 /* UIKit.framework */; };
 		9225338416EAF73800495F98 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9225338316EAF73800495F98 /* Foundation.framework */; };
@@ -657,6 +660,11 @@
 		92216B66182D265D00C4F62F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		92216B68182D4E2F00C4F62F /* MBDungeonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBDungeonView.h; sourceTree = "<group>"; };
 		92216B69182D4E2F00C4F62F /* MBDungeonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBDungeonView.m; sourceTree = "<group>"; };
+		92216B6E182D57D800C4F62F /* MBSubScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBSubScrollView.h; sourceTree = "<group>"; };
+		92216B6F182D57D800C4F62F /* MBSubScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBSubScrollView.m; sourceTree = "<group>"; };
+		92216B73182DD1A400C4F62F /* game_maoudamashii_1_battle37.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = game_maoudamashii_1_battle37.mp3; sourceTree = "<group>"; };
+		92216B75182DE1BE00C4F62F /* MBItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBItemButton.h; sourceTree = "<group>"; };
+		92216B76182DE1BE00C4F62F /* MBItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBItemButton.m; sourceTree = "<group>"; };
 		922450671751DB5D0042CC5D /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
 		922450681751DB5D0042CC5D /* Dungeon.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Dungeon.mm; sourceTree = "<group>"; };
 		9225337E16EAF73800495F98 /* YoshikiAkino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoshikiAkino.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1278,10 +1286,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9210A46317CE7C9300BD2FB3 /* StoreKit.framework in Frameworks */,
 				92216B67182D265D00C4F62F /* AVFoundation.framework in Frameworks */,
 				92216B65182D256700C4F62F /* AudioToolbox.framework in Frameworks */,
 				9207017118024958000ACA58 /* libsqlite3.0.dylib in Frameworks */,
-				9210A46317CE7C9300BD2FB3 /* StoreKit.framework in Frameworks */,
 				9298596417C25D7500DD9942 /* QuartzCore.framework in Frameworks */,
 				92641B9717BA5A91001AC271 /* libc++.dylib in Frameworks */,
 				9225338216EAF73800495F98 /* UIKit.framework in Frameworks */,
@@ -1388,6 +1396,7 @@
 			isa = PBXGroup;
 			children = (
 				92216B62182D253000C4F62F /* game_maoudamashii_5_castle06.mp3 */,
+				92216B73182DD1A400C4F62F /* game_maoudamashii_1_battle37.mp3 */,
 			);
 			name = bgm;
 			sourceTree = "<group>";
@@ -1438,6 +1447,10 @@
 				92D6F0B517E48BC600D187E2 /* ScrollView */,
 				92D7A3021769E0E7006E4A90 /* MiniStatusView.h */,
 				92D7A3031769E0E8006E4A90 /* MiniStatusView.mm */,
+				92216B6E182D57D800C4F62F /* MBSubScrollView.h */,
+				92216B6F182D57D800C4F62F /* MBSubScrollView.m */,
+				92216B75182DE1BE00C4F62F /* MBItemButton.h */,
+				92216B76182DE1BE00C4F62F /* MBItemButton.m */,
 				92C68F0B1800067000113B7F /* MBConbatantView.h */,
 				92C68F0C1800067000113B7F /* MBConbatantView.m */,
 				9210C90C181132F30038BCC0 /* MBButton.h */,
@@ -2591,6 +2604,7 @@
 				92641AF017B87530001AC271 /* battlebg1.jpg in Resources */,
 				92641AF117B87530001AC271 /* battlebg10.jpg in Resources */,
 				92641AF217B87530001AC271 /* battlebg11.jpg in Resources */,
+				92216B74182DD1A400C4F62F /* game_maoudamashii_1_battle37.mp3 in Resources */,
 				923B6B561808B5CC00CE6066 /* dh34.png in Resources */,
 				923B69161808B5BB00CE6066 /* monster110.png in Resources */,
 				923B69F41808B5C100CE6066 /* dh14.png in Resources */,
@@ -2862,9 +2876,11 @@
 				920360DF17B66C3200EDB590 /* MBStatusView.mm in Sources */,
 				9210C90E181132F30038BCC0 /* MBButton.m in Sources */,
 				920701801802522F000ACA58 /* FMDatabaseAdditions.m in Sources */,
+				92216B77182DE1BE00C4F62F /* MBItemButton.m in Sources */,
 				92FD9CFE180BFCEE00A72B32 /* UIImage+fill.m in Sources */,
 				920701841802522F000ACA58 /* FMResultSet.m in Sources */,
 				920360E217B6799200EDB590 /* MBItemView.mm in Sources */,
+				92216B70182D57D800C4F62F /* MBSubScrollView.m in Sources */,
 				92D4405617B7911A00FEB2A5 /* DungeonViewController.mm in Sources */,
 				92E1A40017B804F100290216 /* MBOptionView.mm in Sources */,
 				92E1A40317B80E0C00290216 /* SummonViewController.mm in Sources */,
@@ -2927,7 +2943,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -2951,7 +2967,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

@@ -10,11 +10,13 @@
 #import "UIOutlineLabel.h"
 
 @interface MBMassageLabel : UILabel{
-    UILabel *inner_label;
+    // UILabel *inner_label;
     NSMutableArray *text_array;
     int maxnum_of_lines;
     UIOutlineLabel *next_label;
 }
+
+@property(readwrite) UILabel *innerLabel;
 
 - (void)setText:(NSString *)text;
 - (void)addText:(NSString *)text;

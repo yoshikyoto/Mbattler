@@ -66,11 +66,6 @@
     subbgcolor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
     
     
-    
-    // 背景の設定
-    // UIImage *backgroundImage = [UIImage imageNamed:@"bg.png"];
-    // [self view].backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
-    // AppDelegate 初期化(グローバル変数的な使い方)
     self.view.backgroundColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1.0];
     ad = [[UIApplication sharedApplication] delegate];
     
@@ -93,33 +88,18 @@
     [name setBackgroundColor:[UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.5]];
     name.frame = CGRectMake(10, 18, 120, 20);
     name.text = [player getName];
-    name.font = [UIFont fontWithName:@"mikachan_o" size:16];
+    name.font = [UIFont fontWithName:@"uzura_font" size:16];
     name.textColor = [UIColor colorWithRed:0.1 green:0.05 blue:0.01 alpha:1.0];
     [status addSubview:name];
     
     // スタミナ
     UILabel *stamina_label = [[UILabel alloc] init];
-    // [stamina_label setBackgroundColor:subbgcolor];
     stamina_label.backgroundColor = [UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.2];
     stamina_label.frame = CGRectMake(10, 40, 300, 14);
-    stamina_label.font = [UIFont fontWithName:@"mikachan_o" size:10];
+    stamina_label.font = [UIFont fontWithName:@"uzura_font" size:10];
     stamina_label.textColor = [UIColor colorWithRed:0.1 green:0.05 blue:0.01 alpha:1.0];
     stamina_label.text = @" スタミナ";
-    //stamina_label.font = [UIFont systemFontOfSize:10];
     [status addSubview:stamina_label];
-    
-    /*
-    UIOutlineLabel *stamina_index_label = [[UIOutlineLabel alloc] init];
-    [stamina_index_label setOutlineColor:[UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:1.0]];
-    [stamina_index_label setOutlineWidth:2];
-    stamina_index_label.text = @"スタミナ";
-    stamina_index_label.frame = CGRectMake(2, 0, 50, 14);
-    //name_label.textAlignment = NSTextAlignmentCenter;
-    stamina_index_label.font = [UIFont fontWithName:@"mikachan_o" size:10];
-    stamina_index_label.textColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:1.0];
-    stamina_index_label.backgroundColor = [UIColor clearColor];
-    [stamina_label addSubview:stamina_index_label];
-     */
     
     // スタミナバー
     UIImageView *stamina_base = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp0.png"]];
@@ -263,12 +243,6 @@
     
     // ビューの準備
     MBDungeonView *dungeonView = [[MBDungeonView alloc] initWithPlayer:player];
-    //[dungeonView setTitle:@"ダンジョン選択"];
-    
-    // ダンジョン一覧を表示するスクロールエリア
-    // dungeonView.dungeonListView = [[UIScrollView alloc] initWithFrame:CGRectMake(320, 50, 320, h-50-56-54)];
-    //.backgroundColor = [UIColor clearColor];
-    // [dungeonView addSubview:dungeonView.dungeonListView];
     
     // ダンジョン名一覧を取得
     NSArray *dungeonNames = [dungeon getNames];
@@ -277,12 +251,10 @@
     for(int i = 0; i < [dungeonNames count]; i++){
         UIButton *dungeon_button = [UIButton buttonWithType:UIButtonTypeCustom];
         dungeon_button.frame = CGRectMake(10, 5 + 58*i, 300, 50);
-        //[button setBackgroundImage:[UIImage imageNamed:@"husen1.png"] forState:UIControlStateNormal];
         dungeon_button.tag = i;
-        //[dungeon_button setTitle:[dungeonNames objectAtIndex:i] forState:UIControlStateNormal];
         [dungeon_button addTarget:self action:@selector(dungeonTouched:)forControlEvents:UIControlEventTouchUpInside];
         dungeon_button.backgroundColor = [UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.9];
-        [[dungeon_button layer] setBorderWidth:2.0];//[UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.8];
+        [[dungeon_button layer] setBorderWidth:2.0];
         [[dungeon_button layer] setCornerRadius:6.0];
         [[dungeon_button layer] setBorderColor:[[UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.8] CGColor]];
         [dungeonView.dungeonListView addSubview:dungeon_button];
@@ -290,7 +262,7 @@
         UILabel *dungeon_name_label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 200, 50)];
         dungeon_name_label.numberOfLines = 2;
         dungeon_name_label.text = [dungeonNames objectAtIndex:i];
-        dungeon_name_label.font = [UIFont fontWithName:@"mikachan_o" size:16];
+        dungeon_name_label.font = [UIFont fontWithName:@"uzura_font" size:16];
         dungeon_name_label.textColor = [UIColor colorWithRed:0.1 green:0.05 blue:0.01 alpha:1.0];
         dungeon_name_label.textAlignment = NSTextAlignmentCenter;
         [dungeon_button addSubview:dungeon_name_label];
@@ -298,7 +270,7 @@
         [dungeon setDungeon:i];
         UILabel *dungeon_stamina_label = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 100, 25)];
         dungeon_stamina_label.text = [NSString stringWithFormat:@"消費スタミナ: %d", [dungeon getStamina]];
-        dungeon_stamina_label.font = [UIFont fontWithName:@"mikachan_o" size:12];
+        dungeon_stamina_label.font = [UIFont fontWithName:@"azukifontL" size:12];
         dungeon_stamina_label.textColor = [UIColor colorWithRed:0.1 green:0.05 blue:0.01 alpha:1.0];
         [dungeon_button addSubview:dungeon_stamina_label];
     }
