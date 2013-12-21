@@ -498,6 +498,7 @@
 		926CFD6317ED6A3B00655779 /* phoe.png in Resources */ = {isa = PBXBuildFile; fileRef = 926CFD6217ED6A3B00655779 /* phoe.png */; };
 		926CFD6517ED6E4000655779 /* recover.png in Resources */ = {isa = PBXBuildFile; fileRef = 926CFD6417ED6E4000655779 /* recover.png */; };
 		926CFD6717ED6E5500655779 /* revive.png in Resources */ = {isa = PBXBuildFile; fileRef = 926CFD6617ED6E5400655779 /* revive.png */; };
+		926E00A7185DF85700B3B92C /* meishi.png in Resources */ = {isa = PBXBuildFile; fileRef = 926E00A6185DF85700B3B92C /* meishi.png */; };
 		927DCBE7173C2956002F5AA0 /* c1.png in Resources */ = {isa = PBXBuildFile; fileRef = 927DCBD2173C2956002F5AA0 /* c1.png */; };
 		927DCBE8173C2956002F5AA0 /* c2.png in Resources */ = {isa = PBXBuildFile; fileRef = 927DCBD3173C2956002F5AA0 /* c2.png */; };
 		927DCBE9173C2956002F5AA0 /* c0c.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 927DCBD5173C2956002F5AA0 /* c0c.PNG */; };
@@ -1166,6 +1167,7 @@
 		926CFD6217ED6A3B00655779 /* phoe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phoe.png; sourceTree = "<group>"; };
 		926CFD6417ED6E4000655779 /* recover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recover.png; sourceTree = "<group>"; };
 		926CFD6617ED6E5400655779 /* revive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = revive.png; sourceTree = "<group>"; };
+		926E00A6185DF85700B3B92C /* meishi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = meishi.png; sourceTree = "<group>"; };
 		927DCBD2173C2956002F5AA0 /* c1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c1.png; sourceTree = "<group>"; };
 		927DCBD3173C2956002F5AA0 /* c2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c2.png; sourceTree = "<group>"; };
 		927DCBD5173C2956002F5AA0 /* c0c.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c0c.PNG; sourceTree = "<group>"; };
@@ -1472,6 +1474,7 @@
 		9225338816EAF73800495F98 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				926E00A6185DF85700B3B92C /* meishi.png */,
 				92216B61182D252200C4F62F /* bgm */,
 				920A7DD7181C12DF00E15CFA /* Default-568h@2x.png */,
 				920A7DD5181C108C00E15CFA /* title.png */,
@@ -2820,6 +2823,7 @@
 				923B6A1E1808B5C100CE6066 /* monster135.png in Resources */,
 				9201AB3417E89ADB0088EAE9 /* stamina.png in Resources */,
 				9201AB3517E89ADB0088EAE9 /* yakusou.png in Resources */,
+				926E00A7185DF85700B3B92C /* meishi.png in Resources */,
 				923B69061808B5BB00CE6066 /* aquatic12.png in Resources */,
 				923B69331808B5BB00CE6066 /* plant03.png in Resources */,
 				923B6A371808B5C100CE6066 /* solid16.png in Resources */,

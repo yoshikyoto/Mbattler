@@ -92,6 +92,11 @@
     name.textColor = [UIColor colorWithRed:0.1 green:0.05 blue:0.01 alpha:1.0];
     [status addSubview:name];
     
+    // 名刺
+    [player.meishiLabel setBackgroundColor:[UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.5]];
+    player.meishiLabel.frame = CGRectMake(210, 18, 100, 20);
+    [status addSubview:player.meishiLabel];
+    
     // スタミナ
     UILabel *stamina_label = [[UILabel alloc] init];
     stamina_label.backgroundColor = [UIColor colorWithRed:1.0 green:0.95 blue:0.8 alpha:0.2];

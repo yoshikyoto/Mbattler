@@ -73,12 +73,17 @@
     UIImageView *item_view = [[UIImageView alloc] initWithFrame:CGRectMake(1, 1, 48, 48)];
     if([desc rangeOfString:@"スタミナ回復剤"].location != NSNotFound){
         [item_view setImage:[UIImage imageNamed:@"stamina.png"]];
+        _itemID = 0;
     }else if([desc rangeOfString:@"薬草"].location != NSNotFound){
         [item_view setImage:[UIImage imageNamed:@"yakusou.png"]];
+        _itemID = 1;
     }else if([desc rangeOfString:@"復活の果実"].location != NSNotFound){
         [item_view setImage:[UIImage imageNamed:@"ringo.png"]];
-    }else if([desc rangeOfString:@"名刺所持上限"].location != NSNotFound){
-        [item_view setImage:[UIImage imageNamed:@"stamina.png"]];
+        _itemID = 2;
+    }else if([desc rangeOfString:@"最大名刺所持数"].location != NSNotFound){
+        [item_view setImage:[UIImage imageNamed:@"meishi.png"]];
+        item_view.frame = CGRectMake(2, 5, 50, 40);
+        _itemID = -1;
     }
     [self addSubview:item_view];
     
@@ -89,8 +94,25 @@
     [self addSubview:item_num_label];
     
     NSRange num_range = [desc rangeOfString:@"[+0-9]+" options:NSRegularExpressionSearch];
+    _numOfItem = 1; // 数字の文字列が見つからなかったら、アイテム1個
     if(num_range.location != NSNotFound){
         [item_num_label setTitle:[desc substringWithRange:num_range]];
+        int item_int_value = [item_num_label.text intValue];
+        //NSLog(@"アイテムを数値に直すと %d", item_int_value);
+        
+        // アイテムが　薬草　または　名刺所持数増加　の場合　そのままが増加分
+        if((_itemID == 1)||(_itemID == -1)){
+            _numOfItem = item_int_value;
+            
+            // 復活の果実、スタミナ回復剤の場合は、
+            // アイテムが5→6 10→15 に変換 それ以外は1
+        }else if(item_int_value == 5){
+            _numOfItem = 6;
+        }else if(item_int_value == 10){
+            _numOfItem = 15;
+        }
+        
+        NSLog(@"%@ ID:%d num:%d", desc, _itemID, _numOfItem);
     }
     
     /* 正規表現サンプル
@@ -109,6 +131,35 @@
      dungeon_stamina_label.textColor = [UIColor colorWithRed:0.1 green:0.05 blue:0.01 alpha:1.0];
      [dungeon_button addSubview:dungeon_stamina_label];
      */
+    
+    // 価格を表示
+    UILabel *price_label = [[UILabel alloc] initWithFrame:CGRectMake(230, 0, 50, 50)];
+    //_descLabel.numberOfLines = 2;
+    price_label.text = [NSString stringWithFormat:@"￥%d", [self getPrice]];
+    price_label.font = [UIFont fontWithName:@"uzura_font" size:14];
+    price_label.textColor = [UIColor colorWithRed:0.1 green:0.05 blue:0.01 alpha:1.0];
+    price_label.textAlignment = NSTextAlignmentRight;
+    [self addSubview:price_label];
+}
+
+- (int)getPrice{
+    switch (_itemID) {
+        case -1: // 名刺所持数の場合
+            if(_numOfItem == 10) return 300;
+            if(_numOfItem == 20) return 500;
+        case 0: // スタミナ回復剤
+            if(_numOfItem == 1) return 100;
+            if(_numOfItem == 6) return 500;
+            if(_numOfItem == 15) return 1000;
+        case 1: // 薬草
+            if(_numOfItem == 10) return 300;
+        case 2: // 復活の果実
+            if(_numOfItem == 1) return 100;
+            if(_numOfItem == 6) return 500;
+            if(_numOfItem == 15) return 1000;
+        default:
+            return 0;
+    }
 }
 
 - (void)setItemValue:(int)value{

@@ -7,8 +7,8 @@
 //
 
 #import "MBItemView.h"
-#import "MBButton.h"
 #import "MBMassageLabel.h"
+#import "SVProgressHUD.h"
 
 @implementation MBItemView
 
@@ -35,10 +35,16 @@
 - (void)drawMyitem{
     NSLog(@"%s", __func__);
     // 所持アイテム部分のビュー
-    if(myitem_view) [myitem_view removeFromSuperview];
+    if(myitem_view){
+        [myitem_view removeFromSuperview];
+        myitem_view = [[MBSubScrollView alloc] initWithFrame:CGRectMake(10, 50, 300, 90)];
+    }else{
+        myitem_view = [[MBSubScrollView alloc] initWithFrame:CGRectMake(320, 50, 300, 90)];
+    }
     
-    myitem_view = [[MBSubScrollView alloc] initWithFrame:CGRectMake(320, 50, 300, 90)];
-    [myitem_view setTitle:@"所持アイテム"];    [self addSubview:myitem_view];
+    
+    [myitem_view setTitle:@"所持アイテム"];
+    [self addSubview:myitem_view];
     int item_position_x = 10;
     
     // アイテム　スタミナ回復剤
@@ -84,6 +90,7 @@
     [item2_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
     [myitem_view addSubview:item2_button];
     
+    //[self addSubview:myitem_view];
     
     item_position_x += 54;
 }
@@ -92,6 +99,12 @@
     NSLog(@"%s", __func__);
     shop_view = [[MBSubScrollView alloc] initWithFrame:CGRectMake(10, 500, 300, self.frame.size.height - 150)];
     [shop_view setTitle:@"ショップ"];
+    
+    loading_item_label = [[UILabel alloc] initWithFrame:CGRectMake(130, 0, 160, 26)];
+    loading_item_label.font = [UIFont fontWithName:@"uzura_font" size:16];
+    loading_item_label.text = @"Loading...";
+    [shop_view addSubview:loading_item_label];
+    
     [self addSubview:shop_view];
     
     NSSet *item_set = [NSSet setWithObjects:
@@ -110,28 +123,21 @@
     [products_request start];
 }
 
+// アイテム一覧が取得できたとき
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
     products = response.products;
     NSLog(@"%s アイテム数: %d", __func__, [products count]);
     if([response.invalidProductIdentifiers count] > 0){
         NSLog(@"%s アイテムがうまく取得できませんでした", __func__);
+         UIAlertView *alert = [[UIAlertView alloc] init];
+         alert.title = @"アイテムショップの取得に失敗しました";
+         alert.title = @"インターネットに接続されているか確認してください。";
+         [alert addButtonWithTitle:@"とじる"];
+         [alert show];
+         [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
     }else{
         // これが上の余白になる。
         int position_y = 30;
-        
-        /*
-        NSArray *item_name_array = [[NSMutableArray alloc] initWithObjects:
-                                    @"スタミナ回復剤1個",
-                                    @"スタミナ回復剤5+1個セット",
-                                    @"スタミナ回復剤10+5個セット",
-                                    @"薬草10個セット",
-                                    @"復活の果実1個",
-                                    @"復活の果実5+1個セット",
-                                    @"復活の果実10+5個セット",
-                                    @"名刺所持上限+10",
-                                    @"名刺所持上限+20",
-                                    nil];
-        */
         
         for(int i = 0; i < [products count]; i++){
             SKProduct *product = [products objectAtIndex:i];
@@ -149,12 +155,16 @@
         position_y += 20;
         shop_view.contentSize = CGSizeMake(300, position_y);
     }
-    
+    [loading_item_label removeFromSuperview];
 
 }
 
-- (void)shopButtonTapped:(UIButton *)sender{
+
+- (void)shopButtonTapped:(MBButton *)sender{
     NSLog(@"%s, 購入処理 %d番のアイテム", __func__, sender.tag);
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    //[SVProgressHUD show];
+    selected_button = sender;
     buying_item_int = sender.tag;
     SKProduct *product = [products objectAtIndex:sender.tag];
     SKPayment *payment = [SKPayment paymentWithProduct:product];
@@ -171,20 +181,40 @@
         }else if(transaction.transactionState == SKPaymentTransactionStatePurchased){
             NSLog(@"%s 購入処理完了", __func__);
             [self buyItem];
+            [SVProgressHUD dismiss];
             [queue finishTransaction:transaction];
         }else if(transaction.transactionState == SKPaymentTransactionStateFailed){
             NSLog(@"%s 購入処理失敗", __func__);
             [queue finishTransaction:transaction];
+            [SVProgressHUD dismiss];
         }else{
             NSLog(@"%s リストア処理完了", __func__);
+            // アイテムの再付与
+            [self buyItem];
             [queue finishTransaction:transaction];
+            [SVProgressHUD dismiss];
         }
     }
 }
 
 - (void)buyItem{
     NSLog(@"%s アイテム購入完了処理", __func__);
+    // 一応 dismiss
+    [SVProgressHUD dismiss];
+    [player buyItem:selected_button.itemID :selected_button.numOfItem];
+    [self drawMyitem];
     
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    alert.title = @"アイテム購入";
+    alert.title = @"アイテム購入が完了しました";
+    [alert addButtonWithTitle:@"とじる"];
+    [alert show];
+}
+
+- (void)paymentQueue:(SKPaymentQueue *)queue removedTransactions:(NSArray *)transactions
+{
+    NSLog(@"トランザクション完了処理");
+    [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
 }
 
 - (MBMassageLabel *)makeShopLabel:(NSString *)itemName :(NSString *)itemDesc :(CGRect)frame{

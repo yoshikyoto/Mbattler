@@ -12,6 +12,7 @@
 #import "MBItemButton.h"
 #import "MBMassageLabel.h"
 #import <StoreKit/StoreKit.h>
+#import "MBButton.h"
 
 @interface MBItemView : MBScrollView
 <SKProductsRequestDelegate,SKPaymentTransactionObserver> {
@@ -25,6 +26,8 @@
 
     NSArray *products;
     
+    MBButton *selected_button;
+    UILabel *loading_item_label;
     
     // アイテム説明文
     // UIScrollView *now_item_desc_view;

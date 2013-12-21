@@ -46,7 +46,6 @@
 - (id)initWithInitializeData{
     self = [self init];
     if(self){
-        
     }
     return self;
 }
@@ -102,6 +101,7 @@
         Meishi *meishi = [[Meishi alloc] initWithInformation:@"山田太郎" CompanyName:@"名刺バトラー" Mail1:@"meishi" Mail2:@"battler" Zip1:000 Zip2:0000 Sex:0];
         [meishi setAbility:1]; // 破壊光線
         [self addMeishi:meishi];
+        [self initMeishiLabel];
     }
     return self;
 }
@@ -121,8 +121,22 @@
         
         MBDatabase *mbdb = [[MBDatabase alloc] init];
         meishis = [mbdb loadAllMeishi];
+        [self initMeishiLabel];
     }
     return self;
+}
+
+- (void)initMeishiLabel{
+    if(!_meishiLabel){
+        _meishiLabel = [[UILabel alloc] init];
+        UIImageView *meishi_image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"meishi.png"]];
+        meishi_image.frame = CGRectMake(2, 0, 25, 20);
+        [_meishiLabel addSubview:meishi_image];
+    }
+    _meishiLabel.text = [NSString stringWithFormat:@"%d/%d", [meishis count], maxmeishi];
+    _meishiLabel.font = [UIFont fontWithName:@"uzura_font" size:16];
+    _meishiLabel.textAlignment = NSTextAlignmentRight;
+    NSLog(@"%s 名刺ラベル %@", __func__, _meishiLabel.text);
 }
 
 // ゲームデータセーブ用----------------------------------------------------------------
@@ -189,6 +203,7 @@
 - (void)addMeishi:(Meishi *)m{
     [meishis addObject:m];
     // 名刺が一杯の場合を考慮しなければならない
+    [self initMeishiLabel];
 }
 
 
@@ -350,8 +365,17 @@
 }
 
 - (int)buyItem:(int)n :(int)m{
-    item[n] += m;
-    return item[n];
+    if(n == -1){
+        // 名刺所持数増加の場合
+        maxmeishi += m;
+        [ud setInteger:maxmeishi forKey:@"MAX_MEISHI"];
+        [ud synchronize];
+        [self initMeishiLabel];
+    }else{
+        item[n] += m;
+        [self saveItem];
+        return item[n];
+    }
 }
 
 @end

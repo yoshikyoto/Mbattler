@@ -24,11 +24,13 @@
     //スタミナ回復　HP回復　復活
     
     // 名刺の所持数を表示するラベル
-    UILabel *meishi_label;
+    //UILabel *meishi_label;
     
     // セーブ用のuser defaults
     NSUserDefaults *ud;
 }
+
+@property UILabel *meishiLabel;
 
 - (id)init;     // initialization
 - (id)initWithTestdata;

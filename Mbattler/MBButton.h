@@ -19,4 +19,7 @@
 - (void)setShopName:(NSString *)desc;
 - (void)setItemImage:(NSString *)name num:(int)num;
 
+@property int itemID;
+@property int numOfItem;
+
 @end
