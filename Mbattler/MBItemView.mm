@@ -154,6 +154,9 @@
         
         position_y += 20;
         shop_view.contentSize = CGSizeMake(300, position_y);
+        
+        // リストアの確認
+        [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
     }
     [loading_item_label removeFromSuperview];
 
@@ -180,28 +183,59 @@
             NSLog(@"%s 購入処理中", __func__);
         }else if(transaction.transactionState == SKPaymentTransactionStatePurchased){
             NSLog(@"%s 購入処理完了", __func__);
-            [self buyItem];
+            [self buyItem:transaction];
             [SVProgressHUD dismiss];
             [queue finishTransaction:transaction];
         }else if(transaction.transactionState == SKPaymentTransactionStateFailed){
             NSLog(@"%s 購入処理失敗", __func__);
             [queue finishTransaction:transaction];
             [SVProgressHUD dismiss];
+            
+            UIAlertView *alert = [[UIAlertView alloc] init];
+            alert.title = @"購入処理失敗";
+            alert.title = @"アイテム購入に失敗しました。";
+            [alert addButtonWithTitle:@"とじる"];
+            [alert show];
         }else{
             NSLog(@"%s リストア処理完了", __func__);
             // アイテムの再付与
-            [self buyItem];
+            [self buyItem:transaction];
             [queue finishTransaction:transaction];
             [SVProgressHUD dismiss];
         }
     }
 }
 
-- (void)buyItem{
+- (void)buyItem:(SKPaymentTransaction *)transaction{
     NSLog(@"%s アイテム購入完了処理", __func__);
-    // 一応 dismiss
-    [SVProgressHUD dismiss];
-    [player buyItem:selected_button.itemID :selected_button.numOfItem];
+    
+    NSLog(@"%s: %@", __func__, transaction.payment.productIdentifier);
+    
+    NSString *product_id = transaction.payment.productIdentifier;
+    
+    int item_id = 0;
+    if([product_id rangeOfString:@"Stamina"].location != NSNotFound){
+        // スタミナ回復剤
+        item_id = 0;
+        
+    }else if([product_id rangeOfString:@"Yakusou"].location != NSNotFound){
+        item_id = 1;
+        
+    }else if([product_id rangeOfString:@"Ringo"].location != NSNotFound){
+        item_id = 2;
+        
+    }else if([product_id rangeOfString:@"Meishi"].location != NSNotFound){
+        item_id = -1;
+    }
+    
+    // 個数を取得
+    int item_num = 1;
+    NSRange num_range = [product_id rangeOfString:@"[0-9]+" options:NSRegularExpressionSearch];
+    if(num_range.location != NSNotFound){
+        item_num = [[product_id substringWithRange:num_range] intValue];
+    }
+    
+    [player buyItem:item_id :item_num];
     [self drawMyitem];
     
     UIAlertView *alert = [[UIAlertView alloc] init];
