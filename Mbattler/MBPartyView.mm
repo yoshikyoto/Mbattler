@@ -36,7 +36,7 @@
         selected_reserve_tag = -2;
         
         // 確認ウィンドウの初期化
-        confirm_window = [[PartyChangeView alloc] initWithFrame:CGRectMake(10, 150, 300, 250)];
+        confirm_window = [[PartyChangeView alloc] initWithFrame:CGRectMake(10, 50, 300, 90)];
         // 決定ボタンの初期化
         confirm_button = [UIButton buttonWithType:UIButtonTypeCustom];
         confirm_button.frame = CGRectMake(151, 210, 74, 40);
@@ -63,7 +63,7 @@
 // パーティ部分描写 ------------------------------------------------------------------------------------------
 - (void)drawPartyView{
     // パーティ部分のビュー
-    party_view = [[UIScrollView alloc] initWithFrame:CGRectMake(320, 50, 300, 90)];
+    party_view = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 50, 300, 90)];
     party_view.backgroundColor = [UIColor colorWithRed:0.6 green:0.3 blue:0.05 alpha:0.2];
     [self addSubview:party_view];
     UILabel *party_label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 26)];
@@ -117,7 +117,7 @@
 // ノンパーティ部分再描写 ------------------------------------------------------------------------------------------
 - (void)drawReserveView{
     // キャラクタービューの作成（パーティじゃないキャラクターの描写）
-    reserve_view = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 500, 300, height - 142)];
+    reserve_view = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 142, 300, height - 142)];
     reserve_view.backgroundColor = [UIColor clearColor]; //sub_bg; // 背景
     
     // 「はずす」ボタンの描写
@@ -299,6 +299,10 @@
 }
 
 - (void)startAnimation{
+    
+    party_view.frame = CGRectMake(320, 50, 300, 90);
+    reserve_view .frame = CGRectMake(10, 500, 300, height - 142);
+    
     //アニメーションの対象となるコンテキスト
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
