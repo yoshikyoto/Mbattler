@@ -600,6 +600,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                 [self presentViewController:svc animated:NO completion:nil];
                 
                 [player addMeishi:meishi];
+                [player save];
                 
                 //[self dismissViewControllerAnimated:YES completion:nil];
             }
