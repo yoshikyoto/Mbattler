@@ -31,7 +31,7 @@
     
     // アイテム説明文
     // UIScrollView *now_item_desc_view;
-    MBMassageLabel *now_item_desc_view;
+    UIView *now_item_desc_view;
 }
 
 @end

@@ -156,7 +156,7 @@
         shop_view.contentSize = CGSizeMake(300, position_y);
         
         // リストアの確認
-        [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+        //[[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
     }
     [loading_item_label removeFromSuperview];
 
@@ -186,6 +186,11 @@
             [self buyItem:transaction];
             [SVProgressHUD dismiss];
             [queue finishTransaction:transaction];
+            UIAlertView *alert = [[UIAlertView alloc] init];
+            alert.title = @"アイテム購入";
+            alert.title = @"アイテム購入が完了しました";
+            [alert addButtonWithTitle:@"とじる"];
+            [alert show];
         }else if(transaction.transactionState == SKPaymentTransactionStateFailed){
             NSLog(@"%s 購入処理失敗", __func__);
             [queue finishTransaction:transaction];
@@ -237,12 +242,6 @@
     
     [player buyItem:item_id :item_num];
     [self drawMyitem];
-    
-    UIAlertView *alert = [[UIAlertView alloc] init];
-    alert.title = @"アイテム購入";
-    alert.title = @"アイテム購入が完了しました";
-    [alert addButtonWithTitle:@"とじる"];
-    [alert show];
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue removedTransactions:(NSArray *)transactions
@@ -265,7 +264,7 @@
     }
 
     // アイテム説明表示部分
-    now_item_desc_view = [[MBMassageLabel alloc] initWithFrame:CGRectMake(10, 150, 300, 180)];
+    now_item_desc_view = [[UIView alloc] initWithFrame:CGRectMake(10, 150, 300, 180)];
     now_item_desc_view.tag = sender.tag;
     now_item_desc_view.backgroundColor = [UIColor colorWithRed:1.0 green:0.9 blue:0.8 alpha:1.0];
     [self addSubview:now_item_desc_view];
@@ -287,6 +286,7 @@
     [close_button setText:@"× とじる"];
     [close_button addTarget:self action:@selector(itemTapped:) forControlEvents:UIControlEventTouchUpInside];
     [now_item_desc_view addSubview:close_button];
+
     
     switch (sender.tag) {
         case 0:{
